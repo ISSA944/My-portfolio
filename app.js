@@ -584,17 +584,8 @@ function renderProjects(lang) {
 /* ---------- PHONE MASK ---------- */
 function phoneMask(input) {
   input.addEventListener("input", () => {
-    let v = input.value.replace(/\D/g, "");
-    if (v.length > 11) v = v.slice(0, 11);
-    if (v.length === 0) { input.value = ""; return; }
-
-    let r = "+7";
-    if (v[0] === "7" || v[0] === "8") v = v.slice(1);
-    if (v.length > 0) r += " (" + v.slice(0, 3);
-    if (v.length >= 3) r += ") " + v.slice(3, 6);
-    if (v.length >= 6) r += "-" + v.slice(6, 8);
-    if (v.length >= 8) r += "-" + v.slice(8, 10);
-    input.value = r;
+    // Allow only +, spaces, and digits
+    input.value = input.value.replace(/[^\d\s\+]/g, "");
   });
 }
 
@@ -633,13 +624,13 @@ function initContactForm() {
     const phoneVal = document.getElementById("phone")?.value.replace(/\D/g, "") || "";
     const phoneField = document.getElementById("phone")?.closest(".field");
     if (phoneField) {
-      if (phoneVal.length > 0 && phoneVal.length < 11) {
+      if (phoneVal.length > 0 && phoneVal.length < 7) {
         phoneField.classList.add("is-error");
         phoneField.classList.remove("is-ok");
         ok = false;
       } else {
         phoneField.classList.remove("is-error");
-        if (phoneVal.length >= 11) phoneField.classList.add("is-ok");
+        if (phoneVal.length >= 7) phoneField.classList.add("is-ok");
       }
     }
 
