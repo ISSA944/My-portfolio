@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ISO — Iskander | Frontend Developer</title>
+  <meta name="description" content="ISO — Iskander, Junior Frontend Developer. HTML, CSS, JavaScript, React, Git/GitHub, Figma, VS Code." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+</head>
+
+<body>
+
+  <!-- ===== PRELOADER ===== -->
+  <div class="preloader" id="preloader">
+    <div class="preloader__logo">
+      <span class="preloader__letter" style="--i:0">I</span>
+      <span class="preloader__letter" style="--i:1">S</span>
+      <span class="preloader__letter" style="--i:2">O</span>
+    </div>
+    <div class="preloader__bar">
+      <div class="preloader__bar-fill"></div>
+    </div>
+  </div>
+
+  <!-- ===== PARTICLES ===== -->
+  <div class="particles" id="particles" aria-hidden="true"></div>
+
+  <!-- ===== HEADER ===== -->
+  <header class="topbar" id="topbar">
+    <div class="topbar__inner">
+      <a class="brand" href="index.html" aria-label="Home">
+        <span class="brand__mark">ISO</span>
+        <span class="brand__text" data-i18n="brand_name">Искандер</span>
+      </a>
+
+      <nav class="nav" id="desktopNav">
+        <a class="nav__link" href="#about" data-i18n="nav_about">Обо мне</a>
+        <a class="nav__link" href="#skills" data-i18n="nav_skills">Навыки</a>
+        <a class="nav__link" href="portfolio.html" data-i18n="nav_portfolio">Портфолио</a>
+        <a class="nav__link" href="#contact" data-i18n="nav_contact">Контакты</a>
+      </nav>
+
+      <div class="controls">
+        <button class="lang-toggle" id="langToggle" type="button" aria-label="Language switch">
+          <span class="lang-toggle__pill active" data-lang="ru">RU</span>
+          <span class="lang-toggle__pill" data-lang="en">EN</span>
+        </button>
+
+        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Theme switch">
+          <span class="theme-toggle__track"></span>
+          <span class="theme-toggle__knob" aria-hidden="true"></span>
+          <span class="theme-toggle__icon theme-toggle__icon--moon" aria-hidden="true">&#127769;</span>
+          <span class="theme-toggle__icon theme-toggle__icon--sun" aria-hidden="true">&#9728;</span>
+        </button>
+
+        <button class="burger" id="burger" type="button" aria-label="Menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+
+    <div class="mnav" id="mnav" aria-hidden="true">
+      <a class="mnav__link" href="#about" data-i18n="nav_about">Обо мне</a>
+      <a class="mnav__link" href="#skills" data-i18n="nav_skills">Навыки</a>
+      <a class="mnav__link" href="portfolio.html" data-i18n="nav_portfolio">Портфолио</a>
+      <a class="mnav__link" href="#contact" data-i18n="nav_contact">Контакты</a>
+    </div>
+  </header>
+
+  <main class="page">
+
+    <!-- ===== HERO ===== -->
+    <section class="hero" id="hero">
+      <div class="hero__container">
+        <div class="hero__content" data-anim="fade-up">
+          <div class="badge">
+            <span class="badge__dot"></span>
+            <span data-i18n="hero_badge">Доступен для проектов</span>
+          </div>
+
+          <h1 class="hero__title">
+            <span data-i18n="hero_hi">Привет, я</span><br>
+            <span class="gradient-text" data-i18n="brand_name">Искандер</span>
+          </h1>
+          <p class="hero__role" data-i18n="hero_role">Junior Frontend Developer</p>
+
+          <p class="hero__desc" data-i18n="hero_desc">
+            Делаю современные сайты с чистым кодом, плавными анимациями и идеальным адаптивом. HTML, CSS, JavaScript — знаю полностью. React — активно осваиваю.
+          </p>
+
+          <div class="hero__actions">
+            <a class="btn btn--primary" href="#contact" data-i18n="hero_cta">Связаться со мной</a>
+            <a class="btn btn--outline" href="portfolio.html" data-i18n="hero_portfolio">Моё портфолио</a>
+          </div>
+
+          <div class="hero__stats">
+            <div class="stat" data-anim="fade-up" data-delay="100">
+              <span class="stat__value">6+</span>
+              <span class="stat__label" data-i18n="stat_tech">Технологий</span>
+            </div>
+            <div class="stat" data-anim="fade-up" data-delay="200">
+              <span class="stat__value">HTML/CSS/JS</span>
+              <span class="stat__label" data-i18n="stat_markup">Изучено полностью</span>
+            </div>
+            <div class="stat" data-anim="fade-up" data-delay="300">
+              <span class="stat__value">React</span>
+              <span class="stat__label" data-i18n="stat_react">В процессе изучения</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero__visual" data-anim="fade-left">
+          <div class="hero-card">
+            <div class="hero-card__header">
+              <div class="hero-card__avatar">
+                <span class="hero-card__avatar-ring"></span>
+                <span class="hero-card__avatar-letter">I</span>
+                <span class="hero-card__status"></span>
+              </div>
+              <div>
+                <div class="hero-card__name" data-i18n="brand_name">Искандер</div>
+                <div class="hero-card__sub" data-i18n="card_role">Frontend Developer</div>
+              </div>
+            </div>
+            <div class="hero-card__pills">
+              <span class="pill">HTML</span>
+              <span class="pill">CSS</span>
+              <span class="pill">JavaScript</span>
+              <span class="pill">React</span>
+              <span class="pill">GitHub</span>
+              <span class="pill">Figma</span>
+              <span class="pill">VS Code</span>
+            </div>
+            <a class="hero-card__link" href="#skills" data-i18n="card_link">Открыть навыки &rarr;</a>
+          </div>
+          <div class="glow" aria-hidden="true"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== ABOUT ===== -->
+    <section class="section" id="about">
+      <div class="section__header" data-anim="fade-up">
+        <h2 class="section__title" data-i18n="about_title">Обо мне</h2>
+        <p class="section__subtitle" data-i18n="about_subtitle">
+          Меня зовут Искандер. Я Junior Frontend Developer. Создаю современные интерфейсы с акцентом на качество, анимации и адаптивность.
+        </p>
+        <div class="section__line"></div>
+      </div>
+
+      <div class="about-grid">
+        <div class="about-card" data-anim="fade-up" data-delay="0">
+          <div class="about-card__icon">&#9889;</div>
+          <h3 class="about-card__title" data-i18n="about_c1_t">Быстро и аккуратно</h3>
+          <p class="about-card__text" data-i18n="about_c1_d">Пишу понятный, структурированный код. Собираю интерфейс поэтапно — от макета до финальной полировки.</p>
+        </div>
+        <div class="about-card" data-anim="fade-up" data-delay="100">
+          <div class="about-card__icon">&#129513;</div>
+          <h3 class="about-card__title" data-i18n="about_c2_t">Интерактив и UX</h3>
+          <p class="about-card__text" data-i18n="about_c2_d">Формы, меню, модалки, микро-анимации. Делаю интерфейс живым и удобным для пользователя.</p>
+        </div>
+        <div class="about-card" data-anim="fade-up" data-delay="200">
+          <div class="about-card__icon">&#127919;</div>
+          <h3 class="about-card__title" data-i18n="about_c3_t">Клиентский уровень</h3>
+          <p class="about-card__text" data-i18n="about_c3_d">Цель — результат, который можно продавать. Визуальная полировка, ритм отступов, "дорогой" UI.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== SKILLS ===== -->
+    <section class="section" id="skills">
+      <div class="section__header" data-anim="fade-up">
+        <h2 class="section__title" data-i18n="skills_title">My Skills</h2>
+        <p class="section__subtitle" data-i18n="skills_subtitle">Нажми на карточку — откроется подробная страница навыка.</p>
+        <div class="section__line"></div>
+      </div>
+      <div class="skills-grid" id="skillsGrid" data-anim="fade-up"></div>
+    </section>
+
+    <!-- ===== PROJECTS PREVIEW ===== -->
+    <section class="section" id="projects">
+      <div class="section__header" data-anim="fade-up">
+        <h2 class="section__title" data-i18n="projects_title">Проекты</h2>
+        <p class="section__subtitle" data-i18n="projects_subtitle">Подборка работ. Полный список — на странице портфолио.</p>
+        <div class="section__line"></div>
+      </div>
+      <div class="projects-grid" id="projectsGrid" data-anim="fade-up"></div>
+      <div class="center" data-anim="fade-up">
+        <a class="btn btn--outline" href="portfolio.html" data-i18n="projects_more">Смотреть всё портфолио</a>
+      </div>
+    </section>
+
+    <!-- ===== CONTACT ===== -->
+    <section class="section" id="contact">
+      <div class="section__header" data-anim="fade-up">
+        <h2 class="section__title" data-i18n="contact_title">Связаться</h2>
+        <p class="section__subtitle" data-i18n="contact_subtitle">Опиши задачу — я отвечу и предложу план работ.</p>
+        <div class="section__line"></div>
+      </div>
+
+      <div class="contact-grid">
+        <form class="form" id="contactForm" novalidate data-anim="fade-up">
+          <div class="form__row">
+            <div class="field">
+              <label class="field__label" for="name" data-i18n="f_name">Имя</label>
+              <input class="field__input" id="name" name="name" type="text" required
+                data-i18n-placeholder="ph_name" placeholder="Ваше имя" autocomplete="name" />
+              <span class="field__error" data-i18n="err_name">Минимум 2 символа.</span>
+            </div>
+            <div class="field">
+              <label class="field__label" for="phone" data-i18n="f_phone">Телефон</label>
+              <input class="field__input" id="phone" name="phone" type="tel" inputmode="numeric" maxlength="18"
+                data-i18n-placeholder="ph_phone" placeholder="+7 (___) ___-__-__" autocomplete="tel" />
+              <span class="field__error" data-i18n="err_phone">Введите корректный номер.</span>
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="field__label" for="email" data-i18n="f_email">Email</label>
+            <input class="field__input" id="email" name="email" type="email" required
+              data-i18n-placeholder="ph_email" placeholder="your@email.com" autocomplete="email" />
+            <span class="field__error" data-i18n="err_email">Введите корректный email.</span>
+          </div>
+
+          <div class="field">
+            <label class="field__label" for="subject" data-i18n="f_subject">Тема</label>
+            <input class="field__input" id="subject" name="subject" type="text" required
+              data-i18n-placeholder="ph_subject" placeholder="Тема сообщения" />
+            <span class="field__error" data-i18n="err_subject">Минимум 5 символов.</span>
+          </div>
+
+          <div class="field">
+            <label class="field__label" for="message" data-i18n="f_message">Сообщение</label>
+            <textarea class="field__input field__input--textarea" id="message" name="message" rows="5" required
+              data-i18n-placeholder="ph_message" placeholder="Коротко опишите задачу..."></textarea>
+            <span class="field__error" data-i18n="err_message">Минимум 10 символов.</span>
+          </div>
+
+          <button class="btn btn--primary btn--full" type="submit" id="sendBtn">
+            <span data-i18n="send_btn">Отправить</span>
+            <span class="spinner" aria-hidden="true"></span>
+          </button>
+
+          <div class="form__status" id="formStatus" role="alert" aria-live="polite"></div>
+          <p class="form__note" data-i18n="contact_note">Сообщение будет отправлено на мою почту.</p>
+        </form>
+
+        <aside class="contact-aside" data-anim="fade-left">
+          <h3 class="contact-aside__title" data-i18n="side_title">Что ты получишь</h3>
+          <ul class="contact-aside__list">
+            <li data-i18n="side_1">План работ и сроки</li>
+            <li data-i18n="side_2">Чистая верстка + адаптив</li>
+            <li data-i18n="side_3">Анимации и интерактив</li>
+            <li data-i18n="side_4">Полировка UI до клиентского уровня</li>
+          </ul>
+
+          <div class="contact-aside__links">
+            <a class="chip" href="https://t.me/Isskanderr22888" target="_blank" rel="noopener">Telegram</a>
+            <a class="chip" href="https://github.com/ISSA944" target="_blank" rel="noopener">GitHub</a>
+            <a class="chip" href="https://www.instagram.com/issa_mukan" target="_blank" rel="noopener">Instagram</a>
+          </div>
+
+          <a class="btn btn--outline btn--full" href="portfolio.html" data-i18n="side_btn">Открыть портфолио</a>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer">
+      <div class="footer__inner">
+        <div class="footer__left">
+          <a class="brand brand--sm" href="index.html">
+            <span class="brand__mark">ISO</span>
+            <span class="brand__text" data-i18n="brand_name">Искандер</span>
+          </a>
+          <p class="footer__copy" data-i18n="footer_text">Спасибо за просмотр ✦</p>
+        </div>
+        <div class="footer__right">
+          <a class="footer__link" href="#contact" data-i18n="footer_contact">Связаться</a>
+          <a class="footer__link" href="portfolio.html" data-i18n="nav_portfolio">Портфолио</a>
+        </div>
+      </div>
+    </footer>
+  </main>
+
+  <!-- Sticky CTA mobile -->
+  <div class="sticky-cta" id="stickyCta">
+    <a class="sticky-cta__btn" href="#contact">
+      <span class="sticky-cta__dot"></span>
+      <span data-i18n="sticky_cta">Связаться</span>
+    </a>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

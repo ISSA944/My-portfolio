@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>React — ISO | Iskander</title>
+  <meta name="description" content="ISO — Iskander. React skills. Components, hooks, routing — actively learning." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body class="tech-react">
+
+  <div class="preloader" id="preloader">
+    <div class="preloader__logo">
+      <span class="preloader__letter" style="--i:0">I</span>
+      <span class="preloader__letter" style="--i:1">S</span>
+      <span class="preloader__letter" style="--i:2">O</span>
+    </div>
+    <div class="preloader__bar"><div class="preloader__bar-fill"></div></div>
+  </div>
+
+  <div class="particles" id="particles" aria-hidden="true"></div>
+
+  <header class="topbar" id="topbar">
+    <div class="topbar__inner">
+      <a class="brand" href="index.html">
+        <span class="brand__mark">ISO</span>
+        <span class="brand__text" data-i18n="brand_name">Искандер</span>
+      </a>
+      <nav class="nav">
+        <a class="nav__link" href="index.html#about" data-i18n="nav_about">Обо мне</a>
+        <a class="nav__link" href="index.html#skills" data-i18n="nav_skills">Навыки</a>
+        <a class="nav__link" href="portfolio.html" data-i18n="nav_portfolio">Портфолио</a>
+        <a class="nav__link" href="index.html#contact" data-i18n="nav_contact">Контакты</a>
+      </nav>
+      <div class="controls">
+        <button class="lang-toggle" id="langToggle" type="button">
+          <span class="lang-toggle__pill active" data-lang="ru">RU</span>
+          <span class="lang-toggle__pill" data-lang="en">EN</span>
+        </button>
+        <button class="theme-toggle" id="themeToggle" type="button">
+          <span class="theme-toggle__track"></span>
+          <span class="theme-toggle__knob"></span>
+          <span class="theme-toggle__icon theme-toggle__icon--moon">&#127769;</span>
+          <span class="theme-toggle__icon theme-toggle__icon--sun">&#9728;</span>
+        </button>
+        <button class="burger" id="burger" type="button"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+    <div class="mnav" id="mnav" aria-hidden="true">
+      <a class="mnav__link" href="index.html#skills" data-i18n="nav_skills">Навыки</a>
+      <a class="mnav__link" href="portfolio.html" data-i18n="nav_portfolio">Портфолио</a>
+      <a class="mnav__link" href="index.html#contact" data-i18n="nav_contact">Контакты</a>
+      <a class="mnav__link" href="index.html" data-i18n="nav_home">Главная</a>
+    </div>
+  </header>
+
+  <main class="page">
+    <section class="tech-hero" data-anim="fade-up">
+      <div class="tech-hero__badge" data-i18n="tc_react_badge">React</div>
+      <h1 class="tech-hero__title">
+        <span class="gradient-text" data-i18n="tc_react_title">React — в процессе изучения</span>
+      </h1>
+      <p class="tech-hero__text" data-i18n="tc_react_sub">
+        Активно осваиваю React: компоненты, props, state, хуки, роутинг. Иду от базы к реальным проектам.
+      </p>
+      <div class="tech-hero__actions">
+        <a class="btn btn--primary" href="index.html#contact" data-i18n="tc_cta">Связаться</a>
+        <a class="btn btn--outline" href="index.html#skills" data-i18n="tc_back">Назад к Skills</a>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="tech-detail" data-anim="fade-up">
+        <h2 class="tech-detail__title" data-i18n="tc_react_detail_title">Мой прогресс в React</h2>
+        <p class="tech-detail__text" data-i18n="tc_react_detail_text">
+          Я на стадии активного изучения React. Уже понимаю компонентную архитектуру, работаю с хуками и создаю мини-проекты для закрепления знаний.
+        </p>
+        <div class="progress-bar" data-anim="fade-up">
+          <div class="progress-bar__fill" data-width="35%"></div>
+        </div>
+      </div>
+
+      <div class="section__header" data-anim="fade-up">
+        <h2 class="section__title" data-i18n="tc_what_title">Что я умею</h2>
+        <div class="section__line"></div>
+      </div>
+
+      <div class="tech-grid">
+        <div class="tech-card" data-anim="fade-up" data-delay="0">
+          <div class="tech-card__icon">&#9881;&#65039;</div>
+          <h3 data-i18n="tc_react_c1_t">Компоненты и JSX</h3>
+          <p data-i18n="tc_react_c1_d">Функциональные компоненты, JSX-синтаксис, композиция и переиспользование.</p>
+        </div>
+        <div class="tech-card" data-anim="fade-up" data-delay="80">
+          <div class="tech-card__icon">&#128268;</div>
+          <h3 data-i18n="tc_react_c2_t">Хуки (Hooks)</h3>
+          <p data-i18n="tc_react_c2_d">useState, useEffect — управление состоянием и побочными эффектами.</p>
+        </div>
+        <div class="tech-card" data-anim="fade-up" data-delay="160">
+          <div class="tech-card__icon">&#128229;</div>
+          <h3 data-i18n="tc_react_c3_t">Props и данные</h3>
+          <p data-i18n="tc_react_c3_d">Передача данных между компонентами, условный рендеринг, списки.</p>
+        </div>
+        <div class="tech-card" data-anim="fade-up" data-delay="0">
+          <div class="tech-card__icon">&#128640;</div>
+          <h3 data-i18n="tc_react_c4_t">React Router</h3>
+          <p data-i18n="tc_react_c4_d">Навигация между страницами в SPA. Изучаю роутинг и структуру приложения.</p>
+        </div>
+        <div class="tech-card" data-anim="fade-up" data-delay="80">
+          <div class="tech-card__icon">&#128736;&#65039;</div>
+          <h3 data-i18n="tc_react_c5_t">Практика</h3>
+          <p data-i18n="tc_react_c5_d">Создаю мини-проекты: todo-лист, калькулятор, компоненты UI.</p>
+        </div>
+        <div class="tech-card" data-anim="fade-up" data-delay="160">
+          <div class="tech-card__icon">&#127937;</div>
+          <h3 data-i18n="tc_react_c6_t">Следующие шаги</h3>
+          <p data-i18n="tc_react_c6_d">Context API, кастомные хуки, работа с API, оптимизация рендера.</p>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="footer__inner">
+        <div class="footer__left">
+          <a class="brand brand--sm" href="index.html">
+            <span class="brand__mark">ISO</span>
+            <span class="brand__text" data-i18n="brand_name">Искандер</span>
+          </a>
+          <p class="footer__copy" data-i18n="footer_text">Спасибо за просмотр ✦</p>
+        </div>
+        <div class="footer__right">
+          <a class="footer__link" href="index.html#contact" data-i18n="footer_contact">Связаться</a>
+          <a class="footer__link" href="index.html" data-i18n="nav_home">Главная</a>
+        </div>
+      </div>
+    </footer>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

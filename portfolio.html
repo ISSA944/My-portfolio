@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Портфолио — ISO | Iskander</title>
+  <meta name="description" content="ISO — Iskander. Portfolio. Projects, experience." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <div class="preloader" id="preloader">
+    <div class="preloader__logo">
+      <span class="preloader__letter" style="--i:0">I</span>
+      <span class="preloader__letter" style="--i:1">S</span>
+      <span class="preloader__letter" style="--i:2">O</span>
+    </div>
+    <div class="preloader__bar"><div class="preloader__bar-fill"></div></div>
+  </div>
+
+  <div class="particles" id="particles" aria-hidden="true"></div>
+
+  <header class="topbar" id="topbar">
+    <div class="topbar__inner">
+      <a class="brand" href="index.html">
+        <span class="brand__mark">ISO</span>
+        <span class="brand__text" data-i18n="brand_name">Искандер</span>
+      </a>
+      <nav class="nav">
+        <a class="nav__link" href="index.html#about" data-i18n="nav_about">Обо мне</a>
+        <a class="nav__link" href="index.html#skills" data-i18n="nav_skills">Навыки</a>
+        <a class="nav__link active" href="portfolio.html" data-i18n="nav_portfolio">Портфолио</a>
+        <a class="nav__link" href="index.html#contact" data-i18n="nav_contact">Контакты</a>
+      </nav>
+      <div class="controls">
+        <button class="lang-toggle" id="langToggle" type="button">
+          <span class="lang-toggle__pill active" data-lang="ru">RU</span>
+          <span class="lang-toggle__pill" data-lang="en">EN</span>
+        </button>
+        <button class="theme-toggle" id="themeToggle" type="button">
+          <span class="theme-toggle__track"></span>
+          <span class="theme-toggle__knob"></span>
+          <span class="theme-toggle__icon theme-toggle__icon--moon">&#127769;</span>
+          <span class="theme-toggle__icon theme-toggle__icon--sun">&#9728;</span>
+        </button>
+        <button class="burger" id="burger" type="button"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+    <div class="mnav" id="mnav" aria-hidden="true">
+      <a class="mnav__link" href="index.html#about" data-i18n="nav_about">Обо мне</a>
+      <a class="mnav__link" href="index.html#skills" data-i18n="nav_skills">Навыки</a>
+      <a class="mnav__link" href="index.html#contact" data-i18n="nav_contact">Контакты</a>
+      <a class="mnav__link" href="index.html" data-i18n="nav_home">Главная</a>
+    </div>
+  </header>
+
+  <main class="page">
+
+    <section class="hero" id="hero">
+      <div class="hero__container">
+        <div class="hero__content" data-anim="fade-up">
+          <div class="badge">
+            <span class="badge__dot"></span>
+            <span data-i18n="p_badge">Портфолио</span>
+          </div>
+
+          <h1 class="hero__title">
+            <span class="gradient-text" data-i18n="p_title">Мои проекты</span>
+          </h1>
+
+          <p class="hero__desc" data-i18n="p_subtitle">
+            Здесь — примеры работ. Везде: адаптив, аккуратный UI и интерактив.
+          </p>
+
+          <div class="hero__actions">
+            <a class="btn btn--primary" href="index.html#contact" data-i18n="p_cta">Связаться</a>
+            <a class="btn btn--outline" href="index.html" data-i18n="p_back">На главную</a>
+          </div>
+        </div>
+
+        <div class="hero__visual" data-anim="fade-left">
+          <div class="hero-card">
+            <div class="hero-card__header">
+              <div class="hero-card__avatar">
+                <span class="hero-card__avatar-ring"></span>
+                <span class="hero-card__avatar-letter">I</span>
+                <span class="hero-card__status"></span>
+              </div>
+              <div>
+                <div class="hero-card__name" data-i18n="brand_name">Искандер</div>
+                <div class="hero-card__sub" data-i18n="card_role">Frontend Developer</div>
+              </div>
+            </div>
+            <div class="hero-card__pills">
+              <span class="pill">HTML</span>
+              <span class="pill">CSS</span>
+              <span class="pill">JS</span>
+              <span class="pill">React</span>
+            </div>
+            <a class="hero-card__link" href="index.html#skills" data-i18n="card_link">Навыки &rarr;</a>
+          </div>
+          <div class="glow" aria-hidden="true"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section__header" data-anim="fade-up">
+        <h2 class="section__title" data-i18n="p_work_title">Работы</h2>
+        <p class="section__subtitle" data-i18n="p_work_text">Проекты с адаптивом, анимациями и современным UI.</p>
+        <div class="section__line"></div>
+      </div>
+      <div class="projects-grid" id="projectsGrid" data-anim="fade-up"></div>
+    </section>
+
+    <section class="section">
+      <div class="section__header" data-anim="fade-up">
+        <h2 class="section__title" data-i18n="exp_title">Опыт</h2>
+        <p class="section__subtitle" data-i18n="exp_text">Junior уровень, но собираю и пишу как профессионал.</p>
+        <div class="section__line"></div>
+      </div>
+
+      <div class="timeline" data-anim="fade-up">
+        <div class="timeline__item">
+          <div class="timeline__year">2026</div>
+          <div>
+            <div class="timeline__role" data-i18n="exp_r1">Junior фронтенд-разработчик</div>
+            <div class="timeline__desc" data-i18n="exp_d1">Создаю современные сайты с нуля: адаптивная вёрстка, качественные анимации, формы с валидацией, тёмная/светлая тема, RU/EN переключение, интерактивные UI-компоненты. Стек: HTML, CSS, JavaScript, React.</div>
+          </div>
+        </div>
+        <div class="timeline__item">
+          <div class="timeline__year">2025</div>
+          <div>
+            <div class="timeline__role" data-i18n="exp_r2">Обучение и практика</div>
+            <div class="timeline__desc" data-i18n="exp_d2">HTML/CSS/JS + React. Проекты + оттачивание навыков.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="footer__inner">
+        <div class="footer__left">
+          <a class="brand brand--sm" href="index.html">
+            <span class="brand__mark">ISO</span>
+            <span class="brand__text" data-i18n="brand_name">Искандер</span>
+          </a>
+          <p class="footer__copy" data-i18n="footer_text">Спасибо за просмотр ✦</p>
+        </div>
+        <div class="footer__right">
+          <a class="footer__link" href="index.html#contact" data-i18n="footer_contact">Связаться</a>
+          <a class="footer__link" href="index.html" data-i18n="nav_home">Главная</a>
+        </div>
+      </div>
+    </footer>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
