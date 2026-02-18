@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>HTML & CSS — ISO | Iskander</title>
-  <meta name="description" content="ISO — Iskander. HTML & CSS skills. Semantic markup, responsive design, animations." />
+  <title>HTML & CSS — ISO | Искандер</title>
+  <meta name="description" content="ISO — Искандер. Навыки HTML & CSS. Семантическая вёрстка, адаптивный дизайн, анимации." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
@@ -59,28 +59,85 @@
   </header>
 
   <main class="page">
-    <section class="tech-hero" data-anim="fade-up">
-      <div class="tech-hero__badge" data-i18n="tc_html_badge">HTML & CSS</div>
-      <h1 class="tech-hero__title">
-        <span class="gradient-text" data-i18n="tc_html_title">Верстка и стиль</span>
-      </h1>
-      <p class="tech-hero__text" data-i18n="tc_html_sub">
-        Семантика, адаптив, Flexbox/Grid, типографика, UI-ритм, аккуратная структура. Знаю HTML и CSS полностью.
-      </p>
-      <div class="tech-hero__actions">
-        <a class="btn btn--primary" href="index.html#contact" data-i18n="tc_cta">Связаться</a>
-        <a class="btn btn--outline" href="index.html#skills" data-i18n="tc_back">Назад к Skills</a>
+
+    <!-- ===== HERO WITH LOGO ===== -->
+    <section class="tech-hero tech-hero--showcase" data-anim="fade-up">
+      <div class="tech-hero__grid">
+        <div class="tech-hero__info">
+          <div class="tech-hero__badge" data-i18n="tc_html_badge">HTML & CSS</div>
+          <h1 class="tech-hero__title">
+            <span class="gradient-text" data-i18n="tc_html_title">Верстка и стиль</span>
+          </h1>
+          <p class="tech-hero__text" data-i18n="tc_html_sub">
+            Семантика, адаптив, Flexbox/Grid, типографика, UI-ритм, аккуратная структура. Знаю HTML и CSS на полном уровне — от базовых тегов до сложных анимаций и систем дизайна.
+          </p>
+          <div class="tech-hero__actions">
+            <a class="btn btn--primary" href="index.html#contact" data-i18n="tc_cta">Связаться</a>
+            <a class="btn btn--outline" href="index.html#skills" data-i18n="tc_back">Назад к Skills</a>
+          </div>
+        </div>
+        <div class="tech-hero__logo-area" data-anim="fade-left">
+          <div class="tech-logo">
+            <div class="tech-logo__glow"></div>
+            <div class="tech-logo__icons">
+              <!-- HTML5 Shield -->
+              <svg class="tech-logo__svg tech-logo__svg--main" viewBox="0 0 124 141.53" xmlns="http://www.w3.org/2000/svg">
+                <path d="M10.383 126.894L0 0h124l-10.383 126.894L62 141.53z" fill="#e44d26"/>
+                <path d="M62 131.034V0h62l-8.9 117.377z" fill="#f16529"/>
+                <path d="M22.174 25.464h79.652l-2.066 24.584H44.853l1.477 17.584h53.763l-2.803 31.32L62 107.576l-35.29-8.624L24.508 75.48h17.584l1.085 12.461 18.823 4.584 18.823-4.584 1.97-22.056H24.116z" fill="#fff"/>
+              </svg>
+              <!-- CSS3 Shield -->
+              <svg class="tech-logo__svg tech-logo__svg--sub" viewBox="0 0 124 141.53" xmlns="http://www.w3.org/2000/svg">
+                <path d="M10.383 126.894L0 0h124l-10.383 126.894L62 141.53z" fill="#1572b6"/>
+                <path d="M62 131.034V0h62l-8.9 117.377z" fill="#33a9dc"/>
+                <path d="M22.174 25.464h79.652l-2.066 10.584H40.853l1.477 17.584h57.763l-4.803 45.32L62 107.576l-33.29-8.624L26.508 75.48h15.584l1.085 12.461 18.823 5.584 18.823-5.584 2.97-20.056H24.116z" fill="#fff"/>
+              </svg>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
     <section class="section">
-      <div class="tech-detail" data-anim="fade-up">
-        <h2 class="tech-detail__title" data-i18n="tc_html_detail_title">Мои знания HTML & CSS</h2>
+      <!-- Detail block -->
+      <div class="tech-detail tech-detail--rich" data-anim="fade-up">
+        <div class="tech-detail__header">
+          <h2 class="tech-detail__title" data-i18n="tc_html_detail_title">Мои знания HTML & CSS</h2>
+          <div class="tech-detail__level">
+            <span class="tech-detail__level-label">Уровень владения</span>
+            <span class="tech-detail__level-value">95%</span>
+          </div>
+        </div>
         <p class="tech-detail__text" data-i18n="tc_html_detail_text">
-          Я владею HTML и CSS на высоком уровне. Создаю семантическую верстку, сложные адаптивные сетки, красивые анимации и переходы. Придерживаюсь чистой структуры и BEM-методологии.
+          Я владею HTML и CSS на экспертном уровне. Создаю семантическую, доступную верстку с учётом SEO и скринридеров. Строю сложные адаптивные сетки на Flexbox и CSS Grid, реализую плавные анимации и переходы с оптимальной производительностью. Придерживаюсь BEM-методологии и архитектуры CSS, использую Custom Properties для создания масштабируемых дизайн-систем. Каждый проект — это продуманная типографика, визуальная иерархия и pixel-perfect результат.
         </p>
         <div class="progress-bar" data-anim="fade-up">
           <div class="progress-bar__fill" data-width="95%"></div>
+        </div>
+      </div>
+
+      <!-- Philosophy block -->
+      <div class="tech-philosophy" data-anim="fade-up">
+        <div class="tech-philosophy__item">
+          <div class="tech-philosophy__number">01</div>
+          <div>
+            <h3 class="tech-philosophy__heading">Семантика прежде всего</h3>
+            <p class="tech-philosophy__text">Каждый HTML-тег несёт смысл. Правильная структура документа — основа доступности, SEO и поддерживаемости кода. Я всегда начинаю с разметки, которая «читается» и людьми, и машинами.</p>
+          </div>
+        </div>
+        <div class="tech-philosophy__item">
+          <div class="tech-philosophy__number">02</div>
+          <div>
+            <h3 class="tech-philosophy__heading">Дизайн-система в CSS</h3>
+            <p class="tech-philosophy__text">Custom Properties, модульная типографика, продуманные spacing-токены. CSS для меня — не хаос, а система. Каждая переменная, каждый класс — часть единого визуального языка.</p>
+          </div>
+        </div>
+        <div class="tech-philosophy__item">
+          <div class="tech-philosophy__number">03</div>
+          <div>
+            <h3 class="tech-philosophy__heading">Mobile-first подход</h3>
+            <p class="tech-philosophy__text">Сначала мобильная версия — потом десктоп. Это не просто методология, а гарантия того, что сайт будет идеально работать на любом экране, от 320px до 4K.</p>
+          </div>
         </div>
       </div>
 
@@ -93,32 +150,50 @@
         <div class="tech-card" data-anim="fade-up" data-delay="0">
           <div class="tech-card__icon">&#128196;</div>
           <h3 data-i18n="tc_html_c1_t">Семантическая верстка</h3>
-          <p data-i18n="tc_html_c1_d">Правильные теги, доступность, структурированный HTML5. Каждый элемент на своём месте.</p>
+          <p data-i18n="tc_html_c1_d">Правильные HTML5-теги: header, main, section, article, nav. Доступность через ARIA-атрибуты. Структурированный, читаемый код, который понимают и браузеры, и поисковые системы, и скринридеры.</p>
         </div>
         <div class="tech-card" data-anim="fade-up" data-delay="80">
           <div class="tech-card__icon">&#128241;</div>
           <h3 data-i18n="tc_html_c2_t">Адаптивный дизайн</h3>
-          <p data-i18n="tc_html_c2_d">Flexbox, CSS Grid, медиа-запросы. Сайт идеально выглядит на любом устройстве.</p>
+          <p data-i18n="tc_html_c2_d">Flexbox, CSS Grid, медиа-запросы, clamp(), min/max функции. Сайт идеально выглядит на любом устройстве — от iPhone SE до ультраширокого монитора. Mobile-first подход в каждом проекте.</p>
         </div>
         <div class="tech-card" data-anim="fade-up" data-delay="160">
           <div class="tech-card__icon">&#10024;</div>
           <h3 data-i18n="tc_html_c3_t">CSS-система и анимации</h3>
-          <p data-i18n="tc_html_c3_d">CSS-переменные, кастомные свойства, плавные переходы и keyframe-анимации.</p>
+          <p data-i18n="tc_html_c3_d">CSS Custom Properties, каскадные токены, плавные transitions и keyframe-анимации с оптимизацией через will-change и transform. Создаю живые, отзывчивые интерфейсы без JavaScript.</p>
         </div>
         <div class="tech-card" data-anim="fade-up" data-delay="0">
           <div class="tech-card__icon">&#9999;&#65039;</div>
           <h3 data-i18n="tc_html_c4_t">Типографика и UI-ритм</h3>
-          <p data-i18n="tc_html_c4_d">Модульная сетка, правильные отступы, визуальная иерархия. Каждый пиксель продуман.</p>
+          <p data-i18n="tc_html_c4_d">Модульная шкала размеров, вертикальный ритм, правильные line-height и letter-spacing. Визуальная иерархия, которая направляет взгляд пользователя. Каждый пиксель на своём месте.</p>
         </div>
         <div class="tech-card" data-anim="fade-up" data-delay="80">
           <div class="tech-card__icon">&#128221;</div>
           <h3 data-i18n="tc_html_c5_t">Формы и валидация</h3>
-          <p data-i18n="tc_html_c5_d">Стилизованные формы, кастомные чекбоксы, валидация, состояния полей.</p>
+          <p data-i18n="tc_html_c5_d">Полностью стилизованные формы: кастомные чекбоксы, radio, select, range-слайдеры. Нативная HTML5-валидация, визуальные состояния полей — focus, error, success. Доступность для каждого элемента.</p>
         </div>
         <div class="tech-card" data-anim="fade-up" data-delay="160">
           <div class="tech-card__icon">&#127760;</div>
           <h3 data-i18n="tc_html_c6_t">Кроссбраузерность</h3>
-          <p data-i18n="tc_html_c6_d">Работает одинаково во всех современных браузерах. Chrome, Firefox, Safari, Edge.</p>
+          <p data-i18n="tc_html_c6_d">Пишу код, который одинаково работает в Chrome, Firefox, Safari и Edge. Использую vendor-префиксы, progressive enhancement и graceful degradation. Тестирую на реальных устройствах.</p>
+        </div>
+      </div>
+
+      <!-- Tech stack summary -->
+      <div class="tech-stack" data-anim="fade-up">
+        <h3 class="tech-stack__title">Стек технологий</h3>
+        <p class="tech-stack__hint">Нажми на технологию, чтобы узнать подробнее</p>
+        <div class="tech-stack__pills">
+          <span class="tech-stack__pill" data-tooltip="HTML5 — это язык разметки, основа любой веб-страницы. Он определяет структуру сайта: заголовки, параграфы, изображения, ссылки, формы. Без HTML не существует ни одного сайта в интернете.">HTML5</span>
+          <span class="tech-stack__pill" data-tooltip="CSS3 — это язык стилей, который отвечает за внешний вид сайта: цвета, шрифты, отступы, анимации, тени, градиенты. CSS превращает голый HTML в красивый дизайн.">CSS3</span>
+          <span class="tech-stack__pill" data-tooltip="Flexbox — это способ расположения элементов в строку или столбец. Позволяет легко центрировать, выравнивать и распределять пространство между блоками. Идеален для навигаций, карточек, кнопок.">Flexbox</span>
+          <span class="tech-stack__pill" data-tooltip="CSS Grid — мощная система сеток для создания сложных макетов. Позволяет размещать элементы в двумерной сетке (строки + столбцы) с полным контролем над расположением.">CSS Grid</span>
+          <span class="tech-stack__pill" data-tooltip="BEM — это методология именования CSS-классов: Блок, Элемент, Модификатор. Помогает писать понятный, масштабируемый CSS без конфликтов стилей. Например: .card__title--active.">BEM</span>
+          <span class="tech-stack__pill" data-tooltip="Custom Properties (CSS-переменные) — это переменные прямо в CSS. Записываешь --color: red один раз, а потом используешь var(--color) везде. Легко менять тему, цвета, размеры.">Custom Properties</span>
+          <span class="tech-stack__pill" data-tooltip="CSS Animations — это плавные переходы и движения элементов. Transition — для простых hover-эффектов, @keyframes — для сложных анимаций. Делают сайт живым и интерактивным.">Animations</span>
+          <span class="tech-stack__pill" data-tooltip="Media Queries — правила CSS, которые включаются при определённой ширине экрана. Позволяют делать адаптивный дизайн: один сайт, но разный вид на телефоне, планшете и компьютере.">Media Queries</span>
+          <span class="tech-stack__pill" data-tooltip="ARIA — набор атрибутов для доступности. Помогает людям с ограничениями (например, незрячим) пользоваться сайтом через скринридеры. aria-label, role, aria-hidden — всё это ARIA.">ARIA</span>
+          <span class="tech-stack__pill" data-tooltip="Responsive Design — подход к вёрстке, при котором сайт автоматически подстраивается под любой экран. Тексты, картинки, сетки — всё масштабируется. Работает на любом устройстве.">Responsive</span>
         </div>
       </div>
     </section>

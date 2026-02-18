@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>JavaScript — ISO | Iskander</title>
-  <meta name="description" content="ISO — Iskander. JavaScript skills. DOM, events, async, UI components." />
+  <title>JavaScript — ISO | Искандер</title>
+  <meta name="description" content="ISO — Искандер. Навыки JavaScript. DOM, события, асинхронность, UI-компоненты." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
@@ -59,28 +59,78 @@
   </header>
 
   <main class="page">
-    <section class="tech-hero" data-anim="fade-up">
-      <div class="tech-hero__badge" data-i18n="tc_js_badge">JavaScript</div>
-      <h1 class="tech-hero__title">
-        <span class="gradient-text" data-i18n="tc_js_title">JavaScript — изучен полностью</span>
-      </h1>
-      <p class="tech-hero__text" data-i18n="tc_js_sub">
-        DOM, события, API, валидация, UI-компоненты, localStorage, асинхронный код. Владею JavaScript на продвинутом уровне.
-      </p>
-      <div class="tech-hero__actions">
-        <a class="btn btn--primary" href="index.html#contact" data-i18n="tc_cta">Связаться</a>
-        <a class="btn btn--outline" href="index.html#skills" data-i18n="tc_back">Назад к Skills</a>
+
+    <!-- ===== HERO WITH LOGO ===== -->
+    <section class="tech-hero tech-hero--showcase" data-anim="fade-up">
+      <div class="tech-hero__grid">
+        <div class="tech-hero__info">
+          <div class="tech-hero__badge" data-i18n="tc_js_badge">JavaScript</div>
+          <h1 class="tech-hero__title">
+            <span class="gradient-text" data-i18n="tc_js_title">JavaScript — изучен полностью</span>
+          </h1>
+          <p class="tech-hero__text" data-i18n="tc_js_sub">
+            DOM, события, API, валидация, UI-компоненты, localStorage, асинхронный код. Владею JavaScript на продвинутом уровне — от основ до сложных паттернов.
+          </p>
+          <div class="tech-hero__actions">
+            <a class="btn btn--primary" href="index.html#contact" data-i18n="tc_cta">Связаться</a>
+            <a class="btn btn--outline" href="index.html#skills" data-i18n="tc_back">Назад к Skills</a>
+          </div>
+        </div>
+        <div class="tech-hero__logo-area" data-anim="fade-left">
+          <div class="tech-logo">
+            <div class="tech-logo__glow"></div>
+            <div class="tech-logo__icons">
+              <!-- JavaScript Logo -->
+              <svg class="tech-logo__svg tech-logo__svg--solo" viewBox="0 0 630 630" xmlns="http://www.w3.org/2000/svg">
+                <rect width="630" height="630" rx="40" fill="#f7df1e"/>
+                <path d="M423.2 492.19c12.69 20.72 29.2 35.95 58.4 35.95 24.53 0 40.2-12.26 40.2-29.2 0-20.3-16.1-27.49-43.1-39.3l-14.8-6.35c-42.72-18.2-71.1-41-71.1-89.2 0-44.4 33.83-78.2 86.7-78.2 37.64 0 64.7 13.1 84.2 47.4l-46.1 29.6c-10.15-18.2-21.1-25.37-38.1-25.37-17.34 0-28.33 11-28.33 25.37 0 17.76 11 24.95 36.4 35.95l14.8 6.34c50.3 21.57 78.7 43.56 78.7 93 0 53.3-41.87 82.5-98.1 82.5-54.98 0-90.5-26.2-107.88-60.54zm-209.13 5.13c9.3 16.5 17.76 30.45 38.1 30.45 19.45 0 31.72-7.61 31.72-37.2v-201.3h59.2v202.1c0 61.3-35.94 89.2-88.4 89.2-47.4 0-74.85-24.53-88.81-54.075z" fill="#323330"/>
+              </svg>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
     <section class="section">
-      <div class="tech-detail" data-anim="fade-up">
-        <h2 class="tech-detail__title" data-i18n="tc_js_detail_title">Мои знания JavaScript</h2>
+      <!-- Detail block -->
+      <div class="tech-detail tech-detail--rich" data-anim="fade-up">
+        <div class="tech-detail__header">
+          <h2 class="tech-detail__title" data-i18n="tc_js_detail_title">Мои знания JavaScript</h2>
+          <div class="tech-detail__level">
+            <span class="tech-detail__level-label">Уровень владения</span>
+            <span class="tech-detail__level-value">90%</span>
+          </div>
+        </div>
         <p class="tech-detail__text" data-i18n="tc_js_detail_text">
-          JavaScript изучен мной полностью. Пишу чистую, структурированную логику. Создаю интерактивные компоненты, работаю с API, управляю состоянием через localStorage.
+          JavaScript изучен мной на глубоком уровне. Пишу чистую, структурированную логику с использованием современных стандартов ES6+. Создаю интерактивные компоненты, работаю с REST API через fetch и async/await, управляю состоянием через localStorage и sessionStorage. Понимаю замыкания, прототипное наследование, event loop, делегирование событий и паттерны проектирования. Каждая строка кода — осмысленная, поддерживаемая и производительная.
         </p>
         <div class="progress-bar" data-anim="fade-up">
           <div class="progress-bar__fill" data-width="90%"></div>
+        </div>
+      </div>
+
+      <!-- Philosophy block -->
+      <div class="tech-philosophy" data-anim="fade-up">
+        <div class="tech-philosophy__item">
+          <div class="tech-philosophy__number">01</div>
+          <div>
+            <h3 class="tech-philosophy__heading">Чистый и читаемый код</h3>
+            <p class="tech-philosophy__text">Каждая функция имеет одну ответственность. Имена переменных говорят сами за себя. Код организован в модули с ясной архитектурой. Я пишу так, чтобы другой разработчик мог легко понять логику без комментариев.</p>
+          </div>
+        </div>
+        <div class="tech-philosophy__item">
+          <div class="tech-philosophy__number">02</div>
+          <div>
+            <h3 class="tech-philosophy__heading">Производительность в приоритете</h3>
+            <p class="tech-philosophy__text">Debounce, throttle, requestAnimationFrame, lazy loading — я знаю, как сделать интерфейс быстрым. Оптимизация DOM-операций, минимизация reflow и repaint, эффективная работа с событиями.</p>
+          </div>
+        </div>
+        <div class="tech-philosophy__item">
+          <div class="tech-philosophy__number">03</div>
+          <div>
+            <h3 class="tech-philosophy__heading">Надёжная обработка ошибок</h3>
+            <p class="tech-philosophy__text">Try/catch для асинхронных операций, graceful degradation, валидация входных данных. Приложение не ломается — оно информирует пользователя и продолжает работать стабильно.</p>
+          </div>
         </div>
       </div>
 
@@ -93,32 +143,50 @@
         <div class="tech-card" data-anim="fade-up" data-delay="0">
           <div class="tech-card__icon">&#128187;</div>
           <h3 data-i18n="tc_js_c1_t">DOM и события</h3>
-          <p data-i18n="tc_js_c1_d">Полное владение DOM API. Создание, удаление, модификация элементов. Делегирование событий.</p>
+          <p data-i18n="tc_js_c1_d">Полное владение DOM API: querySelector, createElement, classList, dataset. Делегирование событий, кастомные события, MutationObserver. Эффективная манипуляция без лишних перерисовок.</p>
         </div>
         <div class="tech-card" data-anim="fade-up" data-delay="80">
           <div class="tech-card__icon">&#129513;</div>
           <h3 data-i18n="tc_js_c2_t">UI-компоненты</h3>
-          <p data-i18n="tc_js_c2_d">Модалки, табы, слайдеры, бургер-меню, аккордеоны, фильтры — на чистом JS.</p>
+          <p data-i18n="tc_js_c2_d">Модалки, табы, слайдеры, бургер-меню, аккордеоны, dropdown, фильтры, infinite scroll — всё на чистом JavaScript без библиотек. Доступность и клавиатурная навигация включены.</p>
         </div>
         <div class="tech-card" data-anim="fade-up" data-delay="160">
           <div class="tech-card__icon">&#9889;</div>
           <h3 data-i18n="tc_js_c3_t">Асинхронный код</h3>
-          <p data-i18n="tc_js_c3_d">Promises, async/await, fetch API. Работа с сервером, обработка ответов и ошибок.</p>
+          <p data-i18n="tc_js_c3_d">Promises, async/await, Promise.all, fetch API. Работа с REST-серверами, обработка ответов и ошибок, retry-логика. Понимание event loop, microtasks и macrotasks.</p>
         </div>
         <div class="tech-card" data-anim="fade-up" data-delay="0">
           <div class="tech-card__icon">&#128190;</div>
           <h3 data-i18n="tc_js_c4_t">LocalStorage и состояние</h3>
-          <p data-i18n="tc_js_c4_d">Сохранение темы, языка, настроек. Персистентность данных между сессиями.</p>
+          <p data-i18n="tc_js_c4_d">Сохранение темы, языка, фильтров, пользовательских настроек. Сериализация/десериализация данных. Персистентность между сессиями с корректной обработкой квот и ошибок.</p>
         </div>
         <div class="tech-card" data-anim="fade-up" data-delay="80">
           <div class="tech-card__icon">&#9989;</div>
           <h3 data-i18n="tc_js_c5_t">Валидация форм</h3>
-          <p data-i18n="tc_js_c5_d">Кастомная валидация: regex, real-time проверки, визуальные индикаторы ошибок.</p>
+          <p data-i18n="tc_js_c5_d">Кастомная валидация на regex и условиях. Real-time проверки при вводе, визуальные индикаторы ошибок, debounce для оптимизации. Интеграция с отправкой через EmailJS и API.</p>
         </div>
         <div class="tech-card" data-anim="fade-up" data-delay="160">
           <div class="tech-card__icon">&#128142;</div>
           <h3 data-i18n="tc_js_c6_t">ES6+ и качество кода</h3>
-          <p data-i18n="tc_js_c6_d">Деструктуризация, spread, модули, шаблонные строки. Чистый, читаемый код.</p>
+          <p data-i18n="tc_js_c6_d">Деструктуризация, spread/rest, стрелочные функции, template literals, optional chaining, nullish coalescing. Модульная архитектура, DRY-принцип, единообразный стиль.</p>
+        </div>
+      </div>
+
+      <!-- Tech stack summary -->
+      <div class="tech-stack" data-anim="fade-up">
+        <h3 class="tech-stack__title">Стек технологий</h3>
+        <p class="tech-stack__hint">Нажми на технологию, чтобы узнать подробнее</p>
+        <div class="tech-stack__pills">
+          <span class="tech-stack__pill" data-tooltip="ES6+ — современный стандарт JavaScript. Включает стрелочные функции, деструктуризацию, spread-оператор, шаблонные строки, let/const, классы. Делает код короче, чище и мощнее.">ES6+</span>
+          <span class="tech-stack__pill" data-tooltip="DOM API — интерфейс для управления HTML-страницей из JavaScript. Позволяет находить элементы, менять текст, добавлять классы, создавать новые блоки. Вся интерактивность сайта — это DOM.">DOM API</span>
+          <span class="tech-stack__pill" data-tooltip="Fetch API — встроенный инструмент для отправки запросов на сервер. Получение данных, отправка форм, загрузка JSON — всё через fetch(). Работает с Promises, поддерживает async/await.">Fetch API</span>
+          <span class="tech-stack__pill" data-tooltip="Async/Await — удобный способ писать асинхронный код. Вместо цепочек .then() пишешь await и код выглядит как обычный синхронный. Используется для запросов к серверу, таймеров, анимаций.">Async/Await</span>
+          <span class="tech-stack__pill" data-tooltip="LocalStorage — хранилище данных в браузере. Сохраняет информацию даже после закрытия вкладки: тему, язык, настройки, корзину. Простое API: setItem, getItem, removeItem.">LocalStorage</span>
+          <span class="tech-stack__pill" data-tooltip="JSON — формат обмена данными. Выглядит как JavaScript-объект, но это текст. Используется для передачи данных между сервером и клиентом. JSON.parse() — чтение, JSON.stringify() — запись.">JSON</span>
+          <span class="tech-stack__pill" data-tooltip="Regex (регулярные выражения) — шаблоны для поиска и проверки текста. Используются для валидации email, телефонов, паролей. Пример: /^[a-z]+$/ — проверяет, что строка только из букв.">Regex</span>
+          <span class="tech-stack__pill" data-tooltip="Event Delegation — техника, когда обработчик вешается на родителя, а не на каждый элемент. Экономит память и работает даже с динамически добавленными элементами. Основа эффективного JS.">Event Delegation</span>
+          <span class="tech-stack__pill" data-tooltip="Modules — способ разделить код на файлы. Каждый файл — отдельный модуль со своим экспортом/импортом. Делает код организованным, переиспользуемым и легко поддерживаемым.">Modules</span>
+          <span class="tech-stack__pill" data-tooltip="EmailJS — сервис для отправки email прямо из JavaScript без бэкенда. Подключаешь библиотеку, настраиваешь шаблон — и форма обратной связи работает. Идеально для портфолио и лендингов.">EmailJS</span>
         </div>
       </div>
     </section>

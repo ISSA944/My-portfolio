@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Tools — ISO | Iskander</title>
-  <meta name="description" content="ISO — Iskander. Development tools. GitHub, Copilot, Figma, VS Code." />
+  <title>Инструменты — ISO | Искандер</title>
+  <meta name="description" content="ISO — Искандер. Инструменты разработки. GitHub, Copilot, Figma, VS Code." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
@@ -59,21 +59,73 @@
   </header>
 
   <main class="page">
-    <section class="tech-hero" data-anim="fade-up">
-      <div class="tech-hero__badge" data-i18n="tc_tools_badge">Инструменты</div>
-      <h1 class="tech-hero__title">
-        <span class="gradient-text" data-i18n="tc_tools_title">Мои инструменты</span>
-      </h1>
-      <p class="tech-hero__text" data-i18n="tc_tools_sub">
-        GitHub, GitHub Copilot, Figma и VS Code — мой рабочий набор для продуктивной разработки.
-      </p>
-      <div class="tech-hero__actions">
-        <a class="btn btn--primary" href="index.html#contact" data-i18n="tc_cta">Связаться</a>
-        <a class="btn btn--outline" href="index.html#skills" data-i18n="tc_back">Назад к Skills</a>
+
+    <!-- ===== HERO WITH LOGO ===== -->
+    <section class="tech-hero tech-hero--showcase" data-anim="fade-up">
+      <div class="tech-hero__grid">
+        <div class="tech-hero__info">
+          <div class="tech-hero__badge" data-i18n="tc_tools_badge">Инструменты</div>
+          <h1 class="tech-hero__title">
+            <span class="gradient-text" data-i18n="tc_tools_title">Мои инструменты</span>
+          </h1>
+          <p class="tech-hero__text" data-i18n="tc_tools_sub">
+            GitHub, GitHub Copilot, Figma и VS Code — мой рабочий набор для продуктивной разработки. Каждый инструмент освоен и используется ежедневно в реальных проектах.
+          </p>
+          <div class="tech-hero__actions">
+            <a class="btn btn--primary" href="index.html#contact" data-i18n="tc_cta">Связаться</a>
+            <a class="btn btn--outline" href="index.html#skills" data-i18n="tc_back">Назад к Skills</a>
+          </div>
+        </div>
+        <div class="tech-hero__logo-area" data-anim="fade-left">
+          <div class="tech-logo">
+            <div class="tech-logo__glow"></div>
+            <div class="tech-logo__icons">
+              <!-- Tools / Gear Logo -->
+              <svg class="tech-logo__svg tech-logo__svg--solo" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#a78bfa" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/>
+              </svg>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
     <section class="section">
+      <!-- Detail block -->
+      <div class="tech-detail tech-detail--rich" data-anim="fade-up">
+        <div class="tech-detail__header">
+          <h2 class="tech-detail__title">Мой рабочий процесс</h2>
+        </div>
+        <p class="tech-detail__text">
+          Продуктивная разработка — это не только код, но и правильные инструменты. Мой workflow построен на Git для контроля версий, VS Code как основного редактора с настроенным окружением, Figma для работы с дизайн-макетами и GitHub Copilot для ускорения разработки. Каждый инструмент интегрирован в единый процесс, который позволяет мне работать быстро, качественно и организованно. Все проекты хранятся в репозиториях с чистой историей коммитов и документацией.
+        </p>
+      </div>
+
+      <!-- Philosophy block -->
+      <div class="tech-philosophy" data-anim="fade-up">
+        <div class="tech-philosophy__item">
+          <div class="tech-philosophy__number">01</div>
+          <div>
+            <h3 class="tech-philosophy__heading">Версионный контроль</h3>
+            <p class="tech-philosophy__text">Git и GitHub — основа моего рабочего процесса. Каждое изменение отслеживается, каждый коммит осмысленный. Работаю с ветками, Pull Request, README. Чистая история проекта — гарантия прозрачности.</p>
+          </div>
+        </div>
+        <div class="tech-philosophy__item">
+          <div class="tech-philosophy__number">02</div>
+          <div>
+            <h3 class="tech-philosophy__heading">Настроенная среда</h3>
+            <p class="tech-philosophy__text">VS Code с набором расширений, кастомными сниппетами и горячими клавишами. Emmet, Live Server, Prettier, ESLint — всё настроено для максимальной скорости и качества кода.</p>
+          </div>
+        </div>
+        <div class="tech-philosophy__item">
+          <div class="tech-philosophy__number">03</div>
+          <div>
+            <h3 class="tech-philosophy__heading">AI как помощник</h3>
+            <p class="tech-philosophy__text">GitHub Copilot ускоряет рутинные задачи: генерация boilerplate-кода, подсказки по API, быстрая реализация идей. Но каждая строка проходит через моё понимание и проверку.</p>
+          </div>
+        </div>
+      </div>
+
       <div class="section__header" data-anim="fade-up">
         <h2 class="section__title" data-i18n="tc_what_title">Что я умею</h2>
         <div class="section__line"></div>
@@ -81,24 +133,59 @@
 
       <div class="tech-grid">
         <div class="tech-card" data-anim="fade-up" data-delay="0">
-          <div class="tech-card__icon">&#128025;</div>
+          <div class="tech-card__icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.115 2.504.337 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z" fill="currentColor"/>
+            </svg>
+          </div>
           <h3 data-i18n="tc_github_t">GitHub</h3>
-          <p data-i18n="tc_github_d">Репозитории, коммиты, ветки, Pull Request, README. Полный workflow с Git.</p>
+          <p data-i18n="tc_github_d">Репозитории, коммиты, ветки, Pull Request, README с документацией. Полный Git-workflow: от инициализации проекта до деплоя. Чистая история без merge-хаоса.</p>
         </div>
         <div class="tech-card" data-anim="fade-up" data-delay="80">
           <div class="tech-card__icon">&#129302;</div>
           <h3 data-i18n="tc_copilot_t">GitHub Copilot</h3>
-          <p data-i18n="tc_copilot_d">Ускоряю разработку с помощью AI. Генерация кода, подсказки, быстрая реализация идей.</p>
+          <p data-i18n="tc_copilot_d">Ускоряю разработку с помощью AI: генерация кода, автодополнение, подсказки по API. Использую как продвинутый инструмент, а не как замену пониманию. Каждая подсказка проверяется.</p>
         </div>
         <div class="tech-card" data-anim="fade-up" data-delay="160">
-          <div class="tech-card__icon">&#127912;</div>
+          <div class="tech-card__icon">
+            <svg width="28" height="28" viewBox="0 0 38 57" xmlns="http://www.w3.org/2000/svg">
+              <path d="M19 28.5a9.5 9.5 0 100-19h-9.5v19H19z" fill="#f24e1e"/>
+              <path d="M0 9.5A9.5 9.5 0 019.5 0H19v19H9.5A9.5 9.5 0 010 9.5z" fill="#ff7262"/>
+              <path d="M19 0h9.5a9.5 9.5 0 010 19H19V0z" fill="#1abcfe"/>
+              <path d="M0 28.5A9.5 9.5 0 019.5 19H19v19H9.5A9.5 9.5 0 010 28.5z" fill="#a259ff"/>
+              <path d="M0 47.5A9.5 9.5 0 019.5 38H19v9.5a9.5 9.5 0 01-19 0z" fill="#0acf83"/>
+            </svg>
+          </div>
           <h3 data-i18n="tc_figma_t">Figma</h3>
-          <p data-i18n="tc_figma_d">Работа с макетами: размеры, сетка, типографика, цвета. Pixel-perfect верстка.</p>
+          <p data-i18n="tc_figma_d">Работа с дизайн-макетами: размеры, сетка, типографика, цвета, отступы. Pixel-perfect верстка по макету. Понимаю язык дизайнеров и умею его переводить в код.</p>
         </div>
         <div class="tech-card" data-anim="fade-up" data-delay="0">
-          <div class="tech-card__icon">&#128421;&#65039;</div>
+          <div class="tech-card__icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M24 2.5l-8.514 19.227-1.857-7.356L6.273 12.514z" fill="#007ACC"/>
+              <path d="M24 2.5L13.629 14.371l-1.857-7.356z" fill="#1f9cf0" opacity=".7"/>
+            </svg>
+          </div>
           <h3 data-i18n="tc_vscode_t">Visual Studio Code</h3>
-          <p data-i18n="tc_vscode_d">Мой основной редактор. Расширения, горячие клавиши, сниппеты, терминал.</p>
+          <p data-i18n="tc_vscode_d">Мой основной редактор: кастомные расширения, горячие клавиши, сниппеты, встроенный терминал, Git-интеграция. Emmet, Live Server, Prettier, ESLint — полностью настроенная среда.</p>
+        </div>
+      </div>
+
+      <!-- Tech stack summary -->
+      <div class="tech-stack" data-anim="fade-up">
+        <h3 class="tech-stack__title">Инструментарий</h3>
+        <p class="tech-stack__hint">Нажми на инструмент, чтобы узнать подробнее</p>
+        <div class="tech-stack__pills">
+          <span class="tech-stack__pill" data-tooltip="Git — система контроля версий. Отслеживает все изменения в коде: кто, когда и что изменил. Можно откатиться к любой версии, работать в ветках, объединять изменения. Основа командной работы.">Git</span>
+          <span class="tech-stack__pill" data-tooltip="GitHub — платформа для хранения кода в облаке. Репозитории, Pull Request, Issues, Actions. Портфолио разработчика, место для совместной работы и open-source проектов.">GitHub</span>
+          <span class="tech-stack__pill" data-tooltip="VS Code — бесплатный редактор кода от Microsoft. Быстрый, мощный, с тысячами расширений. Встроенный терминал, Git-интеграция, IntelliSense, отладчик. Самый популярный редактор среди разработчиков.">VS Code</span>
+          <span class="tech-stack__pill" data-tooltip="Figma — онлайн-инструмент для дизайна интерфейсов. Дизайнеры создают макеты, а я по ним верстаю. Смотрю размеры, цвета, отступы, шрифты. Pixel-perfect — макет и верстка совпадают до пикселя.">Figma</span>
+          <span class="tech-stack__pill" data-tooltip="GitHub Copilot — AI-помощник для написания кода. Подсказывает целые функции, генерирует boilerplate, помогает с документацией. Ускоряет рутинные задачи, но каждая строка проверяется мной.">Copilot</span>
+          <span class="tech-stack__pill" data-tooltip="Emmet — инструмент для сверхбыстрого написания HTML и CSS. Пишешь сокращение вроде ul>li*5 — и получаешь готовую разметку. Встроен в VS Code, экономит десятки минут каждый день.">Emmet</span>
+          <span class="tech-stack__pill" data-tooltip="Live Server — расширение VS Code для мгновенного предпросмотра. Запускает локальный сервер и обновляет страницу при каждом сохранении файла. Видишь результат своего кода в реальном времени.">Live Server</span>
+          <span class="tech-stack__pill" data-tooltip="Prettier — автоформатировщик кода. Приводит отступы, кавычки, запятые к единому стилю одним нажатием. Больше не нужно спорить о форматировании — Prettier решает за тебя.">Prettier</span>
+          <span class="tech-stack__pill" data-tooltip="ESLint — инструмент для поиска ошибок в JavaScript. Ловит баги до запуска кода: неиспользуемые переменные, отсутствующие return, проблемы с логикой. Настраивается под любые правила.">ESLint</span>
+          <span class="tech-stack__pill" data-tooltip="Terminal — командная строка, встроенная в VS Code. Запуск Git-команд, npm-скрипты, навигация по файлам, управление сервером. Быстрее и удобнее, чем кликать мышкой.">Terminal</span>
         </div>
       </div>
     </section>

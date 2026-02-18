@@ -113,7 +113,7 @@ const I18N = {
     about_c3_t: "Клиентский уровень",
     about_c3_d: 'Цель — результат, который можно продавать. Визуальная полировка, ритм отступов, "дорогой" UI.',
 
-    skills_title: "My Skills",
+    skills_title: "Мои навыки",
     skills_subtitle: "Нажми на карточку — откроется подробная страница навыка.",
 
     projects_title: "Проекты",
@@ -665,13 +665,13 @@ function initContactForm() {
       });
 
       status.className = "form__status is-ok";
-      status.textContent = I18N[lang]?.msg_ok || "Sent!";
+      status.textContent = I18N[lang]?.msg_ok || "Отправлено!";
       form.reset();
       form.querySelectorAll(".field").forEach(f => { f.classList.remove("is-ok", "is-error"); });
     } catch (err) {
       console.error("EmailJS error:", err);
       status.className = "form__status is-err";
-      status.textContent = I18N[lang]?.msg_err || "Error";
+      status.textContent = I18N[lang]?.msg_err || "Ошибка";
     } finally {
       btn.classList.remove("is-loading");
       btn.disabled = false;
@@ -792,6 +792,62 @@ function initSmoothScroll() {
   });
 }
 
+/* ---------- PILL TOOLTIPS ---------- */
+function initPillTooltips() {
+  const pills = document.querySelectorAll('.tech-stack__pill[data-tooltip]');
+  if (!pills.length) return;
+
+  // Create overlay once
+  const overlay = document.createElement('div');
+  overlay.className = 'pill-tooltip';
+  overlay.innerHTML = `
+    <div class="pill-tooltip__card">
+      <button class="pill-tooltip__close" type="button" aria-label="Close">&times;</button>
+      <div class="pill-tooltip__name"></div>
+      <div class="pill-tooltip__text"></div>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+
+  const nameEl = overlay.querySelector('.pill-tooltip__name');
+  const textEl = overlay.querySelector('.pill-tooltip__text');
+  const closeBtn = overlay.querySelector('.pill-tooltip__close');
+  let activePill = null;
+
+  function openTooltip(pill) {
+    const raw = pill.getAttribute('data-tooltip');
+    const dashIdx = raw.indexOf('—');
+    const name = dashIdx > -1 ? raw.substring(0, dashIdx).trim() : pill.textContent.trim();
+    const desc = dashIdx > -1 ? raw.substring(dashIdx + 1).trim() : raw;
+    nameEl.textContent = name;
+    textEl.textContent = desc;
+    if (activePill) activePill.classList.remove('is-active');
+    activePill = pill;
+    pill.classList.add('is-active');
+    overlay.classList.add('is-visible');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeTooltip() {
+    overlay.classList.remove('is-visible');
+    if (activePill) activePill.classList.remove('is-active');
+    activePill = null;
+    document.body.style.overflow = '';
+  }
+
+  pills.forEach(pill => {
+    pill.addEventListener('click', () => openTooltip(pill));
+  });
+
+  closeBtn.addEventListener('click', closeTooltip);
+  overlay.addEventListener('click', (e) => {
+    if (e.target === overlay) closeTooltip();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && overlay.classList.contains('is-visible')) closeTooltip();
+  });
+}
+
 /* ---------- INIT ---------- */
 document.addEventListener("DOMContentLoaded", () => {
   applyTheme(getTheme());
@@ -821,5 +877,6 @@ document.addEventListener("DOMContentLoaded", () => {
     initAnimations();
     initProgressBars();
     initStickyCta();
+    initPillTooltips();
   });
 });

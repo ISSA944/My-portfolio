@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>React — ISO | Iskander</title>
-  <meta name="description" content="ISO — Iskander. React skills. Components, hooks, routing — actively learning." />
+  <title>React — ISO | Искандер</title>
+  <meta name="description" content="ISO — Искандер. Навыки React. Компоненты, хуки, роутинг — активно изучаю." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
@@ -59,28 +59,82 @@
   </header>
 
   <main class="page">
-    <section class="tech-hero" data-anim="fade-up">
-      <div class="tech-hero__badge" data-i18n="tc_react_badge">React</div>
-      <h1 class="tech-hero__title">
-        <span class="gradient-text" data-i18n="tc_react_title">React — в процессе изучения</span>
-      </h1>
-      <p class="tech-hero__text" data-i18n="tc_react_sub">
-        Активно осваиваю React: компоненты, props, state, хуки, роутинг. Иду от базы к реальным проектам.
-      </p>
-      <div class="tech-hero__actions">
-        <a class="btn btn--primary" href="index.html#contact" data-i18n="tc_cta">Связаться</a>
-        <a class="btn btn--outline" href="index.html#skills" data-i18n="tc_back">Назад к Skills</a>
+
+    <!-- ===== HERO WITH LOGO ===== -->
+    <section class="tech-hero tech-hero--showcase" data-anim="fade-up">
+      <div class="tech-hero__grid">
+        <div class="tech-hero__info">
+          <div class="tech-hero__badge" data-i18n="tc_react_badge">React</div>
+          <h1 class="tech-hero__title">
+            <span class="gradient-text" data-i18n="tc_react_title">React — в процессе изучения</span>
+          </h1>
+          <p class="tech-hero__text" data-i18n="tc_react_sub">
+            Активно осваиваю React: компоненты, props, state, хуки, роутинг. Двигаюсь от фундаментальных концепций к реальным проектам. Каждый день — новый уровень понимания.
+          </p>
+          <div class="tech-hero__actions">
+            <a class="btn btn--primary" href="index.html#contact" data-i18n="tc_cta">Связаться</a>
+            <a class="btn btn--outline" href="index.html#skills" data-i18n="tc_back">Назад к Skills</a>
+          </div>
+        </div>
+        <div class="tech-hero__logo-area" data-anim="fade-left">
+          <div class="tech-logo tech-logo--spin">
+            <div class="tech-logo__glow"></div>
+            <div class="tech-logo__icons">
+              <!-- React Logo -->
+              <svg class="tech-logo__svg tech-logo__svg--solo" viewBox="-11.5 -10.232 23 20.463" xmlns="http://www.w3.org/2000/svg">
+                <circle r="2.05" fill="#61dafb"/>
+                <g stroke="#61dafb" fill="none" stroke-width="1">
+                  <ellipse rx="11" ry="4.2"/>
+                  <ellipse rx="11" ry="4.2" transform="rotate(60)"/>
+                  <ellipse rx="11" ry="4.2" transform="rotate(120)"/>
+                </g>
+              </svg>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
     <section class="section">
-      <div class="tech-detail" data-anim="fade-up">
-        <h2 class="tech-detail__title" data-i18n="tc_react_detail_title">Мой прогресс в React</h2>
+      <!-- Detail block -->
+      <div class="tech-detail tech-detail--rich" data-anim="fade-up">
+        <div class="tech-detail__header">
+          <h2 class="tech-detail__title" data-i18n="tc_react_detail_title">Мой прогресс в React</h2>
+          <div class="tech-detail__level">
+            <span class="tech-detail__level-label">Уровень владения</span>
+            <span class="tech-detail__level-value">35%</span>
+          </div>
+        </div>
         <p class="tech-detail__text" data-i18n="tc_react_detail_text">
-          Я на стадии активного изучения React. Уже понимаю компонентную архитектуру, работаю с хуками и создаю мини-проекты для закрепления знаний.
+          Я на стадии активного изучения React. Уже понимаю компонентную архитектуру, работаю с базовыми и продвинутыми хуками, создаю мини-проекты для закрепления знаний. Осваиваю React Router для навигации, понимаю однонаправленный поток данных и жизненный цикл компонентов. Каждый новый проект — шаг к уверенному владению библиотекой. Цель — выйти на уровень свободного создания SPA-приложений.
         </p>
         <div class="progress-bar" data-anim="fade-up">
           <div class="progress-bar__fill" data-width="35%"></div>
+        </div>
+      </div>
+
+      <!-- Philosophy block -->
+      <div class="tech-philosophy" data-anim="fade-up">
+        <div class="tech-philosophy__item">
+          <div class="tech-philosophy__number">01</div>
+          <div>
+            <h3 class="tech-philosophy__heading">Компонентное мышление</h3>
+            <p class="tech-philosophy__text">Разбиваю интерфейс на переиспользуемые компоненты. Каждый компонент — самодостаточный блок с собственной логикой и стилями. Это основа масштабируемой архитектуры.</p>
+          </div>
+        </div>
+        <div class="tech-philosophy__item">
+          <div class="tech-philosophy__number">02</div>
+          <div>
+            <h3 class="tech-philosophy__heading">Практика через проекты</h3>
+            <p class="tech-philosophy__text">Не просто читаю документацию — создаю реальные приложения. Todo-лист, калькулятор, UI-компоненты, мини-лендинги на React. Каждый проект закрепляет новые знания.</p>
+          </div>
+        </div>
+        <div class="tech-philosophy__item">
+          <div class="tech-philosophy__number">03</div>
+          <div>
+            <h3 class="tech-philosophy__heading">Постоянный рост</h3>
+            <p class="tech-philosophy__text">Context API, кастомные хуки, работа с внешними API, оптимизация рендера — это мой ближайший план. Я двигаюсь системно и целенаправленно.</p>
+          </div>
         </div>
       </div>
 
@@ -93,32 +147,48 @@
         <div class="tech-card" data-anim="fade-up" data-delay="0">
           <div class="tech-card__icon">&#9881;&#65039;</div>
           <h3 data-i18n="tc_react_c1_t">Компоненты и JSX</h3>
-          <p data-i18n="tc_react_c1_d">Функциональные компоненты, JSX-синтаксис, композиция и переиспользование.</p>
+          <p data-i18n="tc_react_c1_d">Функциональные компоненты, JSX-синтаксис, композиция и переиспользование. Понимаю разницу между presentational и container компонентами. Чистая декларативная разметка.</p>
         </div>
         <div class="tech-card" data-anim="fade-up" data-delay="80">
           <div class="tech-card__icon">&#128268;</div>
           <h3 data-i18n="tc_react_c2_t">Хуки (Hooks)</h3>
-          <p data-i18n="tc_react_c2_d">useState, useEffect — управление состоянием и побочными эффектами.</p>
+          <p data-i18n="tc_react_c2_d">useState для управления состоянием, useEffect для побочных эффектов, useRef для доступа к DOM. Понимаю правила хуков и зависимости эффектов.</p>
         </div>
         <div class="tech-card" data-anim="fade-up" data-delay="160">
           <div class="tech-card__icon">&#128229;</div>
           <h3 data-i18n="tc_react_c3_t">Props и данные</h3>
-          <p data-i18n="tc_react_c3_d">Передача данных между компонентами, условный рендеринг, списки.</p>
+          <p data-i18n="tc_react_c3_d">Передача данных между компонентами через props, условный рендеринг, рендер списков с ключами. Понимаю однонаправленный поток данных React.</p>
         </div>
         <div class="tech-card" data-anim="fade-up" data-delay="0">
           <div class="tech-card__icon">&#128640;</div>
           <h3 data-i18n="tc_react_c4_t">React Router</h3>
-          <p data-i18n="tc_react_c4_d">Навигация между страницами в SPA. Изучаю роутинг и структуру приложения.</p>
+          <p data-i18n="tc_react_c4_d">Навигация между страницами в SPA: Routes, Link, useNavigate, useParams. Изучаю вложенные маршруты и защищённые роуты для авторизации.</p>
         </div>
         <div class="tech-card" data-anim="fade-up" data-delay="80">
           <div class="tech-card__icon">&#128736;&#65039;</div>
           <h3 data-i18n="tc_react_c5_t">Практика</h3>
-          <p data-i18n="tc_react_c5_d">Создаю мини-проекты: todo-лист, калькулятор, компоненты UI.</p>
+          <p data-i18n="tc_react_c5_d">Создаю мини-проекты для закрепления: todo-приложение с фильтрацией, калькулятор, UI-kit с переиспользуемыми компонентами, простые CRUD-интерфейсы.</p>
         </div>
         <div class="tech-card" data-anim="fade-up" data-delay="160">
           <div class="tech-card__icon">&#127937;</div>
           <h3 data-i18n="tc_react_c6_t">Следующие шаги</h3>
-          <p data-i18n="tc_react_c6_d">Context API, кастомные хуки, работа с API, оптимизация рендера.</p>
+          <p data-i18n="tc_react_c6_d">Context API для глобального состояния, кастомные хуки для переиспользования логики, интеграция с REST API, React.memo и useMemo для оптимизации.</p>
+        </div>
+      </div>
+
+      <!-- Tech stack summary -->
+      <div class="tech-stack" data-anim="fade-up">
+        <h3 class="tech-stack__title">Стек технологий</h3>
+        <p class="tech-stack__hint">Нажми на технологию, чтобы узнать подробнее</p>
+        <div class="tech-stack__pills">
+          <span class="tech-stack__pill" data-tooltip="React — JavaScript-библиотека от Facebook для создания интерфейсов. Разбивает страницу на компоненты — переиспользуемые блоки. Самый популярный инструмент для создания современных веб-приложений.">React</span>
+          <span class="tech-stack__pill" data-tooltip="JSX — синтаксис, который позволяет писать HTML прямо в JavaScript-коде. Выглядит как обычная разметка, но это JavaScript. React использует JSX для описания интерфейса компонентов.">JSX</span>
+          <span class="tech-stack__pill" data-tooltip="Hooks — функции для добавления состояния и логики в компоненты React. useState хранит данные, useEffect выполняет побочные эффекты, useRef даёт доступ к DOM. Заменили классовые компоненты.">Hooks</span>
+          <span class="tech-stack__pill" data-tooltip="React Router — библиотека для навигации в React-приложениях. Позволяет создавать несколько страниц без перезагрузки (SPA). Link, Route, useNavigate — основные инструменты маршрутизации.">React Router</span>
+          <span class="tech-stack__pill" data-tooltip="Components — основа React. Каждый элемент интерфейса — это компонент: кнопка, карточка, форма, страница. Компоненты переиспользуются, комбинируются и вкладываются друг в друга.">Components</span>
+          <span class="tech-stack__pill" data-tooltip="Props — данные, которые передаются от родительского компонента к дочернему. Как аргументы функции: передал title и текст — компонент их отрисовал. Props нельзя изменить внутри компонента.">Props</span>
+          <span class="tech-stack__pill" data-tooltip="State — внутреннее состояние компонента. Когда state меняется — React автоматически перерисовывает компонент. Используется для форм, счётчиков, переключателей, корзин, фильтров.">State</span>
+          <span class="tech-stack__pill" data-tooltip="useEffect — хук для побочных эффектов в React. Запрос к API при загрузке, подписка на события, запуск таймеров. Выполняется после рендера компонента. Массив зависимостей контролирует повторные вызовы.">useEffect</span>
         </div>
       </div>
     </section>
