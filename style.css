@@ -70,7 +70,6 @@ html[data-theme="light"] {
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  gap: 32px;
   transition: opacity .6s ease, visibility .6s ease;
 }
 html[data-theme="light"] .preloader { background: #f8f6f3; }
@@ -78,6 +77,14 @@ html[data-theme="light"] .preloader { background: #f8f6f3; }
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
+}
+
+/* Content block — logo + status text */
+.preloader__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 28px;
 }
 .preloader__logo {
   display: flex;
@@ -102,27 +109,58 @@ html[data-theme="light"] .preloader { background: #f8f6f3; }
 @keyframes letterReveal {
   to { opacity: 1; transform: translateY(0) scale(1); }
 }
-.preloader__bar {
-  width: 140px;
-  height: 3px;
-  border-radius: 2px;
-  background: rgba(255,255,255,.08);
-  overflow: hidden;
+
+/* Status line: text + percent */
+.preloader__status {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: min(320px, 80vw);
   opacity: 0;
-  animation: fadeIn .4s ease .8s forwards;
+  animation: fadeIn .4s ease .7s forwards;
 }
-html[data-theme="light"] .preloader__bar { background: rgba(0,0,0,.08); }
-@keyframes fadeIn { to { opacity: 1; } }
+.preloader__text {
+  font-family: var(--font);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--muted, rgba(255,255,255,.45));
+  letter-spacing: .3px;
+  min-height: 18px;
+  transition: opacity .25s ease;
+}
+.preloader__text.is-switching {
+  opacity: 0;
+}
+.preloader__percent {
+  font-family: var(--font);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--accent, #FF5500);
+  letter-spacing: .5px;
+  font-variant-numeric: tabular-nums;
+}
+html[data-theme="light"] .preloader__text { color: rgba(0,0,0,.4); }
+
+/* Full-width bar pinned to bottom */
+.preloader__bar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 3px;
+  background: rgba(255,255,255,.06);
+  overflow: hidden;
+}
+html[data-theme="light"] .preloader__bar { background: rgba(0,0,0,.06); }
 .preloader__bar-fill {
   height: 100%;
   width: 0;
-  border-radius: 2px;
-  background: linear-gradient(90deg, var(--accent), var(--accent2));
-  animation: preloaderFill 1.5s ease forwards;
+  border-radius: 0 2px 2px 0;
+  background: linear-gradient(90deg, var(--accent, #FF5500), var(--accent2, #FF7A00));
+  box-shadow: 0 0 16px rgba(255,85,0,.5);
+  transition: width .15s linear;
 }
-@keyframes preloaderFill {
-  to { width: 100%; }
-}
+@keyframes fadeIn { to { opacity: 1; } }
 
 /* ---------- RESET ---------- */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }

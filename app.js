@@ -7,12 +7,73 @@
 function initPreloader() {
   const preloader = document.getElementById("preloader");
   if (!preloader) return;
-  window.addEventListener("load", () => {
+
+  const fill = document.getElementById("preloaderFill");
+  const textEl = document.getElementById("preloaderText");
+  const pctEl  = document.getElementById("preloaderPercent");
+
+  const messages = [
+    { at: 0,  text: "Инициализация..." },
+    { at: 12, text: "Загрузка шрифтов" },
+    { at: 25, text: "Подключение стилей" },
+    { at: 40, text: "Подготовка контента" },
+    { at: 55, text: "Рендеринг интерфейса" },
+    { at: 70, text: "Почти готово..." },
+    { at: 85, text: "Финальная полировка ✨" },
+    { at: 96, text: "Добро пожаловать!" },
+  ];
+
+  let progress = 0;
+  let msgIdx = 0;
+  let pageLoaded = false;
+
+  function setMessage(txt) {
+    if (!textEl) return;
+    textEl.classList.add("is-switching");
     setTimeout(() => {
-      preloader.classList.add("hidden");
-      setTimeout(() => preloader.remove(), 600);
-    }, 2000);
-  });
+      textEl.textContent = txt;
+      textEl.classList.remove("is-switching");
+    }, 200);
+  }
+
+  // Set first message immediately
+  if (textEl) textEl.textContent = messages[0].text;
+
+  window.addEventListener("load", () => { pageLoaded = true; });
+
+  function tick() {
+    // Speed up after page is loaded, slow down before
+    const target = pageLoaded ? 100 : 70;
+    const speed = pageLoaded ? 3 : 0.6;
+    if (progress < target) {
+      progress = Math.min(progress + speed + Math.random() * speed, target);
+    }
+
+    const pct = Math.round(progress);
+    if (fill) fill.style.width = pct + "%";
+    if (pctEl) pctEl.textContent = pct + "%";
+
+    // Update message
+    while (msgIdx < messages.length - 1 && pct >= messages[msgIdx + 1].at) {
+      msgIdx++;
+      setMessage(messages[msgIdx].text);
+    }
+
+    if (pct >= 100) {
+      if (fill) fill.style.width = "100%";
+      if (pctEl) pctEl.textContent = "100%";
+      setTimeout(() => {
+        preloader.classList.add("hidden");
+        setTimeout(() => preloader.remove(), 600);
+      }, 400);
+      return;
+    }
+
+    requestAnimationFrame(tick);
+  }
+
+  // Start after letters animate in
+  setTimeout(tick, 900);
 }
 initPreloader();
 
