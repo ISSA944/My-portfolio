@@ -14,12 +14,18 @@
 <body class="tech-htmlcss">
 
   <div class="preloader" id="preloader">
-    <div class="preloader__logo">
-      <span class="preloader__letter" style="--i:0">I</span>
-      <span class="preloader__letter" style="--i:1">S</span>
-      <span class="preloader__letter" style="--i:2">O</span>
+    <div class="preloader__content">
+      <div class="preloader__logo">
+        <span class="preloader__letter" style="--i:0">I</span>
+        <span class="preloader__letter" style="--i:1">S</span>
+        <span class="preloader__letter" style="--i:2">O</span>
+      </div>
+      <div class="preloader__status">
+        <span class="preloader__text" id="preloaderText"></span>
+        <span class="preloader__percent" id="preloaderPercent">0%</span>
+      </div>
     </div>
-    <div class="preloader__bar"><div class="preloader__bar-fill"></div></div>
+    <div class="preloader__bar"><div class="preloader__bar-fill" id="preloaderFill"></div></div>
   </div>
 
   <div class="particles" id="particles" aria-hidden="true"></div>
@@ -105,14 +111,14 @@
           <h2 class="tech-detail__title" data-i18n="tc_html_detail_title">Мои знания HTML & CSS</h2>
           <div class="tech-detail__level">
             <span class="tech-detail__level-label">Уровень владения</span>
-            <span class="tech-detail__level-value">95%</span>
+            <span class="tech-detail__level-value">100%</span>
           </div>
         </div>
         <p class="tech-detail__text" data-i18n="tc_html_detail_text">
           Я владею HTML и CSS на экспертном уровне. Создаю семантическую, доступную верстку с учётом SEO и скринридеров. Строю сложные адаптивные сетки на Flexbox и CSS Grid, реализую плавные анимации и переходы с оптимальной производительностью. Придерживаюсь BEM-методологии и архитектуры CSS, использую Custom Properties для создания масштабируемых дизайн-систем. Каждый проект — это продуманная типографика, визуальная иерархия и pixel-perfect результат.
         </p>
         <div class="progress-bar" data-anim="fade-up">
-          <div class="progress-bar__fill" data-width="95%"></div>
+          <div class="progress-bar__fill" data-width="100%"></div>
         </div>
       </div>
 

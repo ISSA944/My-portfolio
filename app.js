@@ -23,9 +23,129 @@ function initPreloader() {
     { at: 96, text: "Добро пожаловать!" },
   ];
 
+  const preloaderLang = localStorage.getItem("iskander_lang") || document.documentElement.lang || "ru";
+  const safePreloaderLang = preloaderLang === "en" ? "en" : "ru";
+  const pageName = window.location.pathname.split("/").pop() || "index.html";
+
+  const preloaderTexts = {
+    "javascript.html": {
+      ru: [
+        "Инициализация JavaScript...",
+        "Подготовка JS-файлов",
+        "Подключение модулей",
+        "Настройка DOM-логики",
+        "Прогрев интерактивных блоков",
+        "Проверка асинхронных сценариев",
+        "Финальная оптимизация скриптов",
+        "Страница JavaScript готова!",
+      ],
+      en: [
+        "Initializing JavaScript...",
+        "Preparing JS files",
+        "Loading modules",
+        "Configuring DOM logic",
+        "Warming up interactive blocks",
+        "Checking async flows",
+        "Final script optimization",
+        "JavaScript page is ready!",
+      ]
+    },
+    "html-css.html": {
+      ru: [
+        "Инициализация HTML/CSS...",
+        "Загрузка типографики",
+        "Подготовка сеток и переменных",
+        "Сборка стилей компонентов",
+        "Проверка адаптивности",
+        "Оптимизация анимаций",
+        "Финальная полировка макета",
+        "Страница HTML & CSS готова!",
+      ],
+      en: [
+        "Initializing HTML/CSS...",
+        "Loading typography",
+        "Preparing grids and variables",
+        "Building component styles",
+        "Checking responsiveness",
+        "Optimizing animations",
+        "Final layout polish",
+        "HTML & CSS page is ready!",
+      ]
+    },
+    "react.html": {
+      ru: [
+        "Инициализация React-страницы...",
+        "Подготовка компонентов",
+        "Сборка UI-структуры",
+        "Настройка состояния",
+        "Подключение маршрутов",
+        "Проверка хуков",
+        "Финальная полировка интерфейса",
+        "Страница React готова!",
+      ],
+      en: [
+        "Initializing React page...",
+        "Preparing components",
+        "Building UI structure",
+        "Configuring state",
+        "Wiring up routes",
+        "Checking hooks",
+        "Final interface polish",
+        "React page is ready!",
+      ]
+    },
+    "tools.html": {
+      ru: [
+        "Инициализация инструментов...",
+        "Подготовка окружения",
+        "Загрузка конфигураций",
+        "Проверка интеграций",
+        "Синхронизация рабочего процесса",
+        "Подключение утилит",
+        "Финальная настройка",
+        "Страница инструментов готова!",
+      ],
+      en: [
+        "Initializing tools page...",
+        "Preparing environment",
+        "Loading configurations",
+        "Checking integrations",
+        "Syncing workflow",
+        "Connecting utilities",
+        "Final setup",
+        "Tools page is ready!",
+      ]
+    }
+  };
+
+  const genericEnMessages = [
+    "Initialization...",
+    "Loading fonts",
+    "Loading styles",
+    "Preparing content",
+    "Rendering interface",
+    "Almost ready...",
+    "Final polish...",
+    "Welcome!",
+  ];
+
+  const pageSpecificMessages = preloaderTexts[pageName]?.[safePreloaderLang];
+  const fallbackMessages = safePreloaderLang === "en" ? genericEnMessages : null;
+  const activeMessages = pageSpecificMessages || fallbackMessages;
+
+  if (activeMessages) {
+    messages.forEach((msg, idx) => {
+      if (activeMessages[idx]) msg.text = activeMessages[idx];
+    });
+  }
+
   let progress = 0;
   let msgIdx = 0;
-  let pageLoaded = false;
+  let pageLoaded = document.readyState === "complete";
+  let completed = false;
+  let nextAllowedMsgAt = 0;
+  const minMsgVisibleMs = 700;
+  let msgSwitchQueued = false;
 
   function setMessage(txt) {
     if (!textEl) return;
@@ -42,38 +162,57 @@ function initPreloader() {
   window.addEventListener("load", () => { pageLoaded = true; });
 
   function tick() {
-    // Speed up after page is loaded, slow down before
-    const target = pageLoaded ? 100 : 70;
-    const speed = pageLoaded ? 3 : 0.6;
+    if (completed) return;
+    const now = performance.now();
+    // Медленнее до загрузки страницы, чуть быстрее после
+    const target = pageLoaded ? 100 : 74;
+    // Было: 3 / 0.6
+    const speed = pageLoaded ? 0.52 : 0.18;
     if (progress < target) {
-      progress = Math.min(progress + speed + Math.random() * speed, target);
+      const step = speed + Math.random() * speed * 0.35;
+      progress = Math.min(progress + step, target);
     }
 
     const pct = Math.round(progress);
     if (fill) fill.style.width = pct + "%";
     if (pctEl) pctEl.textContent = pct + "%";
 
-    // Update message
-    while (msgIdx < messages.length - 1 && pct >= messages[msgIdx + 1].at) {
-      msgIdx++;
-      setMessage(messages[msgIdx].text);
+    // Update message (добавим задержку между сменой сообщений)
+    let nextMsgIdx = msgIdx;
+    while (nextMsgIdx < messages.length - 1 && pct >= messages[nextMsgIdx + 1].at) {
+      nextMsgIdx++;
+    }
+    if (nextMsgIdx !== msgIdx && !msgSwitchQueued && now >= nextAllowedMsgAt) {
+      // Задержка перед сменой текста, чтобы успеть прочитать
+      msgSwitchQueued = true;
+      setTimeout(() => {
+        msgIdx = nextMsgIdx;
+        setMessage(messages[msgIdx].text);
+        nextAllowedMsgAt = performance.now() + minMsgVisibleMs;
+        msgSwitchQueued = false;
+      }, 420);
     }
 
     if (pct >= 100) {
+      completed = true;
       if (fill) fill.style.width = "100%";
       if (pctEl) pctEl.textContent = "100%";
+      if (msgIdx !== messages.length - 1) {
+        msgIdx = messages.length - 1;
+        setMessage(messages[msgIdx].text);
+      }
       setTimeout(() => {
         preloader.classList.add("hidden");
         setTimeout(() => preloader.remove(), 600);
-      }, 400);
+      }, 950);
       return;
     }
 
-    requestAnimationFrame(tick);
+    setTimeout(tick, 34);
   }
 
   // Start after letters animate in
-  setTimeout(tick, 900);
+  setTimeout(tick, 1100);
 }
 initPreloader();
 
@@ -115,24 +254,40 @@ function toggleTheme() { applyTheme(getTheme() === "dark" ? "light" : "dark"); }
 function getLang() { return getStored(STORE_KEYS.lang) || "ru"; }
 
 function applyLang(lang) {
-  document.documentElement.lang = lang;
-  setStored(STORE_KEYS.lang, lang);
-  applyI18n(lang);
-  updateLangPills(lang);
-  renderSkills(lang);
-  renderProjects(lang);
+  const safeLang = lang === "en" ? "en" : "ru";
+  document.documentElement.lang = safeLang;
+  setStored(STORE_KEYS.lang, safeLang);
+  applyI18n(safeLang);
+  applyMetaI18n(safeLang);
+  applyPageSpecificI18n(safeLang);
+  updateLangPills(safeLang);
+  updateAccessibilityLabels(safeLang);
+  renderSkills(safeLang);
+  renderProjects(safeLang);
 }
 
 function applyI18n(lang) {
   document.querySelectorAll("[data-i18n]").forEach(el => {
     const key = el.getAttribute("data-i18n");
     const val = I18N[lang]?.[key];
-    if (val != null) el.textContent = val;
+    if (!el.dataset.i18nDefaultText) el.dataset.i18nDefaultText = el.textContent;
+    if (val != null) {
+      el.textContent = val;
+    } else if (el.dataset.i18nDefaultText) {
+      el.textContent = el.dataset.i18nDefaultText;
+    }
   });
   document.querySelectorAll("[data-i18n-placeholder]").forEach(el => {
     const key = el.getAttribute("data-i18n-placeholder");
     const val = I18N[lang]?.[key];
-    if (val != null) el.setAttribute("placeholder", val);
+    if (!el.dataset.i18nDefaultPlaceholder) {
+      el.dataset.i18nDefaultPlaceholder = el.getAttribute("placeholder") || "";
+    }
+    if (val != null) {
+      el.setAttribute("placeholder", val);
+    } else {
+      el.setAttribute("placeholder", el.dataset.i18nDefaultPlaceholder);
+    }
   });
 }
 
@@ -466,6 +621,219 @@ const I18N = {
     tc_vscode_d: "My main editor. Extensions, shortcuts, snippets, terminal.",
   }
 };
+
+const ACCESSIBILITY_LABELS = {
+  ru: {
+    langToggle: "\u041f\u0435\u0440\u0435\u043a\u043b\u044e\u0447\u0435\u043d\u0438\u0435 \u044f\u0437\u044b\u043a\u0430",
+    themeToggle: "\u041f\u0435\u0440\u0435\u043a\u043b\u044e\u0447\u0435\u043d\u0438\u0435 \u0442\u0435\u043c\u044b",
+    menu: "\u041c\u0435\u043d\u044e",
+    tooltipClose: "\u0417\u0430\u043a\u0440\u044b\u0442\u044c",
+  },
+  en: {
+    langToggle: "Switch language",
+    themeToggle: "Switch theme",
+    menu: "Menu",
+    tooltipClose: "Close",
+  }
+};
+
+const META_I18N_EN = {
+  "index.html": {
+    title: "ISO - Iskander | Frontend Developer",
+    description: "ISO - Iskander, Junior Frontend Developer. HTML, CSS, JavaScript, React, Git/GitHub, Figma, VS Code."
+  },
+  "portfolio.html": {
+    title: "Portfolio - ISO | Iskander",
+    description: "ISO - Iskander. Portfolio, projects, and experience."
+  },
+  "html-css.html": {
+    title: "HTML & CSS - ISO | Iskander",
+    description: "ISO - Iskander. HTML & CSS skills: semantic markup, responsive design, animations."
+  },
+  "javascript.html": {
+    title: "JavaScript - ISO | Iskander",
+    description: "ISO - Iskander. JavaScript skills: DOM, events, async flows, and UI components."
+  },
+  "react.html": {
+    title: "React - ISO | Iskander",
+    description: "ISO - Iskander. React skills: components, hooks, routing, and continuous learning."
+  },
+  "tools.html": {
+    title: "Tools - ISO | Iskander",
+    description: "ISO - Iskander. Development tools: GitHub, Copilot, Figma, VS Code."
+  },
+};
+
+const PAGE_SPECIFIC_I18N_EN = {
+  "html-css.html": {
+    text: {
+      ".tech-detail__level-label": "Proficiency level",
+      ".tech-philosophy__item:nth-child(1) .tech-philosophy__heading": "Semantics first",
+      ".tech-philosophy__item:nth-child(1) .tech-philosophy__text": "Every HTML tag has meaning. Proper document structure is the foundation of accessibility, SEO, and maintainable code. I always start with markup that is clear for both people and machines.",
+      ".tech-philosophy__item:nth-child(2) .tech-philosophy__heading": "Design system in CSS",
+      ".tech-philosophy__item:nth-child(2) .tech-philosophy__text": "Custom Properties, modular typography, and thoughtful spacing tokens. For me, CSS is a system, not chaos. Every variable and class is part of one visual language.",
+      ".tech-philosophy__item:nth-child(3) .tech-philosophy__heading": "Mobile-first approach",
+      ".tech-philosophy__item:nth-child(3) .tech-philosophy__text": "Mobile first, desktop second. It is not just a methodology - it guarantees the site works perfectly on any screen, from 320px to 4K.",
+      ".tech-stack__title": "Tech stack",
+      ".tech-stack__hint": "Click a technology to see details."
+    },
+    tooltips: [
+      "HTML5 - The markup language and foundation of every web page. It defines structure: headings, paragraphs, images, links, and forms.",
+      "CSS3 - The style language for visual design: colors, typography, spacing, animations, shadows, and gradients.",
+      "Flexbox - A one-dimensional layout system for aligning and distributing elements in rows or columns.",
+      "CSS Grid - A two-dimensional grid system for building complex layouts with full placement control.",
+      "BEM - A CSS naming methodology (Block, Element, Modifier) for scalable and conflict-free styles.",
+      "Custom Properties - Native CSS variables. Define once and reuse everywhere for easy theming and consistency.",
+      "Animations - Transitions and keyframes that make interfaces feel alive and interactive.",
+      "Media Queries - CSS rules that apply by viewport size to build responsive interfaces across devices.",
+      "ARIA - Accessibility attributes that help assistive technologies interpret and navigate UI elements.",
+      "Responsive Design - An approach where layout, typography, and media adapt to any screen size."
+    ]
+  },
+  "javascript.html": {
+    text: {
+      ".tech-detail__level-label": "Proficiency level",
+      ".tech-philosophy__item:nth-child(1) .tech-philosophy__heading": "Clean and readable code",
+      ".tech-philosophy__item:nth-child(1) .tech-philosophy__text": "Each function has a single responsibility. Variable names are explicit. Code is organized into clear modules so another developer can understand the logic quickly.",
+      ".tech-philosophy__item:nth-child(2) .tech-philosophy__heading": "Performance first",
+      ".tech-philosophy__item:nth-child(2) .tech-philosophy__text": "Debounce, throttle, requestAnimationFrame, and lazy loading. I optimize DOM updates, reduce reflow/repaint, and keep event handling efficient.",
+      ".tech-philosophy__item:nth-child(3) .tech-philosophy__heading": "Reliable error handling",
+      ".tech-philosophy__item:nth-child(3) .tech-philosophy__text": "try/catch for async operations, graceful degradation, and robust input validation. The app does not crash - it informs the user and stays stable.",
+      ".tech-stack__title": "Tech stack",
+      ".tech-stack__hint": "Click a technology to see details."
+    },
+    tooltips: [
+      "ES6+ - Modern JavaScript features: arrow functions, destructuring, spread, template literals, let/const, classes.",
+      "DOM API - Browser interface for reading and modifying page structure, content, attributes, and classes.",
+      "Fetch API - Built-in API for HTTP requests, JSON handling, and network communication with promises.",
+      "Async/Await - A clear way to write async logic that reads like synchronous code.",
+      "LocalStorage - Persistent browser storage for theme, language, preferences, and other lightweight state.",
+      "JSON - Standard text format for data exchange between frontend and backend.",
+      "Regex - Pattern matching for validating and processing text like emails, phones, and user input.",
+      "Event Delegation - Attach one listener to a parent to handle child events efficiently.",
+      "Modules - Split code into reusable files with import/export for maintainability.",
+      "EmailJS - Client-side email delivery for contact forms without a custom backend."
+    ]
+  },
+  "react.html": {
+    text: {
+      ".tech-detail__level-label": "Proficiency level",
+      ".tech-philosophy__item:nth-child(1) .tech-philosophy__heading": "Component mindset",
+      ".tech-philosophy__item:nth-child(1) .tech-philosophy__text": "I split interfaces into reusable components. Each block is isolated, predictable, and easy to scale as the product grows.",
+      ".tech-philosophy__item:nth-child(2) .tech-philosophy__heading": "Practice through projects",
+      ".tech-philosophy__item:nth-child(2) .tech-philosophy__text": "I do not only read docs - I build real mini-apps: todo list, calculator, UI components, and focused React experiments.",
+      ".tech-philosophy__item:nth-child(3) .tech-philosophy__heading": "Continuous growth",
+      ".tech-philosophy__item:nth-child(3) .tech-philosophy__text": "Context API, custom hooks, external APIs, and render optimization are my next milestones. The growth path is systematic.",
+      ".tech-stack__title": "Tech stack",
+      ".tech-stack__hint": "Click a technology to see details."
+    },
+    tooltips: [
+      "React - A component-based JavaScript library for building modern user interfaces.",
+      "JSX - Syntax extension that lets you describe UI structure directly in JavaScript.",
+      "Hooks - Functions like useState and useEffect that add state and side effects to functional components.",
+      "React Router - Navigation library for SPA routing without full page reloads.",
+      "Components - Reusable building blocks: buttons, cards, forms, and full sections.",
+      "Props - Read-only inputs passed from parent to child components.",
+      "State - Internal component data that triggers reactive re-rendering when updated.",
+      "useEffect - Hook for side effects such as fetch calls, subscriptions, and timers."
+    ]
+  },
+  "tools.html": {
+    text: {
+      ".tech-detail__title": "My workflow",
+      ".tech-detail__text": "Productive development is not only code - it is the right toolchain. My workflow combines Git for version control, VS Code as the main editor, Figma for design handoff, and GitHub Copilot for faster iteration. Everything is integrated into one process that keeps delivery fast, clean, and organized.",
+      ".tech-philosophy__item:nth-child(1) .tech-philosophy__heading": "Version control",
+      ".tech-philosophy__item:nth-child(1) .tech-philosophy__text": "Git and GitHub are the backbone of my process. Every change is tracked, every commit is intentional, and history stays clean.",
+      ".tech-philosophy__item:nth-child(2) .tech-philosophy__heading": "Well-tuned environment",
+      ".tech-philosophy__item:nth-child(2) .tech-philosophy__text": "VS Code with curated extensions, snippets, and shortcuts. Emmet, Live Server, Prettier, and ESLint are configured for speed and quality.",
+      ".tech-philosophy__item:nth-child(3) .tech-philosophy__heading": "AI as an assistant",
+      ".tech-philosophy__item:nth-child(3) .tech-philosophy__text": "GitHub Copilot accelerates repetitive work and boilerplate, but every suggestion is reviewed and validated by me.",
+      ".tech-stack__title": "Toolset",
+      ".tech-stack__hint": "Click a tool to see details."
+    },
+    tooltips: [
+      "Git - Distributed version control for tracking code history, branching, and safe collaboration.",
+      "GitHub - Cloud platform for repositories, pull requests, issues, actions, and team workflows.",
+      "VS Code - Fast editor with extensions, integrated terminal, debugging, and strong DX.",
+      "Figma - Design collaboration platform used for handoff, spacing, typography, and visual specs.",
+      "Copilot - AI coding assistant for generating boilerplate, suggestions, and faster prototyping.",
+      "Emmet - Abbreviation-based HTML/CSS expansion for dramatically faster markup authoring.",
+      "Live Server - Local dev server with auto-reload for instant visual feedback while editing.",
+      "Prettier - Opinionated formatter that keeps code style consistent across the project.",
+      "ESLint - Static analysis tool that catches JavaScript problems before runtime.",
+      "Terminal - Command-line interface for Git, npm scripts, tooling, and automation."
+    ]
+  }
+};
+
+function getPageName() {
+  const page = window.location.pathname.split("/").pop();
+  return page || "index.html";
+}
+
+function applyMetaI18n(lang) {
+  const page = getPageName();
+  const enMeta = META_I18N_EN[page];
+  const descMeta = document.querySelector('meta[name="description"]');
+
+  if (!document.documentElement.dataset.defaultTitle) {
+    document.documentElement.dataset.defaultTitle = document.title;
+  }
+  if (descMeta && !descMeta.dataset.defaultContent) {
+    descMeta.dataset.defaultContent = descMeta.getAttribute("content") || "";
+  }
+
+  if (lang === "en" && enMeta) {
+    document.title = enMeta.title;
+    if (descMeta) descMeta.setAttribute("content", enMeta.description);
+    return;
+  }
+
+  if (document.documentElement.dataset.defaultTitle) {
+    document.title = document.documentElement.dataset.defaultTitle;
+  }
+  if (descMeta && descMeta.dataset.defaultContent) {
+    descMeta.setAttribute("content", descMeta.dataset.defaultContent);
+  }
+}
+
+function applyPageSpecificI18n(lang) {
+  const cfg = PAGE_SPECIFIC_I18N_EN[getPageName()];
+  if (!cfg) return;
+
+  Object.entries(cfg.text || {}).forEach(([selector, enText]) => {
+    const el = document.querySelector(selector);
+    if (!el) return;
+    if (!el.dataset.i18nDefaultText) el.dataset.i18nDefaultText = el.textContent;
+    el.textContent = lang === "en" ? enText : el.dataset.i18nDefaultText;
+  });
+
+  const pills = document.querySelectorAll(".tech-stack__pill[data-tooltip]");
+  if (!pills.length) return;
+  pills.forEach((pill, index) => {
+    if (!pill.dataset.i18nDefaultTooltip) {
+      pill.dataset.i18nDefaultTooltip = pill.getAttribute("data-tooltip") || "";
+    }
+    if (lang === "en" && cfg.tooltips?.[index]) {
+      pill.setAttribute("data-tooltip", cfg.tooltips[index]);
+    } else {
+      pill.setAttribute("data-tooltip", pill.dataset.i18nDefaultTooltip);
+    }
+  });
+}
+
+function updateAccessibilityLabels(lang) {
+  const labels = ACCESSIBILITY_LABELS[lang] || ACCESSIBILITY_LABELS.ru;
+  const langToggle = document.getElementById("langToggle");
+  const themeToggle = document.getElementById("themeToggle");
+  const burger = document.getElementById("burger");
+  const tooltipClose = document.querySelector(".pill-tooltip__close");
+
+  if (langToggle) langToggle.setAttribute("aria-label", labels.langToggle);
+  if (themeToggle) themeToggle.setAttribute("aria-label", labels.themeToggle);
+  if (burger) burger.setAttribute("aria-label", labels.menu);
+  if (tooltipClose) tooltipClose.setAttribute("aria-label", labels.tooltipClose);
+}
 
 /* ---------- SKILL IMAGES ---------- */
 const SKILL_IMAGES = {
@@ -874,14 +1242,21 @@ function initPillTooltips() {
   const textEl = overlay.querySelector('.pill-tooltip__text');
   const closeBtn = overlay.querySelector('.pill-tooltip__close');
   let activePill = null;
+  updateAccessibilityLabels(getLang());
 
   function openTooltip(pill) {
-    const raw = pill.getAttribute('data-tooltip');
-    const dashIdx = raw.indexOf('—');
-    const name = dashIdx > -1 ? raw.substring(0, dashIdx).trim() : pill.textContent.trim();
-    const desc = dashIdx > -1 ? raw.substring(dashIdx + 1).trim() : raw;
-    nameEl.textContent = name;
-    textEl.textContent = desc;
+    const raw = pill.getAttribute('data-tooltip') || '';
+    const dash = "\u2014";
+    const mojibakeDash = "\u0432\u0402\u201d";
+    const withSep = raw.indexOf(" - ") > -1
+      ? " - "
+      : (raw.indexOf(` ${dash} `) > -1 ? ` ${dash} ` : ` ${mojibakeDash} `);
+    const separatorIndex = raw.indexOf(withSep);
+    const parsedName = separatorIndex > -1 ? raw.substring(0, separatorIndex).trim() : pill.textContent.trim();
+    const parsedDesc = separatorIndex > -1 ? raw.substring(separatorIndex + withSep.length).trim() : raw;
+
+    nameEl.textContent = parsedName;
+    textEl.textContent = parsedDesc;
     if (activePill) activePill.classList.remove('is-active');
     activePill = pill;
     pill.classList.add('is-active');

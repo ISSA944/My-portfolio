@@ -14,12 +14,18 @@
 <body class="tech-react">
 
   <div class="preloader" id="preloader">
-    <div class="preloader__logo">
-      <span class="preloader__letter" style="--i:0">I</span>
-      <span class="preloader__letter" style="--i:1">S</span>
-      <span class="preloader__letter" style="--i:2">O</span>
+    <div class="preloader__content">
+      <div class="preloader__logo">
+        <span class="preloader__letter" style="--i:0">I</span>
+        <span class="preloader__letter" style="--i:1">S</span>
+        <span class="preloader__letter" style="--i:2">O</span>
+      </div>
+      <div class="preloader__status">
+        <span class="preloader__text" id="preloaderText"></span>
+        <span class="preloader__percent" id="preloaderPercent">0%</span>
+      </div>
     </div>
-    <div class="preloader__bar"><div class="preloader__bar-fill"></div></div>
+    <div class="preloader__bar"><div class="preloader__bar-fill" id="preloaderFill"></div></div>
   </div>
 
   <div class="particles" id="particles" aria-hidden="true"></div>

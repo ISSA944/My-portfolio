@@ -14,12 +14,18 @@
 <body class="tech-js">
 
   <div class="preloader" id="preloader">
-    <div class="preloader__logo">
-      <span class="preloader__letter" style="--i:0">I</span>
-      <span class="preloader__letter" style="--i:1">S</span>
-      <span class="preloader__letter" style="--i:2">O</span>
+    <div class="preloader__content">
+      <div class="preloader__logo">
+        <span class="preloader__letter" style="--i:0">I</span>
+        <span class="preloader__letter" style="--i:1">S</span>
+        <span class="preloader__letter" style="--i:2">O</span>
+      </div>
+      <div class="preloader__status">
+        <span class="preloader__text" id="preloaderText"></span>
+        <span class="preloader__percent" id="preloaderPercent">0%</span>
+      </div>
     </div>
-    <div class="preloader__bar"><div class="preloader__bar-fill"></div></div>
+    <div class="preloader__bar"><div class="preloader__bar-fill" id="preloaderFill"></div></div>
   </div>
 
   <div class="particles" id="particles" aria-hidden="true"></div>
@@ -98,14 +104,14 @@
           <h2 class="tech-detail__title" data-i18n="tc_js_detail_title">Мои знания JavaScript</h2>
           <div class="tech-detail__level">
             <span class="tech-detail__level-label">Уровень владения</span>
-            <span class="tech-detail__level-value">90%</span>
+            <span class="tech-detail__level-value">100%</span>
           </div>
         </div>
         <p class="tech-detail__text" data-i18n="tc_js_detail_text">
           JavaScript изучен мной на глубоком уровне. Пишу чистую, структурированную логику с использованием современных стандартов ES6+. Создаю интерактивные компоненты, работаю с REST API через fetch и async/await, управляю состоянием через localStorage и sessionStorage. Понимаю замыкания, прототипное наследование, event loop, делегирование событий и паттерны проектирования. Каждая строка кода — осмысленная, поддерживаемая и производительная.
         </p>
         <div class="progress-bar" data-anim="fade-up">
-          <div class="progress-bar__fill" data-width="90%"></div>
+          <div class="progress-bar__fill" data-width="100%"></div>
         </div>
       </div>
 
