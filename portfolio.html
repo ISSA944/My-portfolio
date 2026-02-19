@@ -14,12 +14,18 @@
 <body>
 
   <div class="preloader" id="preloader">
-    <div class="preloader__logo">
-      <span class="preloader__letter" style="--i:0">I</span>
-      <span class="preloader__letter" style="--i:1">S</span>
-      <span class="preloader__letter" style="--i:2">O</span>
+    <div class="preloader__content">
+      <div class="preloader__logo">
+        <span class="preloader__letter" style="--i:0">I</span>
+        <span class="preloader__letter" style="--i:1">S</span>
+        <span class="preloader__letter" style="--i:2">O</span>
+      </div>
+      <div class="preloader__status">
+        <span class="preloader__text" id="preloaderText"></span>
+        <span class="preloader__percent" id="preloaderPercent">0%</span>
+      </div>
     </div>
-    <div class="preloader__bar"><div class="preloader__bar-fill"></div></div>
+    <div class="preloader__bar"><div class="preloader__bar-fill" id="preloaderFill"></div></div>
   </div>
 
   <div class="particles" id="particles" aria-hidden="true"></div>
@@ -110,8 +116,8 @@
 
     <section class="section">
       <div class="section__header" data-anim="fade-up">
-        <h2 class="section__title" data-i18n="p_work_title">Работы</h2>
-        <p class="section__subtitle" data-i18n="p_work_text">Проекты с адаптивом, анимациями и современным UI.</p>
+        <h2 class="section__title" data-i18n="p_work_title">Портфолио</h2>
+        <p class="section__subtitle" data-i18n="p_work_text">Детальные карточки двух проектов: лицевая, галерея и описание.</p>
         <div class="section__line"></div>
       </div>
       <div class="projects-grid" id="projectsGrid" data-anim="fade-up"></div>

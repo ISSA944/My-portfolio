@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Проект — ISO | Искандер</title>
+  <meta name="description" content="ISO — Искандер. Детальная страница проекта: описание, галерея и ссылки." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <div class="preloader" id="preloader">
+    <div class="preloader__content">
+      <div class="preloader__logo">
+        <span class="preloader__letter" style="--i:0">I</span>
+        <span class="preloader__letter" style="--i:1">S</span>
+        <span class="preloader__letter" style="--i:2">O</span>
+      </div>
+      <div class="preloader__status">
+        <span class="preloader__text" id="preloaderText"></span>
+        <span class="preloader__percent" id="preloaderPercent">0%</span>
+      </div>
+    </div>
+    <div class="preloader__bar"><div class="preloader__bar-fill" id="preloaderFill"></div></div>
+  </div>
+
+  <div class="particles" id="particles" aria-hidden="true"></div>
+
+  <header class="topbar" id="topbar">
+    <div class="topbar__inner">
+      <a class="brand" href="index.html">
+        <span class="brand__mark">ISO</span>
+        <span class="brand__text" data-i18n="brand_name">Искандер</span>
+      </a>
+      <nav class="nav">
+        <a class="nav__link" href="index.html#about" data-i18n="nav_about">Обо мне</a>
+        <a class="nav__link" href="index.html#skills" data-i18n="nav_skills">Навыки</a>
+        <a class="nav__link active" href="portfolio.html" data-i18n="nav_portfolio">Портфолио</a>
+        <a class="nav__link" href="index.html#contact" data-i18n="nav_contact">Контакты</a>
+      </nav>
+      <div class="controls">
+        <button class="lang-toggle" id="langToggle" type="button">
+          <span class="lang-toggle__pill active" data-lang="ru">RU</span>
+          <span class="lang-toggle__pill" data-lang="en">EN</span>
+        </button>
+        <button class="theme-toggle" id="themeToggle" type="button">
+          <span class="theme-toggle__track"></span>
+          <span class="theme-toggle__knob"></span>
+          <span class="theme-toggle__icon theme-toggle__icon--moon">&#127769;</span>
+          <span class="theme-toggle__icon theme-toggle__icon--sun">&#9728;</span>
+        </button>
+        <button class="burger" id="burger" type="button"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+    <div class="mnav" id="mnav" aria-hidden="true">
+      <a class="mnav__link" href="index.html#about" data-i18n="nav_about">Обо мне</a>
+      <a class="mnav__link" href="index.html#skills" data-i18n="nav_skills">Навыки</a>
+      <a class="mnav__link" href="portfolio.html" data-i18n="nav_portfolio">Портфолио</a>
+      <a class="mnav__link" href="index.html#contact" data-i18n="nav_contact">Контакты</a>
+    </div>
+  </header>
+
+  <main class="page">
+    <section class="section">
+      <div id="projectDetail" class="project-detail" data-anim="fade-up"></div>
+    </section>
+
+    <footer class="footer">
+      <div class="footer__inner">
+        <div class="footer__left">
+          <a class="brand brand--sm" href="index.html">
+            <span class="brand__mark">ISO</span>
+            <span class="brand__text" data-i18n="brand_name">Искандер</span>
+          </a>
+          <p class="footer__copy" data-i18n="footer_text">Спасибо за просмотр ✦</p>
+        </div>
+        <div class="footer__right">
+          <a class="footer__link" href="portfolio.html" data-i18n="nav_portfolio">Портфолио</a>
+          <a class="footer__link" href="index.html#contact" data-i18n="footer_contact">Связаться</a>
+        </div>
+      </div>
+    </footer>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

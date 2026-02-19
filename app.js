@@ -115,6 +115,50 @@ function initPreloader() {
         "Final setup",
         "Tools page is ready!",
       ]
+    },
+    "portfolio.html": {
+      ru: [
+        "Инициализация портфолио...",
+        "Подготовка проектов",
+        "Загрузка превью",
+        "Сборка галереи",
+        "Проверка мобильной версии",
+        "Синхронизация RU/EN контента",
+        "Финальная полировка карточек",
+        "Портфолио готово!",
+      ],
+      en: [
+        "Initializing portfolio...",
+        "Preparing projects",
+        "Loading previews",
+        "Building gallery",
+        "Checking mobile layout",
+        "Syncing RU/EN content",
+        "Final card polish",
+        "Portfolio is ready!",
+      ]
+    },
+    "project.html": {
+      ru: [
+        "Открытие проекта...",
+        "Подготовка страницы проекта",
+        "Загрузка превью",
+        "Сборка галереи",
+        "Проверка контента",
+        "Синхронизация RU/EN",
+        "Финальная полировка",
+        "Проект готов!",
+      ],
+      en: [
+        "Opening project...",
+        "Preparing project page",
+        "Loading preview",
+        "Building gallery",
+        "Checking content",
+        "Syncing RU/EN",
+        "Final polish",
+        "Project is ready!",
+      ]
     }
   };
 
@@ -138,6 +182,12 @@ function initPreloader() {
       if (activeMessages[idx]) msg.text = activeMessages[idx];
     });
   }
+  const skipPreloaderStepPattern = /(почти\s*готов|almost\s*ready)/i;
+  for (let i = messages.length - 1; i >= 0; i--) {
+    if (skipPreloaderStepPattern.test(messages[i].text)) {
+      messages.splice(i, 1);
+    }
+  }
 
   let progress = 0;
   let msgIdx = 0;
@@ -146,6 +196,8 @@ function initPreloader() {
   let nextAllowedMsgAt = 0;
   const minMsgVisibleMs = 700;
   let msgSwitchQueued = false;
+  let finalHoldUntil = 0;
+  let finalHoldApplied = false;
 
   function setMessage(txt) {
     if (!textEl) return;
@@ -167,10 +219,24 @@ function initPreloader() {
     // Медленнее до загрузки страницы, чуть быстрее после
     const target = pageLoaded ? 100 : 74;
     // Было: 3 / 0.6
-    const speed = pageLoaded ? 0.52 : 0.18;
-    if (progress < target) {
+    let speed = pageLoaded ? 0.52 : 0.18;
+    let dynamicTarget = target;
+
+    // Финальная зона: после 90% замедляем и даем время дочитать текст
+    if (pageLoaded && progress >= 90) {
+      speed = 0.12;
+      if (!finalHoldApplied) {
+        finalHoldApplied = true;
+        finalHoldUntil = now + 900;
+      }
+      if (now < finalHoldUntil) {
+        dynamicTarget = Math.min(dynamicTarget, 92);
+      }
+    }
+
+    if (progress < dynamicTarget) {
       const step = speed + Math.random() * speed * 0.35;
-      progress = Math.min(progress + step, target);
+      progress = Math.min(progress + step, dynamicTarget);
     }
 
     const pct = Math.round(progress);
@@ -204,7 +270,7 @@ function initPreloader() {
       setTimeout(() => {
         preloader.classList.add("hidden");
         setTimeout(() => preloader.remove(), 600);
-      }, 950);
+      }, 1200);
       return;
     }
 
@@ -264,6 +330,7 @@ function applyLang(lang) {
   updateAccessibilityLabels(safeLang);
   renderSkills(safeLang);
   renderProjects(safeLang);
+  renderProjectDetail(safeLang);
 }
 
 function applyI18n(lang) {
@@ -333,8 +400,8 @@ const I18N = {
     skills_subtitle: "Нажми на карточку — откроется подробная страница навыка.",
 
     projects_title: "Проекты",
-    projects_subtitle: "Подборка работ. Полный список — на странице портфолио.",
-    projects_more: "Смотреть всё портфолио",
+    projects_subtitle: "Две реальные работы: ISO AI и Шымкент Май. На главной — афиши проектов, в портфолио — полный разбор.",
+    projects_more: "Портфолио",
 
     contact_title: "Связаться",
     contact_subtitle: "Опиши задачу — я отвечу и предложу план работ.",
@@ -371,11 +438,11 @@ const I18N = {
 
     p_badge: "Портфолио",
     p_title: "Мои проекты",
-    p_subtitle: "Здесь — примеры работ. Везде: адаптив, аккуратный UI и интерактив.",
+    p_subtitle: "Два реальных проекта с полным описанием: визуал, мобильная адаптация, RU/EN и продуманный UX.",
     p_cta: "Связаться",
     p_back: "На главную",
-    p_work_title: "Работы",
-    p_work_text: "Проекты с адаптивом, анимациями и современным UI.",
+    p_work_title: "Портфолио",
+    p_work_text: "Детальные карточки проектов: лицевая сайта, галерея проекта и описание с акцентом на мобильную оптимизацию и RU/EN.",
     exp_title: "Опыт",
     exp_text: "Junior уровень, но собираю и пишу как профессионал.",
     exp_r1: "Junior фронтенд-разработчик",
@@ -494,8 +561,8 @@ const I18N = {
     skills_subtitle: "Click a card — it opens a detailed skill page.",
 
     projects_title: "Projects",
-    projects_subtitle: "Selection of work. Full list — on the portfolio page.",
-    projects_more: "View full portfolio",
+    projects_subtitle: "Two real projects: ISO AI and Shymkent May. Teaser posters on home, full project breakdown in portfolio.",
+    projects_more: "Portfolio",
 
     contact_title: "Contact",
     contact_subtitle: "Describe your task — I'll reply with a plan.",
@@ -532,11 +599,11 @@ const I18N = {
 
     p_badge: "Portfolio",
     p_title: "My projects",
-    p_subtitle: "Examples of work. Always responsive, polished UI and interactions.",
+    p_subtitle: "Two real projects with full descriptions: visual system, mobile optimization, RU/EN, and polished UX.",
     p_cta: "Contact",
     p_back: "Back to home",
-    p_work_title: "Work",
-    p_work_text: "Projects with responsive design, animations and modern UI.",
+    p_work_title: "Portfolio",
+    p_work_text: "Detailed project cards: website front, project gallery, and project overview with mobile optimization and RU/EN.",
     exp_title: "Experience",
     exp_text: "Junior level, but I build and code like a pro.",
     exp_r1: "Junior Frontend Developer",
@@ -645,6 +712,10 @@ const META_I18N_EN = {
   "portfolio.html": {
     title: "Portfolio - ISO | Iskander",
     description: "ISO - Iskander. Portfolio, projects, and experience."
+  },
+  "project.html": {
+    title: "Project - ISO | Iskander",
+    description: "ISO - Iskander. Project details, gallery, and links."
   },
   "html-css.html": {
     title: "HTML & CSS - ISO | Iskander",
@@ -828,11 +899,13 @@ function updateAccessibilityLabels(lang) {
   const themeToggle = document.getElementById("themeToggle");
   const burger = document.getElementById("burger");
   const tooltipClose = document.querySelector(".pill-tooltip__close");
+  const projectQuickClose = document.querySelector(".project-quick-modal__close");
 
   if (langToggle) langToggle.setAttribute("aria-label", labels.langToggle);
   if (themeToggle) themeToggle.setAttribute("aria-label", labels.themeToggle);
   if (burger) burger.setAttribute("aria-label", labels.menu);
   if (tooltipClose) tooltipClose.setAttribute("aria-label", labels.tooltipClose);
+  if (projectQuickClose) projectQuickClose.setAttribute("aria-label", labels.tooltipClose);
 }
 
 /* ---------- SKILL IMAGES ---------- */
@@ -938,76 +1011,411 @@ function renderSkills(lang) {
 /* ---------- PROJECTS DATA ---------- */
 const PROJECTS = [
   {
-    title: { ru: "Premium Landing Page", en: "Premium Landing Page" },
-    text: { ru: "Адаптивный лендинг с анимациями, формой и тёмной темой.", en: "Responsive landing with animations, form and dark theme." },
-    tags: ["HTML", "CSS", "JS"],
-    demo: "index.html",
-    code: "#"
+    key: "iso-ai",
+    tone: "iso-ai",
+    title: { ru: "ISO AI", en: "ISO AI" },
+    logoText: "ISO",
+    logoSub: { ru: "AI", en: "AI" },
+    cover: "image/iso-ai-cover.svg",
+    gallery: {
+      ru: ["Главный экран", "Галерея проекта", "Мобильная версия"],
+      en: ["Main screen", "Project gallery", "Mobile version"]
+    },
+    teaser: {
+      ru: "AI-платформа с современным интерфейсом, упором на скорость сценариев и понятный UX.",
+      en: "AI platform with a modern interface, fast user flows, and clear UX."
+    },
+    overview: {
+      ru: "Полноценный проект с продуманной архитектурой экранов и компонентным UI. Проект адаптирован под мобильные устройства, отточен по визуалу и подготовлен в двух языках: русский и английский.",
+      en: "A full project with thoughtful screen architecture and component-based UI. It is fully optimized for mobile devices, visually polished, and available in two languages: Russian and English."
+    },
+    highlights: {
+      ru: [
+        "Mobile-first адаптация: корректная верстка и удобная навигация на смартфонах и планшетах.",
+        "RU/EN локализация интерфейса с аккуратной подачей контента на обоих языках.",
+        "Оптимизация UI: быстрые состояния, чистая структура и приятные микровзаимодействия."
+      ],
+      en: [
+        "Mobile-first adaptation: clean layout and smooth navigation on phones and tablets.",
+        "RU/EN localization with consistent, readable content on both languages.",
+        "UI optimization: fast states, clean structure, and polished micro-interactions."
+      ]
+    },
+    tags: ["AI UI", "Responsive", "RU/EN", "UX", "Frontend"],
+    repo: "https://github.com/ISSA944/ISO-AI",
+    readme: "https://github.com/ISSA944/ISO-AI#readme"
   },
   {
-    title: { ru: "Multi-page Portfolio", en: "Multi-page Portfolio" },
-    text: { ru: "Портфолио из нескольких страниц с единой дизайн-системой.", en: "Multi-page portfolio with a unified design system." },
-    tags: ["UX", "UI", "LocalStorage"],
-    demo: "portfolio.html",
-    code: "#"
-  },
-  {
-    title: { ru: "Skill Pages", en: "Skill Pages" },
-    text: { ru: "Отдельные страницы навыков с уникальной стилизацией.", en: "Dedicated skill pages with unique tech-styled accent." },
-    tags: ["Design", "Brand"],
-    demo: "html-css.html",
-    code: "#"
-  },
-  {
-    title: { ru: "Contact Form + EmailJS", en: "Contact Form + EmailJS" },
-    text: { ru: "Форма с валидацией, маской и реальной отправкой.", en: "Form with validation, mask and real email delivery." },
-    tags: ["JS", "EmailJS"],
-    demo: "index.html#contact",
-    code: "#"
-  },
-  {
-    title: { ru: "Theme & Language System", en: "Theme & Language System" },
-    text: { ru: "Тёмная/светлая тема + RU/EN с сохранением.", en: "Dark/light theme + RU/EN with persistence." },
-    tags: ["JS", "UX"],
-    demo: "index.html",
-    code: "#"
-  },
-  {
-    title: { ru: "Mobile-first UI", en: "Mobile-first UI" },
-    text: { ru: "Бургер-меню, sticky CTA, адаптив всех компонентов.", en: "Burger menu, sticky CTA, all components responsive." },
-    tags: ["CSS", "Mobile"],
-    demo: "index.html",
-    code: "#"
+    key: "shymkent",
+    tone: "shymkent",
+    title: { ru: "Шымкент Май", en: "Shymkent May" },
+    logoText: "SM",
+    logoSub: { ru: "Shymkent May", en: "Shymkent May" },
+    cover: "image/image.png",
+    gallery: {
+      ru: ["Лицевая сайта", "Галерея проекта", "О проекте"],
+      en: ["Website front", "Project gallery", "About project"]
+    },
+    teaser: {
+      ru: "Проект с акцентом на визуальную подачу, адаптив и аккуратную структуру контента.",
+      en: "A project focused on visual presentation, responsiveness, and clean content structure."
+    },
+    overview: {
+      ru: "Проработанный проект с современным UI и цельной стилистикой. Отдельно уделено внимание мобильной версии, плавному поведению интерфейса и двуязычной подаче (RU/EN), чтобы продукт смотрелся цельно на любом устройстве.",
+      en: "A polished project with modern UI and cohesive visual language. Extra focus was placed on mobile behavior, smooth interface interactions, and bilingual delivery (RU/EN) so the product feels consistent on any device."
+    },
+    highlights: {
+      ru: [
+        "Гибкая адаптивная сетка: интерфейс стабилен на всех ключевых разрешениях.",
+        "Двуязычие RU/EN для удобного использования в разной аудитории.",
+        "Визуальная полировка: ритм отступов, типографика и анимации в едином стиле."
+      ],
+      en: [
+        "Flexible responsive grid: stable interface across key breakpoints.",
+        "RU/EN bilingual experience for different target audiences.",
+        "Visual polish: spacing rhythm, typography, and animations in one style."
+      ]
+    },
+    tags: ["UI/UX", "Mobile", "Bilingual", "Animations", "Frontend"],
+    repo: "https://github.com/ISSA944/Shymkent",
+    readme: "https://github.com/ISSA944/Shymkent#readme"
   }
 ];
+
+function getProjectHomeSummary(project, lang) {
+  const safeLang = lang === "en" ? "en" : "ru";
+  const summaries = {
+    "iso-ai": {
+      ru: "AI-платформа ISO AI: быстрые сценарии, чистый интерфейс и сильная мобильная адаптация.",
+      en: "ISO AI platform: fast user flows, clean interface, and strong mobile adaptation."
+    },
+    "shymkent": {
+      ru: "Шымкент Май: современная подача бренда, аккуратная структура контента и адаптив под мобильные устройства.",
+      en: "Shymkent May: modern brand presentation, clean content structure, and responsive mobile layout."
+    }
+  };
+  return summaries[project.key]?.[safeLang] || project.teaser?.[safeLang] || project.teaser?.ru || "";
+}
+
+function getProjectQuickSummary(project, lang) {
+  const safeLang = lang === "en" ? "en" : "ru";
+  const summaries = {
+    "iso-ai": {
+      ru: "ISO AI — проект с упором на скорость, понятный UX и логичную структуру экранов. Интерфейс сделан так, чтобы пользователь быстро находил нужный инструмент и без лишних шагов переходил к результату.",
+      en: "ISO AI focuses on speed, clear UX, and a logical screen structure. The interface helps users quickly find the right tool and reach results with minimal steps."
+    },
+    "shymkent": {
+      ru: "Шымкент Май — коммерческий проект, где важны доверие к бренду и визуальная подача продукта. Основной акцент сделан на читабельности, ритме секций и удобстве использования на телефонах.",
+      en: "Shymkent May is a commercial project focused on brand trust and product presentation. The core focus is readability, section rhythm, and smooth phone usability."
+    }
+  };
+  return summaries[project.key]?.[safeLang] || project.overview?.[safeLang] || project.overview?.ru || project.teaser?.[safeLang] || project.teaser?.ru || "";
+}
+
+function getProjectQuickLabels(lang) {
+  const safeLang = lang === "en" ? "en" : "ru";
+  return safeLang === "en"
+    ? {
+        badge: "Short project overview",
+        more: "More details in my portfolio",
+        close: "Close"
+      }
+    : {
+        badge: "Кратко о проекте",
+        more: "Подробнее в моём портфолио",
+        close: "Закрыть"
+      };
+}
+
+function closeProjectQuickModal() {
+  const modal = document.getElementById("projectQuickModal");
+  if (!modal) return;
+  modal.classList.remove("is-visible");
+  modal.setAttribute("aria-hidden", "true");
+  document.body.style.overflow = "";
+}
+
+function openProjectQuickModal(projectKey, lang) {
+  const modal = document.getElementById("projectQuickModal");
+  if (!modal) return;
+
+  const safeLang = lang === "en" ? "en" : "ru";
+  const labels = getProjectQuickLabels(safeLang);
+  const project = PROJECTS.find((item) => item.key === projectKey);
+  if (!project) return;
+
+  const badgeEl = document.getElementById("projectQuickBadge");
+  const titleEl = document.getElementById("projectQuickTitle");
+  const textEl = document.getElementById("projectQuickText");
+  const listEl = document.getElementById("projectQuickList");
+  const linkEl = document.getElementById("projectQuickLink");
+  const closeBtn = document.getElementById("projectQuickCloseBtn");
+  const closeButtons = modal.querySelectorAll("[data-close-project-quick]");
+
+  const title = project.title?.[safeLang] || project.title?.ru || "";
+  const summary = getProjectQuickSummary(project, safeLang);
+  const points = (project.highlights?.[safeLang] || project.highlights?.ru || []).slice(0, 2);
+
+  if (badgeEl) badgeEl.textContent = labels.badge;
+  if (titleEl) titleEl.textContent = title;
+  if (textEl) textEl.textContent = summary;
+  if (closeBtn) closeBtn.textContent = labels.close;
+  closeButtons.forEach((btn) => btn.setAttribute("aria-label", labels.close));
+
+  if (linkEl) {
+    linkEl.textContent = labels.more;
+    linkEl.href = `portfolio.html#project-${project.key}`;
+  }
+
+  if (listEl) {
+    listEl.innerHTML = "";
+    points.forEach((item) => {
+      const li = document.createElement("li");
+      li.textContent = item;
+      listEl.appendChild(li);
+    });
+  }
+
+  modal.classList.add("is-visible");
+  modal.setAttribute("aria-hidden", "false");
+  document.body.style.overflow = "hidden";
+}
+
+function initProjectQuickPreview(grid, lang) {
+  const modal = document.getElementById("projectQuickModal");
+  if (!grid || !modal) return;
+
+  if (!grid.dataset.quickPreviewBound) {
+    grid.addEventListener("click", (e) => {
+      const btn = e.target.closest("[data-open-project-preview]");
+      if (!btn) return;
+      const projectKey = btn.getAttribute("data-open-project-preview");
+      if (!projectKey) return;
+      openProjectQuickModal(projectKey, getLang());
+    });
+    grid.dataset.quickPreviewBound = "1";
+  }
+
+  if (!modal.dataset.quickPreviewBound) {
+    modal.querySelectorAll("[data-close-project-quick]").forEach((btn) => {
+      btn.addEventListener("click", closeProjectQuickModal);
+    });
+    modal.addEventListener("click", (e) => {
+      if (e.target === modal) closeProjectQuickModal();
+    });
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && modal.classList.contains("is-visible")) {
+        closeProjectQuickModal();
+      }
+    });
+    modal.dataset.quickPreviewBound = "1";
+  }
+
+  const labels = getProjectQuickLabels(lang);
+  const badgeEl = document.getElementById("projectQuickBadge");
+  const linkEl = document.getElementById("projectQuickLink");
+  const closeBtn = document.getElementById("projectQuickCloseBtn");
+  if (badgeEl) badgeEl.textContent = labels.badge;
+  if (linkEl) linkEl.textContent = labels.more;
+  if (closeBtn) closeBtn.textContent = labels.close;
+}
 
 function renderProjects(lang) {
   const grid = document.getElementById("projectsGrid");
   if (!grid) return;
 
-  const isIndex = !window.location.pathname.includes("portfolio");
-  const items = isIndex ? PROJECTS.slice(0, 3) : PROJECTS;
+  const safeLang = lang === "en" ? "en" : "ru";
+  const isIndex = getPageName().toLowerCase() === "index.html";
+  const labels = safeLang === "en"
+    ? {
+        teaser: "Portfolio",
+        about: "About project",
+        plus: "Open project overview"
+      }
+    : {
+        teaser: "Портфолио",
+        about: "О проекте",
+        plus: "Открыть страницу проекта"
+      };
+
+  grid.classList.toggle("projects-grid--preview", isIndex);
+  grid.classList.toggle("projects-grid--portfolio", !isIndex);
 
   grid.innerHTML = "";
-  items.forEach((p, i) => {
+  PROJECTS.forEach((p, i) => {
     const card = document.createElement("article");
-    card.className = "project";
+    card.className = `project project--${p.tone} ${isIndex ? "project--home" : "project--full"}`;
+    card.id = `project-${p.key}`;
     card.style.transitionDelay = `${i * 80}ms`;
 
-    card.innerHTML = `
-      <div class="project__thumb"></div>
-      <div class="project__body">
-        <div class="project__title">${p.title[lang] || p.title.ru}</div>
-        <div class="project__text">${p.text[lang] || p.text.ru}</div>
-        <div class="project__tags">${p.tags.map(t => `<span class="tag">${t}</span>`).join("")}</div>
-        <div class="project__actions">
-          <a class="project__btn project__btn--accent" href="${p.demo}">${lang === "en" ? "Demo" : "Демо"}</a>
-          <a class="project__btn" href="${p.code}">${lang === "en" ? "Code" : "Код"}</a>
+    const title = p.title[safeLang] || p.title.ru;
+    const teaser = p.teaser[safeLang] || p.teaser.ru;
+    const homeSummary = getProjectHomeSummary(p, safeLang);
+    const projectHref = `project.html?project=${encodeURIComponent(p.key)}`;
+    const safeCoverSrc = p.cover ? encodeURI(p.cover) : "";
+    const homeLogoSub = p.key === "shymkent"
+      ? title
+      : (p.logoSub?.[safeLang] || p.logoSub?.ru || title);
+    const homeLogoMarkup = `<span class="project-home__logo-mark">${p.logoText || "ISO"}</span><span class="project-home__logo-sub">${homeLogoSub}</span>`;
+    if (isIndex) {
+      card.innerHTML = `
+        <div class="project-home__top">
+          <div class="project-home__logo">${homeLogoMarkup}</div>
+          <button class="project-home__plus" type="button" aria-label="${labels.plus}" data-open-project-preview="${p.key}">
+            <span class="project-home__plus-line"></span>
+            <span class="project-home__plus-line"></span>
+          </button>
         </div>
+        <div class="project-home__body">
+          <div class="project-home__title">${title}</div>
+          <p class="project-home__text">${homeSummary}</p>
+          <div class="project-home__actions">
+            <button class="project__btn project__btn--accent project-home__about" type="button" data-open-project-preview="${p.key}">
+              ${labels.about}
+            </button>
+          </div>
+        </div>
+      `;
+      grid.appendChild(card);
+      return;
+    }
+    const plusBtn = `<a class="project__plus" href="${projectHref}" aria-label="${labels.plus}">
+        <span class="project__plus-line"></span>
+        <span class="project__plus-line"></span>
+      </a>`;
+    const actions = `<div class="project__actions ${isIndex ? "project__actions--preview" : ""}">
+        <a class="project__btn project__btn--accent" href="${projectHref}">${labels.about}</a>
+      </div>`;
+
+    card.innerHTML = `
+      <div class="project__thumb">
+        ${safeCoverSrc ? `<img class="project__cover-img" src="${safeCoverSrc}" alt="${title} cover" loading="lazy" decoding="async">` : ""}
+        <div class="project__thumb-mask"></div>
+        ${plusBtn}
+        <div class="project__thumb-content">
+          <span class="project__thumb-note">${labels.teaser}</span>
+          <div class="project__thumb-title">${title}</div>
+        </div>
+      </div>
+      <div class="project__body">
+        <div class="project__title">${title}</div>
+        <div class="project__text">${teaser}</div>
+        <div class="project__tags">${p.tags.map(t => `<span class="tag">${t}</span>`).join("")}</div>
+        ${actions}
       </div>
     `;
     grid.appendChild(card);
   });
+
+  if (isIndex) {
+    initProjectQuickPreview(grid, safeLang);
+  }
+}
+
+function renderProjectDetail(lang) {
+  const root = document.getElementById("projectDetail");
+  if (!root) return;
+
+  const safeLang = lang === "en" ? "en" : "ru";
+  const labels = safeLang === "en"
+    ? {
+        badge: "Portfolio",
+        gallery: "Project gallery",
+        front: "Website front",
+        about: "About project",
+        highlights: "What is done",
+        tags: "Stack",
+        github: "Project link",
+        readme: "Readme",
+        back: "Back to portfolio"
+      }
+    : {
+        badge: "Портфолио",
+        gallery: "Галерея проекта",
+        front: "Лицевая сайта",
+        about: "О проекте",
+        highlights: "Что сделано",
+        tags: "Стек",
+        github: "Ссылка на проект",
+        readme: "Readme",
+        back: "Назад в портфолио"
+      };
+
+  const params = new URLSearchParams(window.location.search);
+  const key = (params.get("project") || "").toLowerCase().trim();
+  const project = PROJECTS.find(item => item.key === key) || PROJECTS[0];
+  const title = project.title[safeLang] || project.title.ru;
+  const teaser = project.teaser[safeLang] || project.teaser.ru;
+  const overview = project.overview[safeLang] || project.overview.ru;
+  const highlights = project.highlights[safeLang] || project.highlights.ru;
+  const gallery = project.gallery?.[safeLang] || project.gallery?.ru || [];
+  const logoSub = project.key === "shymkent"
+    ? title
+    : (project.logoSub?.[safeLang] || project.logoSub?.ru || title);
+  const safeLogoSrc = project.logoSrc ? encodeURI(project.logoSrc) : "";
+  const safeCoverSrc = project.cover ? encodeURI(project.cover) : "";
+  const logoMarkup = project.logoSrc
+    ? `<img class="project-detail__logo-img" src="${safeLogoSrc}" alt="${title} logo" loading="lazy" decoding="async">`
+    : `<span class="project-detail__logo-chip">${project.logoText || "ISO"}</span>`;
+  const detailCoverMarkup = safeCoverSrc
+    ? `<img class="project-detail__cover-img" src="${safeCoverSrc}" alt="${title} cover" loading="lazy" decoding="async">`
+    : "";
+  const descMeta = document.querySelector('meta[name="description"]');
+
+  if (safeLang === "en") {
+    document.title = `${title} - Project | ISO`;
+    if (descMeta) descMeta.setAttribute("content", `${title}. ${teaser}`);
+  } else {
+    document.title = `${title} - Проект | ISO`;
+    if (descMeta) descMeta.setAttribute("content", `${title}. ${teaser}`);
+  }
+
+  root.className = `project-detail project-detail--${project.tone}`;
+  root.innerHTML = `
+    <article class="project-detail__hero" data-anim="fade-up">
+      <div class="project-detail__main">
+        <span class="project-detail__badge">${labels.badge}</span>
+        <h1 class="project-detail__title">${title}</h1>
+        <p class="project-detail__teaser">${teaser}</p>
+        <div class="project-detail__actions">
+          <a class="btn btn--primary" href="${project.repo}" target="_blank" rel="noopener">${labels.github}</a>
+          <a class="btn btn--outline" href="${project.readme}" target="_blank" rel="noopener">${labels.readme}</a>
+          <a class="btn btn--outline" href="portfolio.html">${labels.back}</a>
+        </div>
+      </div>
+      <div class="project-detail__preview">
+        ${detailCoverMarkup}
+        <div class="project-detail__preview-brand">${logoMarkup}<span>${logoSub}</span></div>
+      </div>
+    </article>
+    <section class="project-detail__block" data-anim="fade-up">
+      <h2 class="project-detail__block-title">${labels.front}</h2>
+      <div class="project-detail__front">
+        ${detailCoverMarkup}
+        <div class="project-detail__front-head">${logoMarkup}<span>${title}</span></div>
+      </div>
+    </section>
+    <section class="project-detail__block" data-anim="fade-up">
+      <h2 class="project-detail__block-title">${labels.gallery}</h2>
+      <div class="project-detail__gallery">
+        ${gallery.map((item, idx) => `
+          <article class="project-detail__gallery-card">
+            <span class="project-detail__gallery-no">0${idx + 1}</span>
+            <h3>${item}</h3>
+            <p>${teaser}</p>
+          </article>
+        `).join("")}
+      </div>
+    </section>
+    <section class="project-detail__block" data-anim="fade-up">
+      <h2 class="project-detail__block-title">${labels.about}</h2>
+      <p class="project-detail__about">${overview}</p>
+      <h3 class="project-detail__sub-title">${labels.highlights}</h3>
+      <ul class="project-detail__points">${highlights.map(item => `<li>${item}</li>`).join("")}</ul>
+      <h3 class="project-detail__sub-title">${labels.tags}</h3>
+      <div class="project-detail__tags">${project.tags.map(tag => `<span class="tag">${tag}</span>`).join("")}</div>
+    </section>
+  `;
 }
 
 /* ---------- PHONE MASK ---------- */
