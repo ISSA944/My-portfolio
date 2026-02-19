@@ -1,14 +1,21 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ru" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>
+    (function () {
+      var key = new URLSearchParams(window.location.search).get("project") || "iso-ai";
+      document.documentElement.setAttribute("data-project", String(key).toLowerCase().trim());
+    })();
+  </script>
   <title>Проект — ISO | Искандер</title>
-  <meta name="description" content="ISO — Искандер. Детальная страница проекта: описание, галерея и ссылки." />
+  <meta name="description" content="ISO - Iskander. Project details, stack, and live links." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
 </head>
 
 <body>

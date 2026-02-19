@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GitHub — ISO | Искандер</title>
+  <meta name="description" content="ISO — Искандер. Навыки GitHub: version control, Pull Request, workflow, релизы и командная работа." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+</head>
+
+<body class="tech-github">
+  <div class="preloader" id="preloader">
+    <div class="preloader__content">
+      <div class="preloader__logo">
+        <span class="preloader__letter" style="--i:0">I</span>
+        <span class="preloader__letter" style="--i:1">S</span>
+        <span class="preloader__letter" style="--i:2">O</span>
+      </div>
+      <div class="preloader__status">
+        <span class="preloader__text" id="preloaderText"></span>
+        <span class="preloader__percent" id="preloaderPercent">0%</span>
+      </div>
+    </div>
+    <div class="preloader__bar"><div class="preloader__bar-fill" id="preloaderFill"></div></div>
+  </div>
+
+  <div class="particles" id="particles" aria-hidden="true"></div>
+
+  <header class="topbar" id="topbar">
+    <div class="topbar__inner">
+      <a class="brand" href="index.html">
+        <span class="brand__mark">ISO</span>
+        <span class="brand__text" data-i18n="brand_name">Искандер</span>
+      </a>
+      <nav class="nav">
+        <a class="nav__link" href="index.html#about" data-i18n="nav_about">Обо мне</a>
+        <a class="nav__link" href="index.html#skills" data-i18n="nav_skills">Навыки</a>
+        <a class="nav__link" href="portfolio.html" data-i18n="nav_portfolio">Портфолио</a>
+        <a class="nav__link" href="index.html#contact" data-i18n="nav_contact">Контакты</a>
+      </nav>
+      <div class="controls">
+        <button class="lang-toggle" id="langToggle" type="button">
+          <span class="lang-toggle__pill active" data-lang="ru">RU</span>
+          <span class="lang-toggle__pill" data-lang="en">EN</span>
+        </button>
+        <button class="theme-toggle" id="themeToggle" type="button">
+          <span class="theme-toggle__track"></span>
+          <span class="theme-toggle__knob"></span>
+          <span class="theme-toggle__icon theme-toggle__icon--moon">&#127769;</span>
+          <span class="theme-toggle__icon theme-toggle__icon--sun">&#9728;</span>
+        </button>
+        <button class="burger" id="burger" type="button"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+    <div class="mnav" id="mnav" aria-hidden="true">
+      <a class="mnav__link" href="index.html#skills" data-i18n="nav_skills">Навыки</a>
+      <a class="mnav__link" href="portfolio.html" data-i18n="nav_portfolio">Портфолио</a>
+      <a class="mnav__link" href="index.html#contact" data-i18n="nav_contact">Контакты</a>
+      <a class="mnav__link" href="index.html" data-i18n="nav_home">Главная</a>
+    </div>
+  </header>
+
+  <main class="page">
+    <section class="tech-hero tech-hero--showcase" data-anim="fade-up">
+      <div class="tech-hero__grid">
+        <div class="tech-hero__info">
+          <div class="tech-hero__badge">GitHub</div>
+          <h1 class="tech-hero__title"><span class="gradient-text">GitHub — контроль и командный workflow</span></h1>
+          <p class="tech-hero__text">
+            Использую GitHub как центральную точку проекта: ветки, Pull Request, ревью, документация и контроль релизов.
+            Это не просто хранилище кода, а полноценный рабочий процесс разработки.
+          </p>
+          <div class="tech-hero__actions">
+            <a class="btn btn--primary" href="index.html#contact" data-i18n="tc_cta">Связаться</a>
+            <a class="btn btn--outline" href="index.html#skills" data-i18n="tc_back">Назад к Skills</a>
+          </div>
+          <div class="tech-hero__quick-links">
+            <a class="chip chip--tool is-active" href="github.html">GitHub</a>
+            <a class="chip chip--tool" href="copilot.html">Copilot</a>
+            <a class="chip chip--tool" href="figma.html">Figma</a>
+            <a class="chip chip--tool" href="vscode.html">VS Code</a>
+          </div>
+        </div>
+        <div class="tech-hero__logo-area" data-anim="fade-left">
+          <div class="tech-logo">
+            <div class="tech-logo__glow"></div>
+            <div class="tech-logo__icons">
+              <svg class="tech-logo__svg tech-logo__svg--solo" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path fill="currentColor" d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.489c.5.092.682-.217.682-.482c0-.237-.008-.866-.013-1.7c-2.782.603-3.369-1.342-3.369-1.342c-.454-1.155-1.11-1.462-1.11-1.462c-.908-.62.069-.608.069-.608c1.003.07 1.531 1.03 1.531 1.03c.892 1.529 2.341 1.088 2.91.832c.092-.647.35-1.088.636-1.338c-2.22-.253-4.555-1.11-4.555-4.943c0-1.091.39-1.984 1.029-2.683c-.103-.253-.446-1.27.098-2.647c0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836c.85.004 1.705.115 2.504.337c1.909-1.294 2.747-1.025 2.747-1.025c.546 1.377.203 2.394.1 2.647c.64.699 1.028 1.592 1.028 2.683c0 3.842-2.339 4.687-4.566 4.935c.359.309.678.919.678 1.852c0 1.336-.012 2.415-.012 2.743c0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="tech-detail tech-detail--rich" data-anim="fade-up">
+        <div class="tech-detail__header">
+          <h2 class="tech-detail__title">Уровень владения GitHub</h2>
+          <div class="tech-detail__level">
+            <span class="tech-detail__level-label">Уровень владения</span>
+            <span class="tech-detail__level-value">95%</span>
+          </div>
+        </div>
+        <p class="tech-detail__text">
+          Уверенно веду проекты через GitHub: структурирую ветки, оформляю коммиты, веду README и делаю понятную историю изменений.
+          Использую Issues и Pull Request для прозрачного процесса и быстрой навигации по задачам.
+        </p>
+        <div class="progress-bar" data-anim="fade-up">
+          <div class="progress-bar__fill" data-width="95%"></div>
+        </div>
+      </div>
+
+      <div class="tech-philosophy" data-anim="fade-up">
+        <div class="tech-philosophy__item">
+          <div class="tech-philosophy__number">01</div>
+          <div>
+            <h3 class="tech-philosophy__heading">Чистая история проекта</h3>
+            <p class="tech-philosophy__text">Работаю с осмысленными коммитами и понятными названиями веток. Это упрощает сопровождение и ускоряет ревью.</p>
+          </div>
+        </div>
+        <div class="tech-philosophy__item">
+          <div class="tech-philosophy__number">02</div>
+          <div>
+            <h3 class="tech-philosophy__heading">PR как стандарт качества</h3>
+            <p class="tech-philosophy__text">Каждое изменение проходит через Pull Request: описание, список правок, проверка и аккуратный merge.</p>
+          </div>
+        </div>
+        <div class="tech-philosophy__item">
+          <div class="tech-philosophy__number">03</div>
+          <div>
+            <h3 class="tech-philosophy__heading">Документация и релизы</h3>
+            <p class="tech-philosophy__text">Оформляю README, фиксирую шаги запуска, структуру проекта и полезные команды. Это делает проект понятным любому разработчику.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="section__header" data-anim="fade-up">
+        <h2 class="section__title">Практические сценарии</h2>
+        <div class="section__line"></div>
+      </div>
+
+      <div class="tech-grid">
+        <div class="tech-card" data-anim="fade-up" data-delay="0">
+          <div class="tech-card__icon">🌿</div>
+          <h3>Ветки под задачи</h3>
+          <p>Создаю отдельные ветки под фичи и фиксы, чтобы main оставался стабильным и чистым.</p>
+        </div>
+        <div class="tech-card" data-anim="fade-up" data-delay="80">
+          <div class="tech-card__icon">🔀</div>
+          <h3>Pull Request workflow</h3>
+          <p>Перед слиянием оформляю PR: краткая цель, список изменений, скриншоты и комментарии по ключевым местам.</p>
+        </div>
+        <div class="tech-card" data-anim="fade-up" data-delay="160">
+          <div class="tech-card__icon">📘</div>
+          <h3>README и структура</h3>
+          <p>Собираю понятный README с инструкциями, ссылками и описанием модулей, чтобы проект легко запускался с нуля.</p>
+        </div>
+        <div class="tech-card" data-anim="fade-up" data-delay="240">
+          <div class="tech-card__icon">✅</div>
+          <h3>Релизная дисциплина</h3>
+          <p>Фиксирую важные этапы, проверяю дифф перед merge и держу репозиторий в состоянии, готовом к демонстрации.</p>
+        </div>
+      </div>
+
+      <div class="tech-stack" data-anim="fade-up">
+        <h3 class="tech-stack__title">Инструменты GitHub</h3>
+        <p class="tech-stack__hint">Нажми на термин, чтобы увидеть пояснение</p>
+        <div class="tech-stack__pills">
+          <span class="tech-stack__pill" data-tooltip="Branches — раздельная работа над задачами без риска для основной ветки.">Branches</span>
+          <span class="tech-stack__pill" data-tooltip="Pull Request — стандартный процесс проверки и слияния изменений.">Pull Request</span>
+          <span class="tech-stack__pill" data-tooltip="Issues — контроль задач, багов и улучшений в одном месте.">Issues</span>
+          <span class="tech-stack__pill" data-tooltip="README — основная документация проекта: запуск, структура, назначение.">README</span>
+          <span class="tech-stack__pill" data-tooltip="Releases — фиксированные версии проекта для стабильной поставки.">Releases</span>
+          <span class="tech-stack__pill" data-tooltip="Actions — автоматизация проверок, сборки и деплоя.">Actions</span>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="footer__inner">
+        <div class="footer__left">
+          <a class="brand brand--sm" href="index.html">
+            <span class="brand__mark">ISO</span>
+            <span class="brand__text" data-i18n="brand_name">Искандер</span>
+          </a>
+          <p class="footer__copy" data-i18n="footer_text">Спасибо за просмотр ✦</p>
+        </div>
+        <div class="footer__right">
+          <a class="footer__link" href="index.html#contact" data-i18n="footer_contact">Связаться</a>
+          <a class="footer__link" href="index.html" data-i18n="nav_home">Главная</a>
+        </div>
+      </div>
+    </footer>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

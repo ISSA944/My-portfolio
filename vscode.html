@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Visual Studio Code — ISO | Искандер</title>
+  <meta name="description" content="ISO — Искандер. Навыки VS Code: рабочее окружение, расширения, сниппеты, terminal и эффективная разработка." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+</head>
+
+<body class="tech-vscode">
+  <div class="preloader" id="preloader">
+    <div class="preloader__content">
+      <div class="preloader__logo">
+        <span class="preloader__letter" style="--i:0">I</span>
+        <span class="preloader__letter" style="--i:1">S</span>
+        <span class="preloader__letter" style="--i:2">O</span>
+      </div>
+      <div class="preloader__status">
+        <span class="preloader__text" id="preloaderText"></span>
+        <span class="preloader__percent" id="preloaderPercent">0%</span>
+      </div>
+    </div>
+    <div class="preloader__bar"><div class="preloader__bar-fill" id="preloaderFill"></div></div>
+  </div>
+
+  <div class="particles" id="particles" aria-hidden="true"></div>
+
+  <header class="topbar" id="topbar">
+    <div class="topbar__inner">
+      <a class="brand" href="index.html">
+        <span class="brand__mark">ISO</span>
+        <span class="brand__text" data-i18n="brand_name">Искандер</span>
+      </a>
+      <nav class="nav">
+        <a class="nav__link" href="index.html#about" data-i18n="nav_about">Обо мне</a>
+        <a class="nav__link" href="index.html#skills" data-i18n="nav_skills">Навыки</a>
+        <a class="nav__link" href="portfolio.html" data-i18n="nav_portfolio">Портфолио</a>
+        <a class="nav__link" href="index.html#contact" data-i18n="nav_contact">Контакты</a>
+      </nav>
+      <div class="controls">
+        <button class="lang-toggle" id="langToggle" type="button">
+          <span class="lang-toggle__pill active" data-lang="ru">RU</span>
+          <span class="lang-toggle__pill" data-lang="en">EN</span>
+        </button>
+        <button class="theme-toggle" id="themeToggle" type="button">
+          <span class="theme-toggle__track"></span>
+          <span class="theme-toggle__knob"></span>
+          <span class="theme-toggle__icon theme-toggle__icon--moon">&#127769;</span>
+          <span class="theme-toggle__icon theme-toggle__icon--sun">&#9728;</span>
+        </button>
+        <button class="burger" id="burger" type="button"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+    <div class="mnav" id="mnav" aria-hidden="true">
+      <a class="mnav__link" href="index.html#skills" data-i18n="nav_skills">Навыки</a>
+      <a class="mnav__link" href="portfolio.html" data-i18n="nav_portfolio">Портфолио</a>
+      <a class="mnav__link" href="index.html#contact" data-i18n="nav_contact">Контакты</a>
+      <a class="mnav__link" href="index.html" data-i18n="nav_home">Главная</a>
+    </div>
+  </header>
+
+  <main class="page">
+    <section class="tech-hero tech-hero--showcase" data-anim="fade-up">
+      <div class="tech-hero__grid">
+        <div class="tech-hero__info">
+          <div class="tech-hero__badge">Visual Studio Code</div>
+          <h1 class="tech-hero__title"><span class="gradient-text">VS Code — ежедневная рабочая среда</span></h1>
+          <p class="tech-hero__text">
+            Основной редактор для всех проектов: быстрый цикл разработки, удобная навигация по коду, терминал и интеграция с Git.
+            Среда настроена под производительность и чистый инженерный workflow.
+          </p>
+          <div class="tech-hero__actions">
+            <a class="btn btn--primary" href="index.html#contact" data-i18n="tc_cta">Связаться</a>
+            <a class="btn btn--outline" href="index.html#skills" data-i18n="tc_back">Назад к Skills</a>
+          </div>
+          <div class="tech-hero__quick-links">
+            <a class="chip chip--tool" href="github.html">GitHub</a>
+            <a class="chip chip--tool" href="copilot.html">Copilot</a>
+            <a class="chip chip--tool" href="figma.html">Figma</a>
+            <a class="chip chip--tool is-active" href="vscode.html">VS Code</a>
+          </div>
+        </div>
+        <div class="tech-hero__logo-area" data-anim="fade-left">
+          <div class="tech-logo">
+            <div class="tech-logo__glow"></div>
+            <div class="tech-logo__icons">
+              <img class="tech-logo__svg tech-logo__svg--solo" src="image/logos-visual-studio-code-24px.svg" alt="VS Code" loading="lazy" decoding="async" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="tech-detail tech-detail--rich" data-anim="fade-up">
+        <div class="tech-detail__header">
+          <h2 class="tech-detail__title">Уровень владения VS Code</h2>
+          <div class="tech-detail__level">
+            <span class="tech-detail__level-label">Уровень владения</span>
+            <span class="tech-detail__level-value">100%</span>
+          </div>
+        </div>
+        <p class="tech-detail__text">
+          Работаю в VS Code на ежедневной основе: расширения, горячие клавиши, многофайловый поиск, сниппеты и терминал.
+          Настроил стабильное окружение для быстрого прототипирования, аккуратного рефакторинга и чистого релизного цикла.
+        </p>
+        <div class="progress-bar" data-anim="fade-up">
+          <div class="progress-bar__fill" data-width="100%"></div>
+        </div>
+      </div>
+
+      <div class="tech-philosophy" data-anim="fade-up">
+        <div class="tech-philosophy__item">
+          <div class="tech-philosophy__number">01</div>
+          <div>
+            <h3 class="tech-philosophy__heading">Скорость разработки</h3>
+            <p class="tech-philosophy__text">Использую сочетания клавиш, сниппеты и multi-cursor, чтобы ускорять повседневные операции.</p>
+          </div>
+        </div>
+        <div class="tech-philosophy__item">
+          <div class="tech-philosophy__number">02</div>
+          <div>
+            <h3 class="tech-philosophy__heading">Управление качеством</h3>
+            <p class="tech-philosophy__text">Подключаю линтеры и форматтеры, чтобы код всегда оставался единообразным и легко читаемым.</p>
+          </div>
+        </div>
+        <div class="tech-philosophy__item">
+          <div class="tech-philosophy__number">03</div>
+          <div>
+            <h3 class="tech-philosophy__heading">Глубокая интеграция с Git</h3>
+            <p class="tech-philosophy__text">Проверяю diff, готовлю коммиты и работаю с ветками прямо из редактора без лишних переключений.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="section__header" data-anim="fade-up">
+        <h2 class="section__title">Практические сценарии</h2>
+        <div class="section__line"></div>
+      </div>
+
+      <div class="tech-grid">
+        <div class="tech-card" data-anim="fade-up" data-delay="0">
+          <div class="tech-card__icon">⌨️</div>
+          <h3>Горячие клавиши и сниппеты</h3>
+          <p>Оптимизирую рутину набора кода и навигации, чтобы быстрее переходить к логике и архитектуре.</p>
+        </div>
+        <div class="tech-card" data-anim="fade-up" data-delay="80">
+          <div class="tech-card__icon">🔎</div>
+          <h3>Глобальный поиск и refactor</h3>
+          <p>Использую multi-file поиск и массовые правки для безопасного рефакторинга в больших файлах.</p>
+        </div>
+        <div class="tech-card" data-anim="fade-up" data-delay="160">
+          <div class="tech-card__icon">🧰</div>
+          <h3>Стабильный набор расширений</h3>
+          <p>Emmet, Prettier, ESLint, Live Server и GitLens формируют удобный и продуктивный стек.</p>
+        </div>
+        <div class="tech-card" data-anim="fade-up" data-delay="240">
+          <div class="tech-card__icon">🖥️</div>
+          <h3>Terminal-first процесс</h3>
+          <p>Запускаю git/npm-команды прямо из встроенного терминала, не теряя контекст разработки.</p>
+        </div>
+      </div>
+
+      <div class="tech-stack" data-anim="fade-up">
+        <h3 class="tech-stack__title">Рабочая среда VS Code</h3>
+        <p class="tech-stack__hint">Нажми на термин, чтобы увидеть пояснение</p>
+        <div class="tech-stack__pills">
+          <span class="tech-stack__pill" data-tooltip="Snippets — ускоряют набор повторяющихся конструкций и шаблонов.">Snippets</span>
+          <span class="tech-stack__pill" data-tooltip="Emmet — быстрый синтаксис для HTML/CSS, экономит время на верстке.">Emmet</span>
+          <span class="tech-stack__pill" data-tooltip="Prettier — автоматическое форматирование кода в единый стиль.">Prettier</span>
+          <span class="tech-stack__pill" data-tooltip="ESLint — предупреждает ошибки и поддерживает качество JavaScript-кода.">ESLint</span>
+          <span class="tech-stack__pill" data-tooltip="GitLens — расширенный просмотр истории и контекста изменений прямо в редакторе.">GitLens</span>
+          <span class="tech-stack__pill" data-tooltip="Integrated Terminal — git и npm-команды без выхода из IDE.">Terminal</span>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="footer__inner">
+        <div class="footer__left">
+          <a class="brand brand--sm" href="index.html">
+            <span class="brand__mark">ISO</span>
+            <span class="brand__text" data-i18n="brand_name">Искандер</span>
+          </a>
+          <p class="footer__copy" data-i18n="footer_text">Спасибо за просмотр ✦</p>
+        </div>
+        <div class="footer__right">
+          <a class="footer__link" href="index.html#contact" data-i18n="footer_contact">Связаться</a>
+          <a class="footer__link" href="index.html" data-i18n="nav_home">Главная</a>
+        </div>
+      </div>
+    </footer>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

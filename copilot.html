@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GitHub Copilot — ISO | Искандер</title>
+  <meta name="description" content="ISO — Искандер. Навыки GitHub Copilot: ускорение разработки, генерация чернового кода и проверка качества решений." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+</head>
+
+<body class="tech-copilot">
+  <div class="preloader" id="preloader">
+    <div class="preloader__content">
+      <div class="preloader__logo">
+        <span class="preloader__letter" style="--i:0">I</span>
+        <span class="preloader__letter" style="--i:1">S</span>
+        <span class="preloader__letter" style="--i:2">O</span>
+      </div>
+      <div class="preloader__status">
+        <span class="preloader__text" id="preloaderText"></span>
+        <span class="preloader__percent" id="preloaderPercent">0%</span>
+      </div>
+    </div>
+    <div class="preloader__bar"><div class="preloader__bar-fill" id="preloaderFill"></div></div>
+  </div>
+
+  <div class="particles" id="particles" aria-hidden="true"></div>
+
+  <header class="topbar" id="topbar">
+    <div class="topbar__inner">
+      <a class="brand" href="index.html">
+        <span class="brand__mark">ISO</span>
+        <span class="brand__text" data-i18n="brand_name">Искандер</span>
+      </a>
+      <nav class="nav">
+        <a class="nav__link" href="index.html#about" data-i18n="nav_about">Обо мне</a>
+        <a class="nav__link" href="index.html#skills" data-i18n="nav_skills">Навыки</a>
+        <a class="nav__link" href="portfolio.html" data-i18n="nav_portfolio">Портфолио</a>
+        <a class="nav__link" href="index.html#contact" data-i18n="nav_contact">Контакты</a>
+      </nav>
+      <div class="controls">
+        <button class="lang-toggle" id="langToggle" type="button">
+          <span class="lang-toggle__pill active" data-lang="ru">RU</span>
+          <span class="lang-toggle__pill" data-lang="en">EN</span>
+        </button>
+        <button class="theme-toggle" id="themeToggle" type="button">
+          <span class="theme-toggle__track"></span>
+          <span class="theme-toggle__knob"></span>
+          <span class="theme-toggle__icon theme-toggle__icon--moon">&#127769;</span>
+          <span class="theme-toggle__icon theme-toggle__icon--sun">&#9728;</span>
+        </button>
+        <button class="burger" id="burger" type="button"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+    <div class="mnav" id="mnav" aria-hidden="true">
+      <a class="mnav__link" href="index.html#skills" data-i18n="nav_skills">Навыки</a>
+      <a class="mnav__link" href="portfolio.html" data-i18n="nav_portfolio">Портфолио</a>
+      <a class="mnav__link" href="index.html#contact" data-i18n="nav_contact">Контакты</a>
+      <a class="mnav__link" href="index.html" data-i18n="nav_home">Главная</a>
+    </div>
+  </header>
+
+  <main class="page">
+    <section class="tech-hero tech-hero--showcase" data-anim="fade-up">
+      <div class="tech-hero__grid">
+        <div class="tech-hero__info">
+          <div class="tech-hero__badge">GitHub Copilot</div>
+          <h1 class="tech-hero__title"><span class="gradient-text">Copilot — ускорение без потери качества</span></h1>
+          <p class="tech-hero__text">
+            Использую Copilot как ассистента для ускорения рутины: наброски функций, типовые структуры и быстрый старт идей.
+            Финальное решение всегда проходит через архитектурную и логическую проверку.
+          </p>
+          <div class="tech-hero__actions">
+            <a class="btn btn--primary" href="index.html#contact" data-i18n="tc_cta">Связаться</a>
+            <a class="btn btn--outline" href="index.html#skills" data-i18n="tc_back">Назад к Skills</a>
+          </div>
+          <div class="tech-hero__quick-links">
+            <a class="chip chip--tool" href="github.html">GitHub</a>
+            <a class="chip chip--tool is-active" href="copilot.html">Copilot</a>
+            <a class="chip chip--tool" href="figma.html">Figma</a>
+            <a class="chip chip--tool" href="vscode.html">VS Code</a>
+          </div>
+        </div>
+        <div class="tech-hero__logo-area" data-anim="fade-left">
+          <div class="tech-logo">
+            <div class="tech-logo__glow"></div>
+            <div class="tech-logo__icons">
+              <img class="tech-logo__svg tech-logo__svg--solo" src="image/devicon-plain-githubcopilot-64px.svg" alt="Copilot" loading="lazy" decoding="async" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="tech-detail tech-detail--rich" data-anim="fade-up">
+        <div class="tech-detail__header">
+          <h2 class="tech-detail__title">Уровень владения Copilot</h2>
+          <div class="tech-detail__level">
+            <span class="tech-detail__level-label">Уровень владения</span>
+            <span class="tech-detail__level-value">90%</span>
+          </div>
+        </div>
+        <p class="tech-detail__text">
+          Встраиваю Copilot в ежедневный процесс разработки: генерирую стартовые блоки кода, ускоряю рефакторинг и быстрее покрываю базовые сценарии.
+          Использую его как инструмент производительности, а не как замену инженерному мышлению.
+        </p>
+        <div class="progress-bar" data-anim="fade-up">
+          <div class="progress-bar__fill" data-width="90%"></div>
+        </div>
+      </div>
+
+      <div class="tech-philosophy" data-anim="fade-up">
+        <div class="tech-philosophy__item">
+          <div class="tech-philosophy__number">01</div>
+          <div>
+            <h3 class="tech-philosophy__heading">Быстрый старт фич</h3>
+            <p class="tech-philosophy__text">Copilot помогает быстро сформировать каркас функций и компонентов, чтобы сосредоточиться на логике продукта.</p>
+          </div>
+        </div>
+        <div class="tech-philosophy__item">
+          <div class="tech-philosophy__number">02</div>
+          <div>
+            <h3 class="tech-philosophy__heading">Подсказки по API и структурам</h3>
+            <p class="tech-philosophy__text">Использую подсказки для стандартных API-паттернов, обработки ошибок и единообразной структуры кода.</p>
+          </div>
+        </div>
+        <div class="tech-philosophy__item">
+          <div class="tech-philosophy__number">03</div>
+          <div>
+            <h3 class="tech-philosophy__heading">Контроль качества вручную</h3>
+            <p class="tech-philosophy__text">Проверяю каждую подсказку на корректность, безопасность и соответствие требованиям проекта.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="section__header" data-anim="fade-up">
+        <h2 class="section__title">Практические сценарии</h2>
+        <div class="section__line"></div>
+      </div>
+
+      <div class="tech-grid">
+        <div class="tech-card" data-anim="fade-up" data-delay="0">
+          <div class="tech-card__icon">⚙️</div>
+          <h3>Генерация boilerplate</h3>
+          <p>Быстро получаю базовые структуры функций, компонентов и конфигов, чтобы ускорить старт работы.</p>
+        </div>
+        <div class="tech-card" data-anim="fade-up" data-delay="80">
+          <div class="tech-card__icon">🧩</div>
+          <h3>Рефакторинг и улучшения</h3>
+          <p>Применяю Copilot для вариантов упрощения кода и поиска более лаконичных реализаций.</p>
+        </div>
+        <div class="tech-card" data-anim="fade-up" data-delay="160">
+          <div class="tech-card__icon">🧪</div>
+          <h3>Подсказки для тестов</h3>
+          <p>Использую AI-поддержку для черновиков тестовых кейсов и проверок граничных сценариев.</p>
+        </div>
+        <div class="tech-card" data-anim="fade-up" data-delay="240">
+          <div class="tech-card__icon">🛡️</div>
+          <h3>Валидация решений</h3>
+          <p>Фильтрую AI-ответы через свои стандарты: читаемость, производительность и стабильность.</p>
+        </div>
+      </div>
+
+      <div class="tech-stack" data-anim="fade-up">
+        <h3 class="tech-stack__title">Сценарии с Copilot</h3>
+        <p class="tech-stack__hint">Нажми на термин, чтобы увидеть пояснение</p>
+        <div class="tech-stack__pills">
+          <span class="tech-stack__pill" data-tooltip="Prompting — точная формулировка запроса к Copilot для нужного результата.">Prompting</span>
+          <span class="tech-stack__pill" data-tooltip="Boilerplate — генерация повторяющихся блоков без ручной рутины.">Boilerplate</span>
+          <span class="tech-stack__pill" data-tooltip="Refactor hints — предложения по упрощению и структурированию кода.">Refactor hints</span>
+          <span class="tech-stack__pill" data-tooltip="API draft — черновики интеграций и обработчиков запросов.">API draft</span>
+          <span class="tech-stack__pill" data-tooltip="Test starter — генерация заготовок тестовых сценариев.">Test starter</span>
+          <span class="tech-stack__pill" data-tooltip="Code review mindset — ручная проверка AI-ответов перед использованием.">Manual review</span>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="footer__inner">
+        <div class="footer__left">
+          <a class="brand brand--sm" href="index.html">
+            <span class="brand__mark">ISO</span>
+            <span class="brand__text" data-i18n="brand_name">Искандер</span>
+          </a>
+          <p class="footer__copy" data-i18n="footer_text">Спасибо за просмотр ✦</p>
+        </div>
+        <div class="footer__right">
+          <a class="footer__link" href="index.html#contact" data-i18n="footer_contact">Связаться</a>
+          <a class="footer__link" href="index.html" data-i18n="nav_home">Главная</a>
+        </div>
+      </div>
+    </footer>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

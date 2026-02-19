@@ -4,23 +4,119 @@
    ============================================================ */
 
 /* ---------- PRELOADER ---------- */
+const PRELOADER_KEYS = {
+  visitedPrefix: "visited:"
+};
+
+function normalizePathname(pathname) {
+  const safePath = String(pathname || "/")
+    .replace(/\\/g, "/")
+    .replace(/\/+/g, "/")
+    .toLowerCase();
+  if (!safePath || safePath === "/") return "/";
+  return safePath.endsWith("/") ? safePath.slice(0, -1) : safePath;
+}
+
+function getVisitedPageKey() {
+  return `${PRELOADER_KEYS.visitedPrefix}${normalizePathname(window.location.pathname)}`;
+}
+
+function hasVisitedPage(pageKey) {
+  try {
+    return localStorage.getItem(pageKey) === "1";
+  } catch (error) {
+    return false;
+  }
+}
+
+function markPageVisited(pageKey) {
+  try {
+    localStorage.setItem(pageKey, "1");
+  } catch (error) {
+    // noop
+  }
+}
+
+function runSmartPreloader(preloader, markVisited) {
+  preloader.classList.add("preloader--smart");
+
+  const mini = document.createElement("div");
+  mini.className = "preloader__mini";
+  mini.innerHTML = `
+    <span class="preloader__mini-typing" id="preloaderMiniTyping"></span>
+    <span class="preloader__mini-dots" aria-hidden="true">
+      <i></i><i></i><i></i>
+    </span>
+  `;
+  preloader.appendChild(mini);
+
+  const typingEl = mini.querySelector(".preloader__mini-typing");
+  const word = "ISO";
+  let idx = 0;
+
+  function typeNext() {
+    if (!typingEl) return;
+    idx += 1;
+    typingEl.textContent = word.slice(0, idx);
+    if (idx < word.length) {
+      setTimeout(typeNext, 92);
+    }
+  }
+  setTimeout(typeNext, 48);
+
+  const minDuration = 320;
+  const maxDuration = 760;
+  const targetDuration = minDuration + Math.random() * (maxDuration - minDuration);
+  const startedAt = performance.now();
+  let finished = false;
+
+  function finishMini() {
+    if (finished) return;
+    finished = true;
+    const elapsed = performance.now() - startedAt;
+    const wait = Math.max(0, targetDuration - elapsed);
+    setTimeout(() => {
+      preloader.classList.add("hidden");
+      markVisited();
+      setTimeout(() => preloader.remove(), 360);
+    }, wait);
+  }
+
+  if (document.readyState === "complete") {
+    finishMini();
+  } else {
+    window.addEventListener("load", finishMini, { once: true });
+    setTimeout(finishMini, maxDuration + 200);
+  }
+}
+
 function initPreloader() {
   const preloader = document.getElementById("preloader");
   if (!preloader) return;
 
   const fill = document.getElementById("preloaderFill");
   const textEl = document.getElementById("preloaderText");
-  const pctEl  = document.getElementById("preloaderPercent");
+  const pctEl = document.getElementById("preloaderPercent");
+
+  const pageVisitKey = getVisitedPageKey();
+  const wasVisited = hasVisitedPage(pageVisitKey);
+  const useSmartPreloader = wasVisited;
+  const markVisited = () => markPageVisited(pageVisitKey);
+
+  if (useSmartPreloader) {
+    runSmartPreloader(preloader, markVisited);
+    return;
+  }
 
   const messages = [
-    { at: 0,  text: "Инициализация..." },
+    { at: 0, text: "Инициализация..." },
     { at: 12, text: "Загрузка шрифтов" },
     { at: 25, text: "Подключение стилей" },
     { at: 40, text: "Подготовка контента" },
     { at: 55, text: "Рендеринг интерфейса" },
     { at: 70, text: "Почти готово..." },
     { at: 85, text: "Финальная полировка ✨" },
-    { at: 96, text: "Добро пожаловать!" },
+    { at: 96, text: "Добро пожаловать!" }
   ];
 
   const preloaderLang = localStorage.getItem("iskander_lang") || document.documentElement.lang || "ru";
@@ -37,7 +133,7 @@ function initPreloader() {
         "Прогрев интерактивных блоков",
         "Проверка асинхронных сценариев",
         "Финальная оптимизация скриптов",
-        "Страница JavaScript готова!",
+        "Страница JavaScript готова!"
       ],
       en: [
         "Initializing JavaScript...",
@@ -47,7 +143,7 @@ function initPreloader() {
         "Warming up interactive blocks",
         "Checking async flows",
         "Final script optimization",
-        "JavaScript page is ready!",
+        "JavaScript page is ready!"
       ]
     },
     "html-css.html": {
@@ -59,7 +155,7 @@ function initPreloader() {
         "Проверка адаптивности",
         "Оптимизация анимаций",
         "Финальная полировка макета",
-        "Страница HTML & CSS готова!",
+        "Страница HTML & CSS готова!"
       ],
       en: [
         "Initializing HTML/CSS...",
@@ -69,7 +165,7 @@ function initPreloader() {
         "Checking responsiveness",
         "Optimizing animations",
         "Final layout polish",
-        "HTML & CSS page is ready!",
+        "HTML & CSS page is ready!"
       ]
     },
     "react.html": {
@@ -81,7 +177,7 @@ function initPreloader() {
         "Подключение маршрутов",
         "Проверка хуков",
         "Финальная полировка интерфейса",
-        "Страница React готова!",
+        "Страница React готова!"
       ],
       en: [
         "Initializing React page...",
@@ -91,7 +187,7 @@ function initPreloader() {
         "Wiring up routes",
         "Checking hooks",
         "Final interface polish",
-        "React page is ready!",
+        "React page is ready!"
       ]
     },
     "tools.html": {
@@ -103,7 +199,7 @@ function initPreloader() {
         "Синхронизация рабочего процесса",
         "Подключение утилит",
         "Финальная настройка",
-        "Страница инструментов готова!",
+        "Страница инструментов готова!"
       ],
       en: [
         "Initializing tools page...",
@@ -113,7 +209,7 @@ function initPreloader() {
         "Syncing workflow",
         "Connecting utilities",
         "Final setup",
-        "Tools page is ready!",
+        "Tools page is ready!"
       ]
     },
     "portfolio.html": {
@@ -125,7 +221,7 @@ function initPreloader() {
         "Проверка мобильной версии",
         "Синхронизация RU/EN контента",
         "Финальная полировка карточек",
-        "Портфолио готово!",
+        "Портфолио готово!"
       ],
       en: [
         "Initializing portfolio...",
@@ -135,29 +231,29 @@ function initPreloader() {
         "Checking mobile layout",
         "Syncing RU/EN content",
         "Final card polish",
-        "Portfolio is ready!",
+        "Portfolio is ready!"
       ]
     },
     "project.html": {
       ru: [
         "Открытие проекта...",
         "Подготовка страницы проекта",
-        "Загрузка превью",
-        "Сборка галереи",
+        "Загрузка лицевой части",
+        "Подготовка стека",
         "Проверка контента",
         "Синхронизация RU/EN",
         "Финальная полировка",
-        "Проект готов!",
+        "Проект готов!"
       ],
       en: [
         "Opening project...",
         "Preparing project page",
-        "Loading preview",
-        "Building gallery",
+        "Loading front screen",
+        "Preparing stack",
         "Checking content",
         "Syncing RU/EN",
         "Final polish",
-        "Project is ready!",
+        "Project is ready!"
       ]
     }
   };
@@ -170,7 +266,7 @@ function initPreloader() {
     "Rendering interface",
     "Almost ready...",
     "Final polish...",
-    "Welcome!",
+    "Welcome!"
   ];
 
   const pageSpecificMessages = preloaderTexts[pageName]?.[safePreloaderLang];
@@ -182,6 +278,7 @@ function initPreloader() {
       if (activeMessages[idx]) msg.text = activeMessages[idx];
     });
   }
+
   const skipPreloaderStepPattern = /(почти\s*готов|almost\s*ready)/i;
   for (let i = messages.length - 1; i >= 0; i--) {
     if (skipPreloaderStepPattern.test(messages[i].text)) {
@@ -208,21 +305,19 @@ function initPreloader() {
     }, 200);
   }
 
-  // Set first message immediately
-  if (textEl) textEl.textContent = messages[0].text;
-
-  window.addEventListener("load", () => { pageLoaded = true; });
+  if (textEl && messages[0]) textEl.textContent = messages[0].text;
+  window.addEventListener("load", () => {
+    pageLoaded = true;
+    markVisited();
+  }, { once: true });
 
   function tick() {
     if (completed) return;
     const now = performance.now();
-    // Медленнее до загрузки страницы, чуть быстрее после
     const target = pageLoaded ? 100 : 74;
-    // Было: 3 / 0.6
     let speed = pageLoaded ? 0.52 : 0.18;
     let dynamicTarget = target;
 
-    // Финальная зона: после 90% замедляем и даем время дочитать текст
     if (pageLoaded && progress >= 90) {
       speed = 0.12;
       if (!finalHoldApplied) {
@@ -240,16 +335,15 @@ function initPreloader() {
     }
 
     const pct = Math.round(progress);
-    if (fill) fill.style.width = pct + "%";
-    if (pctEl) pctEl.textContent = pct + "%";
+    if (fill) fill.style.width = `${pct}%`;
+    if (pctEl) pctEl.textContent = `${pct}%`;
 
-    // Update message (добавим задержку между сменой сообщений)
     let nextMsgIdx = msgIdx;
     while (nextMsgIdx < messages.length - 1 && pct >= messages[nextMsgIdx + 1].at) {
-      nextMsgIdx++;
+      nextMsgIdx += 1;
     }
+
     if (nextMsgIdx !== msgIdx && !msgSwitchQueued && now >= nextAllowedMsgAt) {
-      // Задержка перед сменой текста, чтобы успеть прочитать
       msgSwitchQueued = true;
       setTimeout(() => {
         msgIdx = nextMsgIdx;
@@ -269,6 +363,7 @@ function initPreloader() {
       }
       setTimeout(() => {
         preloader.classList.add("hidden");
+        markVisited();
         setTimeout(() => preloader.remove(), 600);
       }, 1200);
       return;
@@ -277,7 +372,6 @@ function initPreloader() {
     setTimeout(tick, 34);
   }
 
-  // Start after letters animate in
   setTimeout(tick, 1100);
 }
 initPreloader();
@@ -715,7 +809,7 @@ const META_I18N_EN = {
   },
   "project.html": {
     title: "Project - ISO | Iskander",
-    description: "ISO - Iskander. Project details, gallery, and links."
+    description: "ISO - Iskander. Project details, stack, and live links."
   },
   "html-css.html": {
     title: "HTML & CSS - ISO | Iskander",
@@ -732,6 +826,22 @@ const META_I18N_EN = {
   "tools.html": {
     title: "Tools - ISO | Iskander",
     description: "ISO - Iskander. Development tools: GitHub, Copilot, Figma, VS Code."
+  },
+  "github.html": {
+    title: "GitHub - ISO | Iskander",
+    description: "ISO - Iskander. GitHub workflow: branches, pull requests, releases, and clean repository history."
+  },
+  "copilot.html": {
+    title: "GitHub Copilot - ISO | Iskander",
+    description: "ISO - Iskander. Copilot workflow: faster implementation, assisted code drafts, and manual quality checks."
+  },
+  "figma.html": {
+    title: "Figma - ISO | Iskander",
+    description: "ISO - Iskander. Figma workflow: design handoff, spacing system, typography, and pixel-perfect implementation."
+  },
+  "vscode.html": {
+    title: "VS Code - ISO | Iskander",
+    description: "ISO - Iskander. VS Code workflow: productive environment, extensions, snippets, and terminal-first development."
   },
 };
 
@@ -783,7 +893,7 @@ const PAGE_SPECIFIC_I18N_EN = {
       "Regex - Pattern matching for validating and processing text like emails, phones, and user input.",
       "Event Delegation - Attach one listener to a parent to handle child events efficiently.",
       "Modules - Split code into reusable files with import/export for maintainability.",
-      "EmailJS - Client-side email delivery for contact forms without a custom backend."
+      "Web3Forms - Contact form delivery directly to email using access_key."
     ]
   },
   "react.html": {
@@ -833,6 +943,146 @@ const PAGE_SPECIFIC_I18N_EN = {
       "Prettier - Opinionated formatter that keeps code style consistent across the project.",
       "ESLint - Static analysis tool that catches JavaScript problems before runtime.",
       "Terminal - Command-line interface for Git, npm scripts, tooling, and automation."
+    ]
+  },
+  "github.html": {
+    text: {
+      ".tech-hero__badge": "GitHub",
+      ".tech-hero__title .gradient-text": "GitHub - control and team workflow",
+      ".tech-hero__text": "I use GitHub as the project's control center: branches, pull requests, review flow, documentation, and release discipline. It is not just code storage, but a complete engineering workflow.",
+      ".tech-detail__title": "GitHub proficiency",
+      ".tech-detail__text": "I confidently manage projects through GitHub: structured branches, meaningful commits, clean README files, and transparent change history. Issues and pull requests keep the process clear and scalable.",
+      ".tech-detail__level-label": "Proficiency level",
+      ".tech-philosophy__item:nth-child(1) .tech-philosophy__heading": "Clean repository history",
+      ".tech-philosophy__item:nth-child(1) .tech-philosophy__text": "I keep commit messages meaningful and branch naming consistent. This speeds up review and long-term maintenance.",
+      ".tech-philosophy__item:nth-child(2) .tech-philosophy__heading": "PR as a quality gate",
+      ".tech-philosophy__item:nth-child(2) .tech-philosophy__text": "Every change goes through pull request context: clear purpose, change summary, and controlled merge.",
+      ".tech-philosophy__item:nth-child(3) .tech-philosophy__heading": "Documentation and releases",
+      ".tech-philosophy__item:nth-child(3) .tech-philosophy__text": "I maintain practical README files and release notes so the project stays understandable for any collaborator.",
+      ".section__header .section__title": "Practical scenarios",
+      ".tech-grid .tech-card:nth-child(1) h3": "Feature branches per task",
+      ".tech-grid .tech-card:nth-child(1) p": "I isolate feature and fix work in dedicated branches to keep main stable.",
+      ".tech-grid .tech-card:nth-child(2) h3": "Pull request workflow",
+      ".tech-grid .tech-card:nth-child(2) p": "Before merge I prepare concise PR context: goal, change list, and key notes.",
+      ".tech-grid .tech-card:nth-child(3) h3": "README and structure",
+      ".tech-grid .tech-card:nth-child(3) p": "I keep startup steps, structure, and links clear so the repo is easy to enter.",
+      ".tech-grid .tech-card:nth-child(4) h3": "Release discipline",
+      ".tech-grid .tech-card:nth-child(4) p": "I verify diffs, freeze milestones, and keep repository state production-ready.",
+      ".tech-stack__title": "GitHub toolset",
+      ".tech-stack__hint": "Click a term to see details."
+    },
+    tooltips: [
+      "Branches - isolated work per feature without affecting main stability.",
+      "Pull Request - a structured process for review and safe merge.",
+      "Issues - task and bug tracking with clear ownership.",
+      "README - entry documentation: setup, structure, and usage.",
+      "Releases - version snapshots for predictable delivery.",
+      "Actions - workflow automation for checks and deployment."
+    ]
+  },
+  "copilot.html": {
+    text: {
+      ".tech-hero__badge": "GitHub Copilot",
+      ".tech-hero__title .gradient-text": "Copilot - speed without quality loss",
+      ".tech-hero__text": "I use Copilot to accelerate routine work: first drafts, repetitive code structures, and faster idea exploration. Final implementation is always manually validated.",
+      ".tech-detail__title": "Copilot proficiency",
+      ".tech-detail__text": "Copilot is integrated into my daily workflow for faster implementation and cleaner first drafts. It stays an assistant, not a decision-maker.",
+      ".tech-detail__level-label": "Proficiency level",
+      ".tech-philosophy__item:nth-child(1) .tech-philosophy__heading": "Fast feature start",
+      ".tech-philosophy__item:nth-child(1) .tech-philosophy__text": "Copilot quickly generates scaffolding so I can focus on architecture and business logic.",
+      ".tech-philosophy__item:nth-child(2) .tech-philosophy__heading": "API and structure hints",
+      ".tech-philosophy__item:nth-child(2) .tech-philosophy__text": "I use suggestions for standard API patterns, handlers, and predictable code structure.",
+      ".tech-philosophy__item:nth-child(3) .tech-philosophy__heading": "Manual quality control",
+      ".tech-philosophy__item:nth-child(3) .tech-philosophy__text": "Every AI suggestion is checked for correctness, performance, and project requirements.",
+      ".section__header .section__title": "Practical scenarios",
+      ".tech-grid .tech-card:nth-child(1) h3": "Boilerplate generation",
+      ".tech-grid .tech-card:nth-child(1) p": "I generate base function and component templates to remove repetitive setup.",
+      ".tech-grid .tech-card:nth-child(2) h3": "Refactor support",
+      ".tech-grid .tech-card:nth-child(2) p": "I use Copilot as a second opinion for simplification and cleaner structure.",
+      ".tech-grid .tech-card:nth-child(3) h3": "Test drafts",
+      ".tech-grid .tech-card:nth-child(3) p": "I accelerate test scenario preparation and edge-case coverage drafts.",
+      ".tech-grid .tech-card:nth-child(4) h3": "Solution validation",
+      ".tech-grid .tech-card:nth-child(4) p": "All generated code goes through manual validation before final usage.",
+      ".tech-stack__title": "Copilot workflow",
+      ".tech-stack__hint": "Click a term to see details."
+    },
+    tooltips: [
+      "Prompting - precise input to get relevant AI output.",
+      "Boilerplate - generation of repetitive code structures.",
+      "Refactor hints - alternative implementation ideas for cleaner code.",
+      "API draft - starter implementations for integrations and handlers.",
+      "Test starter - quick drafts for testing scenarios.",
+      "Manual review - human validation before production use."
+    ]
+  },
+  "figma.html": {
+    text: {
+      ".tech-hero__badge": "Figma",
+      ".tech-hero__title .gradient-text": "Figma - design to code without loss",
+      ".tech-hero__text": "I work with layouts as a system: grid, spacing, typography, component states, and interaction logic. The result is pixel-accurate implementation with consistent rhythm.",
+      ".tech-detail__title": "Figma proficiency",
+      ".tech-detail__text": "I confidently read design specifications and transfer them into clean interface code. I preserve spacing, hierarchy, and visual consistency across breakpoints.",
+      ".tech-detail__level-label": "Proficiency level",
+      ".tech-philosophy__item:nth-child(1) .tech-philosophy__heading": "Grid and composition first",
+      ".tech-philosophy__item:nth-child(1) .tech-philosophy__text": "I lock structure early: container system, columns, and hierarchy for predictable implementation.",
+      ".tech-philosophy__item:nth-child(2) .tech-philosophy__heading": "System-based UI translation",
+      ".tech-philosophy__item:nth-child(2) .tech-philosophy__text": "I work with reusable components and states, keeping interface behavior consistent.",
+      ".tech-philosophy__item:nth-child(3) .tech-philosophy__heading": "Pixel-perfect delivery",
+      ".tech-philosophy__item:nth-child(3) .tech-philosophy__text": "Typography, spacing rhythm, and component proportions are preserved from design to frontend.",
+      ".section__header .section__title": "Practical scenarios",
+      ".tech-grid .tech-card:nth-child(1) h3": "Spacing and rhythm extraction",
+      ".tech-grid .tech-card:nth-child(1) p": "I map typography and spacing scales to keep interface structure disciplined.",
+      ".tech-grid .tech-card:nth-child(2) h3": "Color and UI states",
+      ".tech-grid .tech-card:nth-child(2) p": "I transfer hover, focus, and active states from design tokens into final CSS.",
+      ".tech-grid .tech-card:nth-child(3) h3": "Component implementation",
+      ".tech-grid .tech-card:nth-child(3) p": "I decompose layouts into reusable blocks for scalable frontend architecture.",
+      ".tech-grid .tech-card:nth-child(4) h3": "Responsive alignment",
+      ".tech-grid .tech-card:nth-child(4) p": "I validate mobile and desktop layouts to keep composition consistent on all screens.",
+      ".tech-stack__title": "Design handoff workflow",
+      ".tech-stack__hint": "Click a term to see details."
+    },
+    tooltips: [
+      "Auto Layout - flexible component behavior that maps well to responsive CSS.",
+      "Components - reusable design primitives across the interface.",
+      "Variants - controlled states and modifications in one component system.",
+      "Typography - consistent text hierarchy and readable rhythm.",
+      "Spacing - standardized gaps and paddings for visual discipline.",
+      "Dev handoff - clear specs and tokens for accurate implementation."
+    ]
+  },
+  "vscode.html": {
+    text: {
+      ".tech-hero__badge": "Visual Studio Code",
+      ".tech-hero__title .gradient-text": "VS Code - daily engineering environment",
+      ".tech-hero__text": "VS Code is my primary editor for all projects: fast workflow, scalable navigation, terminal-first operations, and integrated Git context.",
+      ".tech-detail__title": "VS Code proficiency",
+      ".tech-detail__text": "I use VS Code daily with a stable extension stack, keyboard-driven flow, and repeatable setup that keeps development speed and quality high.",
+      ".tech-detail__level-label": "Proficiency level",
+      ".tech-philosophy__item:nth-child(1) .tech-philosophy__heading": "Development speed",
+      ".tech-philosophy__item:nth-child(1) .tech-philosophy__text": "Keyboard shortcuts, snippets, and multi-cursor workflows reduce friction in daily coding.",
+      ".tech-philosophy__item:nth-child(2) .tech-philosophy__heading": "Quality control",
+      ".tech-philosophy__item:nth-child(2) .tech-philosophy__text": "Formatter and linter integration keeps code style and standards consistent.",
+      ".tech-philosophy__item:nth-child(3) .tech-philosophy__heading": "Deep Git integration",
+      ".tech-philosophy__item:nth-child(3) .tech-philosophy__text": "I inspect diffs, prepare commits, and manage branches without leaving the editor.",
+      ".section__header .section__title": "Practical scenarios",
+      ".tech-grid .tech-card:nth-child(1) h3": "Shortcuts and snippets",
+      ".tech-grid .tech-card:nth-child(1) p": "I optimize repetitive coding operations to keep flow focused on logic.",
+      ".tech-grid .tech-card:nth-child(2) h3": "Global search and refactor",
+      ".tech-grid .tech-card:nth-child(2) p": "I run controlled multi-file refactors with quick navigation and safe edits.",
+      ".tech-grid .tech-card:nth-child(3) h3": "Curated extension stack",
+      ".tech-grid .tech-card:nth-child(3) p": "Emmet, Prettier, ESLint, Live Server, and GitLens form a reliable setup.",
+      ".tech-grid .tech-card:nth-child(4) h3": "Terminal-first workflow",
+      ".tech-grid .tech-card:nth-child(4) p": "Git and npm commands run in integrated terminal without context switching.",
+      ".tech-stack__title": "VS Code environment",
+      ".tech-stack__hint": "Click a term to see details."
+    },
+    tooltips: [
+      "Snippets - faster insertion of recurring code patterns.",
+      "Emmet - shorthand expansion for rapid HTML/CSS writing.",
+      "Prettier - automatic formatting for consistent code style.",
+      "ESLint - static analysis to catch JavaScript issues early.",
+      "GitLens - deeper commit and blame context in the editor.",
+      "Terminal - built-in CLI for git and npm operations."
     ]
   }
 };
@@ -960,28 +1210,28 @@ const SKILLS = [
     cls: "skill--git",
     name: "GitHub",
     level: { ru: "Уверенно", en: "Confident" },
-    href: "tools.html"
+    href: "github.html"
   },
   {
     key: "copilot",
     cls: "skill--copilot",
     name: "Copilot",
     level: { ru: "Активно", en: "Active" },
-    href: "tools.html"
+    href: "copilot.html"
   },
   {
     key: "figma",
     cls: "skill--figma",
     name: "Figma",
     level: { ru: "Уверенно", en: "Confident" },
-    href: "tools.html"
+    href: "figma.html"
   },
   {
     key: "vscode",
     cls: "skill--vscode",
     name: "VS Code",
     level: { ru: "Ежедневно", en: "Daily" },
-    href: "tools.html"
+    href: "vscode.html"
   }
 ];
 
@@ -1041,7 +1291,57 @@ const PROJECTS = [
         "UI optimization: fast states, clean structure, and polished micro-interactions."
       ]
     },
-    tags: ["AI UI", "Responsive", "RU/EN", "UX", "Frontend"],
+    tags: ["AI URL", "Responsive", "RU / EN", "UX", "Frontend"],
+    live: "https://issa944.github.io/ISO-AI/",
+    heroLead: {
+      ru: "ISO AI — это сайт, на котором можно узнать всё самое интересное о нейросетях. Платформа ориентирована на студентов и программистов.",
+      en: "ISO AI is a website where you can discover the most useful and interesting AI tools. The platform is focused on students and developers."
+    },
+    aboutLead: {
+      ru: "Полноценный проект с продуманной архитектурой экранов и компонентами. Русская и английская версии.",
+      en: "A full product with thoughtful screen architecture and reusable components. Available in Russian and English."
+    },
+    aboutExtra: {
+      ru: "В этом проекте я изучил и проанализировал лучшие нейросети, которые помогают в обучении и программировании.",
+      en: "In this project I studied and analyzed top AI services that help with learning and software development."
+    },
+    stack: [
+      {
+        label: "AI URL",
+        tip: {
+          ru: "Прямой переход на рабочую платформу ISO AI.",
+          en: "Direct link to the live ISO AI platform."
+        }
+      },
+      {
+        label: "Responsive",
+        tip: {
+          ru: "Интерфейс корректно адаптирован для мобильных, планшетов и десктопа.",
+          en: "The interface is carefully adapted for mobile, tablet, and desktop screens."
+        }
+      },
+      {
+        label: "RU / EN",
+        tip: {
+          ru: "Реализовано полноценное двуязычие для всей проектной страницы.",
+          en: "Full bilingual support with consistent RU/EN content."
+        }
+      },
+      {
+        label: "UX",
+        tip: {
+          ru: "Сделан акцент на понятный поток действий и чистую структуру.",
+          en: "Focused on clear user flow and clean information architecture."
+        }
+      },
+      {
+        label: "Frontend",
+        tip: {
+          ru: "Верстка, анимации и интерактив полностью реализованы на фронтенде.",
+          en: "Layout, motion, and interaction are fully implemented on frontend."
+        }
+      }
+    ],
     repo: "https://github.com/ISSA944/ISO-AI",
     readme: "https://github.com/ISSA944/ISO-AI#readme"
   },
@@ -1076,7 +1376,57 @@ const PROJECTS = [
         "Visual polish: spacing rhythm, typography, and animations in one style."
       ]
     },
-    tags: ["UI/UX", "Mobile", "Bilingual", "Animations", "Frontend"],
+    tags: ["AI URL", "Responsive", "RU / EN", "UX", "Frontend"],
+    live: "https://issa944.github.io/Shymkent/",
+    heroLead: {
+      ru: "Проект с акцентом на визуальную подачу, адаптивность и аккуратную структуру контента.",
+      en: "A project focused on visual presentation, responsiveness, and clean content structure."
+    },
+    aboutLead: {
+      ru: "Проработанный продукт, который корректно отображается на любом устройстве.",
+      en: "A polished product that renders correctly on any device."
+    },
+    aboutExtra: {
+      ru: "В проекте реализована идея бренда, его позиционирование и современная цифровая подача. Отдельно раскрыты преимущества Шымкент Май как одного из ведущих производителей масел в Казахстане.",
+      en: "The project delivers brand positioning and a modern digital presentation. It also highlights Shymkent Mai as one of Kazakhstan's leading oil producers."
+    },
+    stack: [
+      {
+        label: "AI URL",
+        tip: {
+          ru: "Кнопка ведет напрямую на действующий сайт проекта.",
+          en: "This button leads directly to the live project website."
+        }
+      },
+      {
+        label: "Responsive",
+        tip: {
+          ru: "Секции и сетка выровнены для стабильного отображения на любом экране.",
+          en: "Sections and grid are tuned for consistent rendering on every screen."
+        }
+      },
+      {
+        label: "RU / EN",
+        tip: {
+          ru: "Контент подготовлен с учетом работы в двух языках.",
+          en: "Content is structured for consistent bilingual usage."
+        }
+      },
+      {
+        label: "UX",
+        tip: {
+          ru: "Упор на читаемость, ритм блоков и понятную навигацию.",
+          en: "Focused on readability, section rhythm, and clear navigation."
+        }
+      },
+      {
+        label: "Frontend",
+        tip: {
+          ru: "Интерфейс собран как цельная фронтенд-система с мягкими анимациями.",
+          en: "Interface is implemented as a cohesive frontend system with smooth motion."
+        }
+      }
+    ],
     repo: "https://github.com/ISSA944/Shymkent",
     readme: "https://github.com/ISSA944/Shymkent#readme"
   }
@@ -1220,6 +1570,33 @@ function initProjectQuickPreview(grid, lang) {
   if (closeBtn) closeBtn.textContent = labels.close;
 }
 
+function getProjectHomeLogoMarkup(project, lang, title) {
+  const safeLang = lang === "en" ? "en" : "ru";
+  if (project.key === "iso-ai") {
+    const isoLabel = safeLang === "en" ? "ISO AI logo" : "Логотип ISO AI";
+    return `
+      <div class="project-logo-iso" role="img" aria-label="${isoLabel}">
+        <span class="project-logo-iso__core">ISO</span>
+        <span class="project-logo-iso__name">AI</span>
+        <span class="project-logo-iso__signal" aria-hidden="true">
+          <i></i><i></i><i></i>
+        </span>
+      </div>
+    `;
+  }
+
+  if (project.key === "shymkent") {
+    const logoSrc = encodeURI("image/image 1 (1).svg");
+    return `
+      <div class="project-logo-shymkent">
+        <img class="project-logo-shymkent__img" src="${logoSrc}" alt="${title} logo" loading="lazy" decoding="async">
+      </div>
+    `;
+  }
+
+  return `<span class="project-home__logo-sub">${title}</span>`;
+}
+
 function renderProjects(lang) {
   const grid = document.getElementById("projectsGrid");
   if (!grid) return;
@@ -1253,18 +1630,11 @@ function renderProjects(lang) {
     const homeSummary = getProjectHomeSummary(p, safeLang);
     const projectHref = `project.html?project=${encodeURIComponent(p.key)}`;
     const safeCoverSrc = p.cover ? encodeURI(p.cover) : "";
-    const homeLogoSub = p.key === "shymkent"
-      ? title
-      : (p.logoSub?.[safeLang] || p.logoSub?.ru || title);
-    const homeLogoMarkup = `<span class="project-home__logo-mark">${p.logoText || "ISO"}</span><span class="project-home__logo-sub">${homeLogoSub}</span>`;
+    const homeLogoMarkup = getProjectHomeLogoMarkup(p, safeLang, title);
     if (isIndex) {
       card.innerHTML = `
         <div class="project-home__top">
-          <div class="project-home__logo">${homeLogoMarkup}</div>
-          <button class="project-home__plus" type="button" aria-label="${labels.plus}" data-open-project-preview="${p.key}">
-            <span class="project-home__plus-line"></span>
-            <span class="project-home__plus-line"></span>
-          </button>
+          <div class="project-home__logo project-home__logo--${p.key}">${homeLogoMarkup}</div>
         </div>
         <div class="project-home__body">
           <div class="project-home__title">${title}</div>
@@ -1312,110 +1682,131 @@ function renderProjects(lang) {
   }
 }
 
+function escapeHtml(value) {
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/\"/g, "&quot;")
+    .replace(/\'/g, "&#39;");
+}
+
+function initProjectDetailChips() {
+  const chips = document.querySelectorAll(".project-stack__chip[data-tip]");
+  if (!chips.length) return;
+
+  chips.forEach((chip) => {
+    if (chip.dataset.bound === "1") return;
+    chip.dataset.bound = "1";
+
+    let hideTimer = null;
+
+    chip.addEventListener("click", () => {
+      chips.forEach((item) => {
+        if (item !== chip) item.classList.remove("is-active");
+      });
+      chip.classList.add("is-active");
+      if (hideTimer) clearTimeout(hideTimer);
+      hideTimer = setTimeout(() => chip.classList.remove("is-active"), 1600);
+    });
+
+    chip.addEventListener("blur", () => chip.classList.remove("is-active"));
+  });
+}
+
 function renderProjectDetail(lang) {
   const root = document.getElementById("projectDetail");
   if (!root) return;
+  document.body.classList.add("page-project-detail");
 
   const safeLang = lang === "en" ? "en" : "ru";
   const labels = safeLang === "en"
     ? {
-        badge: "Portfolio",
-        gallery: "Project gallery",
-        front: "Website front",
+        badge: "Project",
         about: "About project",
-        highlights: "What is done",
-        tags: "Stack",
-        github: "Project link",
-        readme: "Readme",
+        stack: "Stack",
+        projectLink: "Project link",
         back: "Back to portfolio"
       }
     : {
-        badge: "Портфолио",
-        gallery: "Галерея проекта",
-        front: "Лицевая сайта",
+        badge: "Проект",
         about: "О проекте",
-        highlights: "Что сделано",
-        tags: "Стек",
-        github: "Ссылка на проект",
-        readme: "Readme",
+        stack: "Стек",
+        projectLink: "Ссылка на проект",
         back: "Назад в портфолио"
       };
 
   const params = new URLSearchParams(window.location.search);
   const key = (params.get("project") || "").toLowerCase().trim();
-  const project = PROJECTS.find(item => item.key === key) || PROJECTS[0];
-  const title = project.title[safeLang] || project.title.ru;
-  const teaser = project.teaser[safeLang] || project.teaser.ru;
-  const overview = project.overview[safeLang] || project.overview.ru;
-  const highlights = project.highlights[safeLang] || project.highlights.ru;
-  const gallery = project.gallery?.[safeLang] || project.gallery?.ru || [];
-  const logoSub = project.key === "shymkent"
-    ? title
-    : (project.logoSub?.[safeLang] || project.logoSub?.ru || title);
-  const safeLogoSrc = project.logoSrc ? encodeURI(project.logoSrc) : "";
+  const project = PROJECTS.find((item) => item.key === key) || PROJECTS[0];
+  const title = project.title?.[safeLang] || project.title?.ru || "";
+  const teaser = project.teaser?.[safeLang] || project.teaser?.ru || "";
+  const heroLead = project.heroLead?.[safeLang] || project.heroLead?.ru || teaser;
+  const aboutLead = project.aboutLead?.[safeLang] || project.aboutLead?.ru || teaser;
+  const aboutExtra = project.aboutExtra?.[safeLang] || project.aboutExtra?.ru || "";
   const safeCoverSrc = project.cover ? encodeURI(project.cover) : "";
-  const logoMarkup = project.logoSrc
-    ? `<img class="project-detail__logo-img" src="${safeLogoSrc}" alt="${title} logo" loading="lazy" decoding="async">`
-    : `<span class="project-detail__logo-chip">${project.logoText || "ISO"}</span>`;
-  const detailCoverMarkup = safeCoverSrc
-    ? `<img class="project-detail__cover-img" src="${safeCoverSrc}" alt="${title} cover" loading="lazy" decoding="async">`
-    : "";
+  const liveHref = project.live || "#";
   const descMeta = document.querySelector('meta[name="description"]');
+
+  const stackItems = Array.isArray(project.stack) && project.stack.length
+    ? project.stack
+    : (project.tags || []).map((tag) => ({ label: tag, tip: { ru: tag, en: tag } }));
+
+  const stackMarkup = stackItems.map((item) => {
+    const label = escapeHtml(item.label || "");
+    const tipValue = item.tip?.[safeLang] || item.tip?.ru || item.tip?.en || item.label || "";
+    const tip = escapeHtml(tipValue);
+    return `<button class="project-stack__chip" type="button" data-project-chip data-tip="${tip}"><span>${label}</span></button>`;
+  }).join("");
 
   if (safeLang === "en") {
     document.title = `${title} - Project | ISO`;
-    if (descMeta) descMeta.setAttribute("content", `${title}. ${teaser}`);
+    if (descMeta) descMeta.setAttribute("content", `${title}. ${aboutLead}`);
   } else {
     document.title = `${title} - Проект | ISO`;
-    if (descMeta) descMeta.setAttribute("content", `${title}. ${teaser}`);
+    if (descMeta) descMeta.setAttribute("content", `${title}. ${aboutLead}`);
   }
+
+  document.body.classList.remove("project-page--iso-ai", "project-page--shymkent");
+  document.body.classList.add(`project-page--${project.key}`);
+  document.documentElement.setAttribute("data-project", project.key);
+
+  const aboutExtraMarkup = aboutExtra
+    ? `<p class="project-detail__about">${escapeHtml(aboutExtra)}</p>`
+    : "";
 
   root.className = `project-detail project-detail--${project.tone}`;
   root.innerHTML = `
     <article class="project-detail__hero" data-anim="fade-up">
       <div class="project-detail__main">
         <span class="project-detail__badge">${labels.badge}</span>
-        <h1 class="project-detail__title">${title}</h1>
-        <p class="project-detail__teaser">${teaser}</p>
+        <h1 class="project-detail__title">${escapeHtml(title)}</h1>
+        <p class="project-detail__teaser">${escapeHtml(heroLead)}</p>
         <div class="project-detail__actions">
-          <a class="btn btn--primary" href="${project.repo}" target="_blank" rel="noopener">${labels.github}</a>
-          <a class="btn btn--outline" href="${project.readme}" target="_blank" rel="noopener">${labels.readme}</a>
+          <a class="btn btn--primary" href="${liveHref}" target="_blank" rel="noopener">${labels.projectLink}</a>
           <a class="btn btn--outline" href="portfolio.html">${labels.back}</a>
         </div>
       </div>
-      <div class="project-detail__preview">
-        ${detailCoverMarkup}
-        <div class="project-detail__preview-brand">${logoMarkup}<span>${logoSub}</span></div>
+      <div class="project-detail__visual">
+        ${safeCoverSrc ? `<img class="project-detail__cover-img" src="${safeCoverSrc}" alt="${escapeHtml(title)} cover" loading="lazy" decoding="async">` : ""}
       </div>
     </article>
-    <section class="project-detail__block" data-anim="fade-up">
-      <h2 class="project-detail__block-title">${labels.front}</h2>
-      <div class="project-detail__front">
-        ${detailCoverMarkup}
-        <div class="project-detail__front-head">${logoMarkup}<span>${title}</span></div>
-      </div>
+
+    <section class="project-detail__section project-detail__section--about" data-anim="fade-up">
+      <h2 class="project-detail__section-title">${labels.about}</h2>
+      <p class="project-detail__about">${escapeHtml(aboutLead)}</p>
+      ${aboutExtraMarkup}
     </section>
-    <section class="project-detail__block" data-anim="fade-up">
-      <h2 class="project-detail__block-title">${labels.gallery}</h2>
-      <div class="project-detail__gallery">
-        ${gallery.map((item, idx) => `
-          <article class="project-detail__gallery-card">
-            <span class="project-detail__gallery-no">0${idx + 1}</span>
-            <h3>${item}</h3>
-            <p>${teaser}</p>
-          </article>
-        `).join("")}
+
+    <section class="project-detail__section project-detail__section--stack" data-anim="fade-up">
+      <h2 class="project-detail__section-title">${labels.stack}</h2>
+      <div class="project-stack">
+        ${stackMarkup}
       </div>
-    </section>
-    <section class="project-detail__block" data-anim="fade-up">
-      <h2 class="project-detail__block-title">${labels.about}</h2>
-      <p class="project-detail__about">${overview}</p>
-      <h3 class="project-detail__sub-title">${labels.highlights}</h3>
-      <ul class="project-detail__points">${highlights.map(item => `<li>${item}</li>`).join("")}</ul>
-      <h3 class="project-detail__sub-title">${labels.tags}</h3>
-      <div class="project-detail__tags">${project.tags.map(tag => `<span class="tag">${tag}</span>`).join("")}</div>
     </section>
   `;
+
+  initProjectDetailChips();
 }
 
 /* ---------- PHONE MASK ---------- */
@@ -1426,7 +1817,7 @@ function phoneMask(input) {
   });
 }
 
-/* ---------- FORM VALIDATION + EMAILJS ---------- */
+/* ---------- FORM VALIDATION + WEB3FORMS ---------- */
 function initContactForm() {
   const form = document.getElementById("contactForm");
   if (!form) return;
@@ -1434,28 +1825,21 @@ function initContactForm() {
   const phone = document.getElementById("phone");
   if (phone) phoneMask(phone);
 
-  const EMAILJS_PUBLIC_KEY = "YOUR_PUBLIC_KEY";
-  const EMAILJS_SERVICE_ID = "YOUR_SERVICE_ID";
-  const EMAILJS_TEMPLATE_ID = "YOUR_TEMPLATE_ID";
-
-  try {
-    emailjs.init(EMAILJS_PUBLIC_KEY);
-  } catch (e) {
-    console.warn("EmailJS not loaded:", e);
-  }
+  const WEB3FORMS_ENDPOINT = "https://api.web3forms.com/submit";
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
     const lang = getLang();
     const btn = document.getElementById("sendBtn");
     const status = document.getElementById("formStatus");
+    if (!btn || !status) return;
 
     let ok = true;
     const fields = [
-      { id: "name",    validate: v => v.trim().length >= 2 },
-      { id: "email",   validate: v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) },
-      { id: "subject", validate: v => v.trim().length >= 5 },
-      { id: "message", validate: v => v.trim().length >= 10 },
+      { id: "name", validate: (v) => v.trim().length >= 2 },
+      { id: "email", validate: (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) },
+      { id: "subject", validate: (v) => v.trim().length >= 5 },
+      { id: "message", validate: (v) => v.trim().length >= 10 },
     ];
 
     const phoneVal = document.getElementById("phone")?.value.replace(/\D/g, "") || "";
@@ -1471,7 +1855,7 @@ function initContactForm() {
       }
     }
 
-    fields.forEach(f => {
+    fields.forEach((f) => {
       const el = document.getElementById(f.id);
       const field = el?.closest(".field");
       if (!field) return;
@@ -1487,26 +1871,52 @@ function initContactForm() {
 
     if (!ok) return;
 
+    const accessKey = document.getElementById("web3AccessKey")?.value?.trim() || "";
+    if (!accessKey || accessKey === "YOUR_WEB3FORMS_ACCESS_KEY") {
+      status.className = "form__status is-err";
+      status.textContent = lang === "en"
+        ? "Set Web3Forms access_key in index.html."
+        : "Укажи access_key Web3Forms в index.html.";
+      return;
+    }
+
     btn.classList.add("is-loading");
     btn.disabled = true;
     status.className = "form__status";
     status.textContent = "";
 
     try {
-      await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
-        from_name: document.getElementById("name").value,
-        from_email: document.getElementById("email").value,
-        phone: document.getElementById("phone")?.value || "",
-        subject: document.getElementById("subject").value,
-        message: document.getElementById("message").value,
+      const payload = {
+        access_key: accessKey,
+        name: document.getElementById("name").value.trim(),
+        email: document.getElementById("email").value.trim(),
+        phone: document.getElementById("phone")?.value.trim() || "",
+        subject: document.getElementById("subject").value.trim(),
+        message: document.getElementById("message").value.trim(),
+        from_name: "ISO Portfolio",
+        botcheck: form.querySelector('[name="botcheck"]')?.checked ? "1" : ""
+      };
+
+      const response = await fetch(WEB3FORMS_ENDPOINT, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json"
+        },
+        body: JSON.stringify(payload)
       });
+
+      const result = await response.json();
+      if (!response.ok || !result?.success) {
+        throw new Error(result?.message || "Web3Forms request failed");
+      }
 
       status.className = "form__status is-ok";
       status.textContent = I18N[lang]?.msg_ok || "Отправлено!";
       form.reset();
-      form.querySelectorAll(".field").forEach(f => { f.classList.remove("is-ok", "is-error"); });
+      form.querySelectorAll(".field").forEach((f) => { f.classList.remove("is-ok", "is-error"); });
     } catch (err) {
-      console.error("EmailJS error:", err);
+      console.error("Web3Forms error:", err);
       status.className = "form__status is-err";
       status.textContent = I18N[lang]?.msg_err || "Ошибка";
     } finally {
@@ -1515,7 +1925,7 @@ function initContactForm() {
     }
   });
 
-  form.querySelectorAll(".field__input").forEach(input => {
+  form.querySelectorAll(".field__input").forEach((input) => {
     input.addEventListener("input", () => {
       const field = input.closest(".field");
       if (field) field.classList.remove("is-error");
