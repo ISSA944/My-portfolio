@@ -8,6 +8,19 @@ const PRELOADER_KEYS = {
   visitedPrefix: "visited:"
 };
 
+function resolvePreloaderStorage() {
+  try {
+    const key = "__preloader_test__";
+    sessionStorage.setItem(key, "1");
+    sessionStorage.removeItem(key);
+    return sessionStorage;
+  } catch (error) {
+    return null;
+  }
+}
+
+const preloaderStorage = resolvePreloaderStorage();
+
 function normalizePathname(pathname) {
   const safePath = String(pathname || "/")
     .replace(/\\/g, "/")
@@ -18,20 +31,23 @@ function normalizePathname(pathname) {
 }
 
 function getVisitedPageKey() {
-  return `${PRELOADER_KEYS.visitedPrefix}${normalizePathname(window.location.pathname)}`;
+  const host = (window.location.host || "local-file").toLowerCase();
+  return `${PRELOADER_KEYS.visitedPrefix}${host}${normalizePathname(window.location.pathname)}`;
 }
 
 function hasVisitedPage(pageKey) {
+  if (!preloaderStorage) return false;
   try {
-    return localStorage.getItem(pageKey) === "1";
+    return preloaderStorage.getItem(pageKey) === "1";
   } catch (error) {
     return false;
   }
 }
 
 function markPageVisited(pageKey) {
+  if (!preloaderStorage) return;
   try {
-    localStorage.setItem(pageKey, "1");
+    preloaderStorage.setItem(pageKey, "1");
   } catch (error) {
     // noop
   }
