@@ -37,20 +37,85 @@ function markPageVisited(pageKey) {
   }
 }
 
-function runSmartPreloader(preloader, markVisited) {
+function getSmartPreloaderStatusText(pageName, lang) {
+  const safeLang = lang === "en" ? "en" : "ru";
+  const safePage = String(pageName || "index.html").toLowerCase();
+  const pageMap = {
+    "index.html": {
+      ru: "Открывается главная страница",
+      en: "Opening home page"
+    },
+    "portfolio.html": {
+      ru: "Открывается портфолио",
+      en: "Opening portfolio"
+    },
+    "project.html": {
+      ru: "Открывается страница проекта",
+      en: "Opening project page"
+    },
+    "html-css.html": {
+      ru: "Открывается страница HTML и CSS",
+      en: "Opening HTML & CSS page"
+    },
+    "javascript.html": {
+      ru: "Открывается страница JavaScript",
+      en: "Opening JavaScript page"
+    },
+    "react.html": {
+      ru: "Открывается страница React",
+      en: "Opening React page"
+    },
+    "tools.html": {
+      ru: "Открывается страница инструментов",
+      en: "Opening tools page"
+    },
+    "github.html": {
+      ru: "Открывается страница GitHub",
+      en: "Opening GitHub page"
+    },
+    "copilot.html": {
+      ru: "Открывается страница Copilot",
+      en: "Opening Copilot page"
+    },
+    "figma.html": {
+      ru: "Открывается страница Figma",
+      en: "Opening Figma page"
+    },
+    "vscode.html": {
+      ru: "Открывается страница VS Code",
+      en: "Opening VS Code page"
+    }
+  };
+
+  if (pageMap[safePage]?.[safeLang]) return pageMap[safePage][safeLang];
+  return safeLang === "en" ? "Opening page" : "Открывается страница";
+}
+
+function runSmartPreloader(preloader, markVisited, statusText) {
   preloader.classList.add("preloader--smart");
 
   const mini = document.createElement("div");
   mini.className = "preloader__mini";
-  mini.innerHTML = `
-    <span class="preloader__mini-typing" id="preloaderMiniTyping"></span>
-    <span class="preloader__mini-dots" aria-hidden="true">
-      <i></i><i></i><i></i>
-    </span>
-  `;
-  preloader.appendChild(mini);
 
-  const typingEl = mini.querySelector(".preloader__mini-typing");
+  const typingEl = document.createElement("span");
+  typingEl.className = "preloader__mini-typing";
+  typingEl.id = "preloaderMiniTyping";
+
+  const dotsEl = document.createElement("span");
+  dotsEl.className = "preloader__mini-dots";
+  dotsEl.setAttribute("aria-hidden", "true");
+  for (let i = 0; i < 3; i++) {
+    dotsEl.appendChild(document.createElement("i"));
+  }
+
+  const statusEl = document.createElement("span");
+  statusEl.className = "preloader__mini-status";
+  statusEl.textContent = statusText || "Открывается страница";
+
+  mini.appendChild(typingEl);
+  mini.appendChild(dotsEl);
+  mini.appendChild(statusEl);
+  preloader.appendChild(mini);
   const word = "ISO";
   let idx = 0;
 
@@ -59,13 +124,13 @@ function runSmartPreloader(preloader, markVisited) {
     idx += 1;
     typingEl.textContent = word.slice(0, idx);
     if (idx < word.length) {
-      setTimeout(typeNext, 92);
+      setTimeout(typeNext, 130);
     }
   }
-  setTimeout(typeNext, 48);
+  setTimeout(typeNext, 90);
 
-  const minDuration = 320;
-  const maxDuration = 760;
+  const minDuration = 520;
+  const maxDuration = 980;
   const targetDuration = minDuration + Math.random() * (maxDuration - minDuration);
   const startedAt = performance.now();
   let finished = false;
@@ -86,7 +151,7 @@ function runSmartPreloader(preloader, markVisited) {
     finishMini();
   } else {
     window.addEventListener("load", finishMini, { once: true });
-    setTimeout(finishMini, maxDuration + 200);
+    setTimeout(finishMini, maxDuration + 260);
   }
 }
 
@@ -97,6 +162,9 @@ function initPreloader() {
   const fill = document.getElementById("preloaderFill");
   const textEl = document.getElementById("preloaderText");
   const pctEl = document.getElementById("preloaderPercent");
+  const preloaderLang = localStorage.getItem("iskander_lang") || document.documentElement.lang || "ru";
+  const safePreloaderLang = preloaderLang === "en" ? "en" : "ru";
+  const pageName = window.location.pathname.split("/").pop() || "index.html";
 
   const pageVisitKey = getVisitedPageKey();
   const wasVisited = hasVisitedPage(pageVisitKey);
@@ -104,7 +172,11 @@ function initPreloader() {
   const markVisited = () => markPageVisited(pageVisitKey);
 
   if (useSmartPreloader) {
-    runSmartPreloader(preloader, markVisited);
+    runSmartPreloader(
+      preloader,
+      markVisited,
+      getSmartPreloaderStatusText(pageName, safePreloaderLang)
+    );
     return;
   }
 
@@ -118,10 +190,6 @@ function initPreloader() {
     { at: 85, text: "Финальная полировка ✨" },
     { at: 96, text: "Добро пожаловать!" }
   ];
-
-  const preloaderLang = localStorage.getItem("iskander_lang") || document.documentElement.lang || "ru";
-  const safePreloaderLang = preloaderLang === "en" ? "en" : "ru";
-  const pageName = window.location.pathname.split("/").pop() || "index.html";
 
   const preloaderTexts = {
     "javascript.html": {
@@ -418,6 +486,7 @@ function applyLang(lang) {
   document.documentElement.lang = safeLang;
   setStored(STORE_KEYS.lang, safeLang);
   applyI18n(safeLang);
+  syncFormStatusLanguage(safeLang);
   applyMetaI18n(safeLang);
   applyPageSpecificI18n(safeLang);
   updateLangPills(safeLang);
@@ -425,6 +494,32 @@ function applyLang(lang) {
   renderSkills(safeLang);
   renderProjects(safeLang);
   renderProjectDetail(safeLang);
+}
+
+function syncFormStatusLanguage(lang) {
+  const status = document.getElementById("formStatus");
+  if (!status) return;
+
+  const current = (status.textContent || "").trim();
+  if (!current) return;
+
+  let state = status.dataset.state || "";
+  if (!state) {
+    if (current === I18N.ru.msg_ok || current === I18N.en.msg_ok) state = "ok";
+    else if (current === I18N.ru.msg_err || current === I18N.en.msg_err) state = "err";
+    else if (current === I18N.ru.msg_key_missing || current === I18N.en.msg_key_missing) state = "config";
+  }
+
+  if (state === "ok") {
+    status.textContent = I18N[lang]?.msg_ok || "Sent!";
+    status.dataset.state = "ok";
+  } else if (state === "err") {
+    status.textContent = I18N[lang]?.msg_err || "Sending error.";
+    status.dataset.state = "err";
+  } else if (state === "config") {
+    status.textContent = I18N[lang]?.msg_key_missing || "Set Web3Forms access_key in index.html.";
+    status.dataset.state = "config";
+  }
 }
 
 function applyI18n(lang) {
@@ -518,6 +613,7 @@ const I18N = {
     contact_note: "Сообщение будет отправлено на мою почту.",
     msg_ok: "Сообщение отправлено! Скоро отвечу.",
     msg_err: "Ошибка отправки. Попробуйте ещё раз.",
+    msg_key_missing: "Укажи access_key Web3Forms в index.html.",
 
     side_title: "Что ты получишь",
     side_1: "План работ и сроки",
@@ -679,6 +775,7 @@ const I18N = {
     contact_note: "Message will be sent to my email.",
     msg_ok: "Message sent! I'll reply soon.",
     msg_err: "Sending error. Please try again.",
+    msg_key_missing: "Set Web3Forms access_key in index.html.",
 
     side_title: "What you get",
     side_1: "Plan and timeline",
@@ -1266,14 +1363,15 @@ const PROJECTS = [
     title: { ru: "ISO AI", en: "ISO AI" },
     logoText: "ISO",
     logoSub: { ru: "AI", en: "AI" },
-    cover: "image/iso-ai-cover.svg",
+    cover: "image/iso-ai-cover.png?v=20260220",
+    detailCover: "image/iso-ai-cover.png?v=20260220",
     gallery: {
       ru: ["Главный экран", "Галерея проекта", "Мобильная версия"],
       en: ["Main screen", "Project gallery", "Mobile version"]
     },
     teaser: {
-      ru: "AI-платформа с современным интерфейсом, упором на скорость сценариев и понятный UX.",
-      en: "AI platform with a modern interface, fast user flows, and clear UX."
+      ru: "AI-платформа ISO AI — быстрые сценарии, чистый интерфейс и сильная мобильная адаптация.",
+      en: "ISO AI platform: fast user flows, clean interface, and strong mobile adaptation."
     },
     overview: {
       ru: "Полноценный проект с продуманной архитектурой экранов и компонентным UI. Проект адаптирован под мобильные устройства, отточен по визуалу и подготовлен в двух языках: русский и английский.",
@@ -1294,8 +1392,8 @@ const PROJECTS = [
     tags: ["AI URL", "Responsive", "RU / EN", "UX", "Frontend"],
     live: "https://issa944.github.io/ISO-AI/",
     heroLead: {
-      ru: "ISO AI — это сайт, на котором можно узнать всё самое интересное о нейросетях. Платформа ориентирована на студентов и программистов.",
-      en: "ISO AI is a website where you can discover the most useful and interesting AI tools. The platform is focused on students and developers."
+      ru: "AI-платформа ISO AI — быстрые сценарии, чистый интерфейс и сильная мобильная адаптация. Это платформа для изучения AI с понятной структурой, современной подачей и удобством на любых устройствах.",
+      en: "ISO AI platform: fast user flows, clean interface, and strong mobile adaptation. A platform for learning AI with clear structure, modern presentation, and smooth usability across devices."
     },
     aboutLead: {
       ru: "Полноценный проект с продуманной архитектурой экранов и компонентами. Русская и английская версии.",
@@ -1436,8 +1534,8 @@ function getProjectHomeSummary(project, lang) {
   const safeLang = lang === "en" ? "en" : "ru";
   const summaries = {
     "iso-ai": {
-      ru: "AI-платформа ISO AI: быстрые сценарии, чистый интерфейс и сильная мобильная адаптация.",
-      en: "ISO AI platform: fast user flows, clean interface, and strong mobile adaptation."
+      ru: "AI-платформа ISO AI — быстрые сценарии, чистый интерфейс и сильная мобильная адаптация. Это платформа для изучения AI с понятной структурой, современной подачей и удобством на любых устройствах.",
+      en: "ISO AI platform: fast user flows, clean interface, and strong mobile adaptation. A platform for learning AI with clear structure, modern presentation, and smooth usability across devices."
     },
     "shymkent": {
       ru: "Шымкент Май: современная подача бренда, аккуратная структура контента и адаптив под мобильные устройства.",
@@ -1744,7 +1842,8 @@ function renderProjectDetail(lang) {
   const heroLead = project.heroLead?.[safeLang] || project.heroLead?.ru || teaser;
   const aboutLead = project.aboutLead?.[safeLang] || project.aboutLead?.ru || teaser;
   const aboutExtra = project.aboutExtra?.[safeLang] || project.aboutExtra?.ru || "";
-  const safeCoverSrc = project.cover ? encodeURI(project.cover) : "";
+  const coverSource = project.detailCover || project.cover;
+  const safeCoverSrc = coverSource ? encodeURI(coverSource) : "";
   const liveHref = project.live || "#";
   const descMeta = document.querySelector('meta[name="description"]');
 
@@ -1807,6 +1906,11 @@ function renderProjectDetail(lang) {
   `;
 
   initProjectDetailChips();
+  const animatedNodes = root.querySelectorAll("[data-anim]");
+  animatedNodes.forEach((node) => {
+    const delay = Number.parseInt(node.dataset.delay || "0", 10) || 0;
+    setTimeout(() => node.classList.add("is-visible"), delay);
+  });
 }
 
 /* ---------- PHONE MASK ---------- */
@@ -1874,9 +1978,8 @@ function initContactForm() {
     const accessKey = document.getElementById("web3AccessKey")?.value?.trim() || "";
     if (!accessKey || accessKey === "YOUR_WEB3FORMS_ACCESS_KEY") {
       status.className = "form__status is-err";
-      status.textContent = lang === "en"
-        ? "Set Web3Forms access_key in index.html."
-        : "Укажи access_key Web3Forms в index.html.";
+      status.dataset.state = "config";
+      status.textContent = I18N[lang]?.msg_key_missing || "Set Web3Forms access_key in index.html.";
       return;
     }
 
@@ -1884,6 +1987,7 @@ function initContactForm() {
     btn.disabled = true;
     status.className = "form__status";
     status.textContent = "";
+    delete status.dataset.state;
 
     try {
       const payload = {
@@ -1912,12 +2016,14 @@ function initContactForm() {
       }
 
       status.className = "form__status is-ok";
+      status.dataset.state = "ok";
       status.textContent = I18N[lang]?.msg_ok || "Отправлено!";
       form.reset();
       form.querySelectorAll(".field").forEach((f) => { f.classList.remove("is-ok", "is-error"); });
     } catch (err) {
       console.error("Web3Forms error:", err);
       status.className = "form__status is-err";
+      status.dataset.state = "err";
       status.textContent = I18N[lang]?.msg_err || "Ошибка";
     } finally {
       btn.classList.remove("is-loading");
