@@ -379,14 +379,33 @@ function initPreloader() {
   let msgSwitchQueued = false;
   let finalHoldUntil = 0;
   let finalHoldApplied = false;
+  let messageSwapTimer = null;
+  let messageSwapToken = 0;
+
+  function isMobilePreloaderViewport() {
+    return window.matchMedia("(max-width: 768px)").matches;
+  }
 
   function setMessage(txt) {
     if (!textEl) return;
+    messageSwapToken += 1;
+    const token = messageSwapToken;
+    if (messageSwapTimer) {
+      clearTimeout(messageSwapTimer);
+      messageSwapTimer = null;
+    }
+    const switchDelay = isMobilePreloaderViewport() ? 130 : 200;
+
     textEl.classList.add("is-switching");
-    setTimeout(() => {
+    messageSwapTimer = setTimeout(() => {
+      if (token !== messageSwapToken) return;
       textEl.textContent = txt;
-      textEl.classList.remove("is-switching");
-    }, 200);
+      requestAnimationFrame(() => {
+        if (token !== messageSwapToken) return;
+        textEl.classList.remove("is-switching");
+      });
+      messageSwapTimer = null;
+    }, switchDelay);
   }
 
   if (textEl && messages[0]) textEl.textContent = messages[0].text;
