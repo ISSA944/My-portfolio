@@ -375,7 +375,7 @@ function initPreloader() {
   let pageLoaded = document.readyState === "complete";
   let completed = false;
   let nextAllowedMsgAt = 0;
-  const minMsgVisibleMs = 700;
+  const minMsgVisibleMs = window.matchMedia("(max-width: 768px)").matches ? 980 : 700;
   let msgSwitchQueued = false;
   let finalHoldUntil = 0;
   let finalHoldApplied = false;
@@ -388,17 +388,37 @@ function initPreloader() {
 
   function setMessage(txt) {
     if (!textEl) return;
+    if (textEl.textContent === txt) return;
+
     messageSwapToken += 1;
     const token = messageSwapToken;
     if (messageSwapTimer) {
       clearTimeout(messageSwapTimer);
       messageSwapTimer = null;
     }
-    const switchDelay = isMobilePreloaderViewport() ? 130 : 200;
+
+    if (isMobilePreloaderViewport()) {
+      // iOS/Android browsers may leave ghost glyphs while fading text.
+      // Hide -> replace -> force reflow -> show to avoid visual stacking.
+      textEl.classList.remove("is-switching");
+      textEl.style.opacity = "0";
+      messageSwapTimer = setTimeout(() => {
+        if (token !== messageSwapToken) return;
+        textEl.textContent = "";
+        textEl.textContent = txt;
+        void textEl.offsetHeight;
+        textEl.style.opacity = "1";
+        messageSwapTimer = null;
+      }, 120);
+      return;
+    }
+
+    const switchDelay = 200;
 
     textEl.classList.add("is-switching");
     messageSwapTimer = setTimeout(() => {
       if (token !== messageSwapToken) return;
+      textEl.style.opacity = "";
       textEl.textContent = txt;
       requestAnimationFrame(() => {
         if (token !== messageSwapToken) return;
