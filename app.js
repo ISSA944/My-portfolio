@@ -399,17 +399,11 @@ function initPreloader() {
 
     if (isMobilePreloaderViewport()) {
       // iOS/Android browsers may leave ghost glyphs while fading text.
-      // Hide -> replace -> force reflow -> show to avoid visual stacking.
+      // On mobile use immediate replacement without animation.
       textEl.classList.remove("is-switching");
-      textEl.style.opacity = "0";
-      messageSwapTimer = setTimeout(() => {
-        if (token !== messageSwapToken) return;
-        textEl.textContent = "";
-        textEl.textContent = txt;
-        void textEl.offsetHeight;
-        textEl.style.opacity = "1";
-        messageSwapTimer = null;
-      }, 120);
+      textEl.style.transition = "none";
+      textEl.style.opacity = "1";
+      textEl.textContent = txt;
       return;
     }
 
